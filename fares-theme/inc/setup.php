@@ -18,6 +18,21 @@ function fares_setup(): void {
 	add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption', 'style', 'script' ) );
 	add_theme_support( 'automatic-feed-links' );
 
+	// Custom logo. Registered at the asset's native size with flex sizing so
+	// WordPress serves the original file rather than a cropped intermediate —
+	// the store logo is an animated GIF and a resized copy would be a single
+	// static frame. Display size is capped in CSS (.fares-branding img).
+	add_theme_support(
+		'custom-logo',
+		array(
+			'height'               => 534,
+			'width'                => 1100,
+			'flex-height'          => true,
+			'flex-width'           => true,
+			'unlink-homepage-logo' => true,
+		)
+	);
+
 	register_nav_menus(
 		array(
 			'footer-links' => __( 'روابط مهمة (الفوتر)', 'fares-theme' ),

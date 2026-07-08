@@ -45,6 +45,7 @@ ul.products.fares-carousel__track {
 	display: flex;
 	align-items: center;
 	gap: var(--fares-space-4);
+	direction: ltr;
 }
 
 .fares-section-header__view-all {

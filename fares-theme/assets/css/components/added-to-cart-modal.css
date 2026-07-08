@@ -1,0 +1,140 @@
+/**
+ * "Added to cart" confirmation popup — centered modal over a dimmed overlay.
+ * Opens/closes via the `is-open` class (JS); `hidden` keeps it inert between.
+ */
+
+.fares-atc-modal {
+	position: fixed;
+	inset: 0;
+	z-index: var(--fares-z-modal);
+	display: grid;
+	place-items: center;
+	padding: var(--fares-space-6);
+	background: var(--fares-color-overlay);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity var(--fares-duration-normal) var(--fares-ease);
+}
+
+/* Attribute selector must win over the .fares-atc-modal display rule. */
+.fares-atc-modal[hidden] {
+	display: none;
+}
+
+.fares-atc-modal.is-open {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.fares-atc-modal__dialog {
+	position: relative;
+	width: min(360px, 100%);
+	padding: var(--fares-space-9) var(--fares-space-8) var(--fares-space-8);
+	background: var(--fares-color-surface-1);
+	border: 1px solid var(--fares-color-border);
+	border-radius: var(--fares-radius-lg);
+	box-shadow: var(--fares-shadow-modal);
+	text-align: center;
+	transform: translateY(12px) scale(0.98);
+	transition: transform var(--fares-duration-normal) var(--fares-ease);
+}
+
+.fares-atc-modal.is-open .fares-atc-modal__dialog {
+	transform: translateY(0) scale(1);
+}
+
+.fares-atc-modal__close {
+	position: absolute;
+	inset-block-start: var(--fares-space-5);
+	inset-inline-end: var(--fares-space-5);
+	display: grid;
+	place-items: center;
+	padding: var(--fares-space-2);
+	color: var(--fares-color-text-secondary);
+	background: none;
+	border: 0;
+	cursor: pointer;
+	transition: color var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-atc-modal__close:hover,
+.fares-atc-modal__close:focus-visible {
+	color: var(--fares-color-text-primary);
+}
+
+.fares-atc-modal__check {
+	display: grid;
+	place-items: center;
+	inline-size: 56px;
+	block-size: 56px;
+	margin-inline: auto;
+	margin-block-end: var(--fares-space-6);
+	color: var(--fares-color-success-text);
+	background: var(--fares-color-success-halo);
+	border-radius: var(--fares-radius-full);
+}
+
+.fares-atc-modal__title {
+	margin: 0;
+	font: var(--fares-text-section-title);
+	color: var(--fares-color-text-primary);
+}
+
+.fares-atc-modal__product {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--fares-space-4);
+	margin-block: var(--fares-space-6);
+}
+
+.fares-atc-modal__product:empty {
+	display: none;
+}
+
+.fares-atc-modal__thumb {
+	inline-size: 56px;
+	block-size: 56px;
+	object-fit: cover;
+	border-radius: var(--fares-radius-sm);
+}
+
+.fares-atc-modal__name {
+	font: var(--fares-text-card-title);
+	color: var(--fares-color-text-secondary);
+	text-align: start;
+}
+
+.fares-atc-modal__actions {
+	display: grid;
+	gap: var(--fares-space-4);
+	margin-block-start: var(--fares-space-7);
+}
+
+.fares-atc-modal__action {
+	justify-content: center;
+	text-decoration: none;
+}
+
+/* Reclaim the outline + ghost tiers over the doubled `.fares-button.fares-button`
+   base (equal specificity, this sheet cascades later). */
+.fares-atc-modal__action.fares-button--outline {
+	background: none;
+}
+
+.fares-atc-modal__action--ghost.fares-atc-modal__action--ghost {
+	background: none;
+	color: var(--fares-color-text-secondary);
+}
+
+.fares-atc-modal__action--ghost.fares-atc-modal__action--ghost:hover,
+.fares-atc-modal__action--ghost.fares-atc-modal__action--ghost:focus-visible {
+	color: var(--fares-color-text-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fares-atc-modal,
+	.fares-atc-modal__dialog {
+		transition: none;
+	}
+}

@@ -53,6 +53,7 @@
 	display: flex;
 	justify-content: center;
 	gap: var(--fares-space-4);
+	direction: ltr;
 }
 
 .fares-testimonials__controls .fares-section-header__arrow {

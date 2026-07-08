@@ -70,6 +70,12 @@ function fares_asset_manifest(): array {
 			'type' => 'style',
 			'when' => static fn(): bool => is_checkout(),
 		),
+		'fares-account'    => array(
+			'src'  => 'assets/css/dist/account.css',
+			'deps' => array( 'fares-tokens' ),
+			'type' => 'style',
+			'when' => static fn(): bool => function_exists( 'is_account_page' ) && is_account_page(),
+		),
 		'fares-cart-js'    => array(
 			'src'   => 'assets/js/dist/cart.js',
 			'deps'  => array(),
@@ -89,6 +95,14 @@ function fares_asset_manifest(): array {
 			'deps'  => array(),
 			'type'  => 'script',
 			'when'  => static fn(): bool => is_product() || is_cart(),
+			'defer' => true,
+		),
+		'fares-atc-js'     => array(
+			// Depends on jQuery for WooCommerce's `added_to_cart` event.
+			'src'   => 'assets/js/dist/add-to-cart-popup.js',
+			'deps'  => array( 'jquery' ),
+			'type'  => 'script',
+			'when'  => static fn(): bool => is_front_page() || is_woocommerce(),
 			'defer' => true,
 		),
 	);

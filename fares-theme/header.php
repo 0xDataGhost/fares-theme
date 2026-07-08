@@ -25,7 +25,13 @@ defined( 'ABSPATH' ) || exit;
 
 <header class="fares-header" role="banner">
 	<div class="fares-container fares-header__inner">
+		<div class="fares-header__lead">
+			<?php get_template_part( 'template-parts/header/menu-toggle' ); ?>
+			<?php get_template_part( 'template-parts/header/account-link' ); ?>
+		</div>
 		<?php get_template_part( 'template-parts/header/site-branding' ); ?>
 		<?php get_template_part( 'template-parts/header/header-actions' ); ?>
 	</div>
 </header>
+
+<?php get_template_part( 'template-parts/global/category-drawer' ); ?>

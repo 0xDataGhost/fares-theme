@@ -1,0 +1,651 @@
+/**
+ * My Account — the full customer dashboard styled purely from WooCommerce's
+ * default markup (hooks/CSS only, matching cart/checkout — no template
+ * override). Covers every endpoint: dashboard, orders, view-order, downloads,
+ * edit-address, edit-account, payment-methods, plus the logged-out
+ * login/register forms. RTL-safe via logical properties throughout.
+ */
+
+/* =========================================================== page shell */
+
+.woocommerce-account main.fares-container {
+	padding-block-end: var(--fares-space-section);
+}
+
+/* Page title ("حسابي") rendered by page.php > .entry-title. */
+.woocommerce-account .entry-title {
+	font: var(--fares-text-page-title);
+	color: var(--fares-color-text-primary);
+	margin-block: var(--fares-space-4) var(--fares-space-8);
+}
+
+/* Logged-in dashboard: nav rail + content, one grid. */
+.woocommerce-account.logged-in .woocommerce {
+	display: grid;
+	grid-template-columns: var(--fares-account-nav-w) 1fr;
+	gap: var(--fares-cart-gap);
+	align-items: start;
+}
+
+@media (width <= 781px) {
+	.woocommerce-account.logged-in .woocommerce {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ============================================================ navigation */
+
+.woocommerce-MyAccount-navigation {
+	background: var(--fares-color-surface-1);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-5);
+	filter: drop-shadow(var(--fares-shadow-float));
+	position: sticky;
+	inset-block-start: var(--fares-space-8);
+}
+
+.woocommerce-MyAccount-navigation ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--fares-space-1);
+}
+
+.woocommerce-MyAccount-navigation-link a {
+	display: flex;
+	align-items: center;
+	gap: var(--fares-space-4);
+	padding: var(--fares-space-4) var(--fares-space-5);
+	border-radius: var(--fares-radius-xs);
+	font: var(--fares-text-nav);
+	color: var(--fares-color-text-secondary);
+	transition:
+		color var(--fares-duration-fast) var(--fares-ease),
+		background-color var(--fares-duration-fast) var(--fares-ease);
+}
+
+/* Endpoint icons — currentColor line glyphs via mask (inherit link color). */
+.woocommerce-MyAccount-navigation-link a::before {
+	content: "";
+	inline-size: 18px;
+	block-size: 18px;
+	flex-shrink: 0;
+	background: currentcolor;
+	mask: var(--fares-account-icon, none) center / contain no-repeat;
+}
+
+.woocommerce-MyAccount-navigation-link--dashboard a {
+	--fares-account-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7' height='7'/%3E%3Crect x='14' y='3' width='7' height='7'/%3E%3Crect x='14' y='14' width='7' height='7'/%3E%3Crect x='3' y='14' width='7' height='7'/%3E%3C/svg%3E");
+}
+
+.woocommerce-MyAccount-navigation-link--orders a {
+	--fares-account-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z'/%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M16 10a4 4 0 0 1-8 0'/%3E%3C/svg%3E");
+}
+
+.woocommerce-MyAccount-navigation-link--downloads a {
+	--fares-account-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3Cpath d='M12 15V3'/%3E%3C/svg%3E");
+}
+
+.woocommerce-MyAccount-navigation-link--edit-address a {
+	--fares-account-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E");
+}
+
+.woocommerce-MyAccount-navigation-link--edit-account a {
+	--fares-account-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
+}
+
+.woocommerce-MyAccount-navigation-link--payment-methods a {
+	--fares-account-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='5' width='20' height='14' rx='2'/%3E%3Cpath d='M2 10h20'/%3E%3C/svg%3E");
+}
+
+.woocommerce-MyAccount-navigation-link--customer-logout a {
+	--fares-account-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/%3E%3Cpath d='m16 17 5-5-5-5'/%3E%3Cpath d='M21 12H9'/%3E%3C/svg%3E");
+}
+
+.woocommerce-MyAccount-navigation-link a:hover,
+.woocommerce-MyAccount-navigation-link a:focus-visible {
+	color: var(--fares-color-text-primary);
+	background: var(--fares-color-surface-2);
+	outline: none;
+}
+
+.woocommerce-MyAccount-navigation-link.is-active a {
+	color: var(--fares-color-text-primary);
+	background: var(--fares-gradient-primary);
+}
+
+.woocommerce-MyAccount-navigation-link--customer-logout a:hover,
+.woocommerce-MyAccount-navigation-link--customer-logout a:focus-visible {
+	color: var(--fares-color-danger-soft);
+}
+
+/* Mobile: nav becomes a horizontally scrollable tab strip above content. */
+@media (width <= 781px) {
+	.woocommerce-MyAccount-navigation {
+		position: static;
+		padding: var(--fares-space-3);
+		margin-block-end: var(--fares-space-6);
+
+		/* Grid-item auto-minimum would otherwise size the track to the full tab
+		   row and overflow the viewport; 0 lets the ul's overflow-x scroll. */
+		min-inline-size: 0;
+	}
+
+	.woocommerce-MyAccount-navigation ul {
+		flex-flow: row nowrap;
+		overflow-x: auto;
+		gap: var(--fares-space-3);
+		scrollbar-width: none;
+	}
+
+	.woocommerce-MyAccount-navigation ul::-webkit-scrollbar {
+		display: none;
+	}
+
+	.woocommerce-MyAccount-navigation-link a {
+		white-space: nowrap;
+	}
+}
+
+/* =============================================================== content */
+
+.woocommerce-MyAccount-content {
+	background: var(--fares-color-surface-1);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-box-pad);
+	min-inline-size: 0; /* let tables shrink inside the grid track */
+}
+
+.woocommerce-MyAccount-content > p {
+	font: var(--fares-text-body);
+	color: var(--fares-color-text-secondary);
+	margin-block: 0 var(--fares-space-5);
+}
+
+.woocommerce-MyAccount-content > p:last-child {
+	margin-block-end: 0;
+}
+
+.woocommerce-MyAccount-content a:not(.button) {
+	color: var(--fares-color-primary-end);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.woocommerce-MyAccount-content h2,
+.woocommerce-MyAccount-content h3 {
+	font: var(--fares-text-section-title);
+	color: var(--fares-color-text-primary);
+	margin-block: 0 var(--fares-space-6);
+}
+
+/* Generic Woo action buttons inside the account (View, Save, Add, etc.). */
+.woocommerce-account .woocommerce-MyAccount-content .button,
+.woocommerce-account .woocommerce-MyAccount-content button[type="submit"] {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--fares-space-2);
+	font: var(--fares-text-button);
+	color: var(--fares-color-text-primary);
+	background: var(--fares-gradient-primary);
+	border-radius: var(--fares-radius-xs);
+	padding: var(--fares-button-pad);
+	transition: background-color var(--fares-duration-fast) var(--fares-ease);
+}
+
+/* Secondary / cancel buttons read as outline. */
+.woocommerce-account .woocommerce-MyAccount-content .button.wc-forward,
+.woocommerce-account .woocommerce-MyAccount-content .button--outline {
+	background: none;
+	border: var(--fares-border-w) solid var(--fares-color-text-secondary);
+}
+
+/* ============================================ tables (orders + downloads) */
+
+.woocommerce-account .woocommerce-orders-table,
+.woocommerce-account .woocommerce-table--order-details,
+.woocommerce-account .shop_table {
+	inline-size: 100%;
+	border-collapse: collapse;
+	font: var(--fares-text-body-sm);
+}
+
+.woocommerce-account .woocommerce-orders-table thead th,
+.woocommerce-account .shop_table thead th {
+	font: var(--fares-text-caption);
+	color: var(--fares-color-text-secondary);
+	text-align: start;
+	padding: var(--fares-space-4) var(--fares-space-5);
+	border-block-end: var(--fares-border-w) solid var(--fares-color-border);
+}
+
+.woocommerce-account .woocommerce-orders-table tbody td,
+.woocommerce-account .shop_table tbody td {
+	padding: var(--fares-space-6) var(--fares-space-5);
+	text-align: start;
+	border-block-end: var(--fares-border-w) solid var(--fares-color-border);
+	vertical-align: middle;
+}
+
+.woocommerce-account .woocommerce-orders-table__cell-order-number a {
+	font-weight: var(--fares-font-weight-bold);
+	color: var(--fares-color-text-primary);
+	text-decoration: none;
+}
+
+/* Order status pill. */
+.woocommerce-account .woocommerce-orders-table__cell-order-status {
+	font-weight: var(--fares-font-weight-bold);
+}
+
+.woocommerce-account td.woocommerce-orders-table__cell-order-actions {
+	text-align: end;
+	white-space: nowrap;
+}
+
+.woocommerce-account .woocommerce-orders-table__cell-order-actions .button {
+	padding: var(--fares-space-2) var(--fares-space-6);
+	font: var(--fares-text-button-sm);
+}
+
+.woocommerce-orders-table__cell-order-actions .button + .button {
+	margin-inline-start: var(--fares-space-3);
+}
+
+/* Downloads: file link renders as a primary pill. */
+.woocommerce-account .woocommerce-orders-table__cell-download-file a {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--fares-space-2);
+	font: var(--fares-text-button-sm);
+	color: var(--fares-color-text-primary);
+	background: var(--fares-gradient-primary);
+	border-radius: var(--fares-radius-xs);
+	padding: var(--fares-space-2) var(--fares-space-6);
+	text-decoration: none;
+}
+
+/* ==================================================== view single order */
+
+.woocommerce-account .woocommerce-order-details,
+.woocommerce-account .woocommerce-customer-details {
+	margin-block-start: var(--fares-space-8);
+}
+
+.woocommerce-account .woocommerce-table--order-details tfoot th,
+.woocommerce-account .woocommerce-table--order-details tfoot td {
+	padding: var(--fares-space-4) var(--fares-space-5);
+	border-block-end: var(--fares-border-w) solid var(--fares-color-border);
+}
+
+.woocommerce-account .woocommerce-table--order-details tfoot td {
+	text-align: end;
+}
+
+.woocommerce-account .woocommerce-table--order-details tfoot tr:last-child th,
+.woocommerce-account .woocommerce-table--order-details tfoot tr:last-child td {
+	font-size: var(--fares-font-size-lg);
+	font-weight: var(--fares-font-weight-bold);
+	color: var(--fares-color-text-primary);
+	border-block-end: 0;
+}
+
+/* Last row of the orders list drops its divider (declared here so it trails
+   the lower-specificity order-details rules — keeps specificity ascending). */
+.woocommerce-account .woocommerce-orders-table tbody tr:last-child td {
+	border-block-end: 0;
+}
+
+/* Order + billing address columns. */
+.woocommerce-account .woocommerce-columns--addresses {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--fares-cart-gap);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+@media (width <= 600px) {
+	.woocommerce-account .woocommerce-columns--addresses {
+		grid-template-columns: 1fr;
+	}
+}
+
+.woocommerce-account .woocommerce-columns--addresses .woocommerce-column__title {
+	font: var(--fares-text-card-title);
+	margin-block-end: var(--fares-space-4);
+}
+
+.woocommerce-account address {
+	font: var(--fares-text-body-sm);
+	font-style: normal;
+	color: var(--fares-color-text-secondary);
+	background: var(--fares-color-background);
+	border: var(--fares-border-w) solid var(--fares-color-border);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-6);
+	line-height: var(--fares-line-height-24);
+}
+
+/* ================================================= addresses (edit list) */
+
+.woocommerce-account .woocommerce-Addresses {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--fares-cart-gap);
+	margin-block-start: var(--fares-space-6);
+}
+
+@media (width <= 600px) {
+	.woocommerce-account .woocommerce-Addresses {
+		grid-template-columns: 1fr;
+	}
+}
+
+.woocommerce-account .woocommerce-Address-title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--fares-space-4);
+	margin-block-end: var(--fares-space-4);
+}
+
+.woocommerce-account .woocommerce-Address-title h2,
+.woocommerce-account .woocommerce-Address-title h3 {
+	margin: 0;
+}
+
+.woocommerce-account .woocommerce-Address-title .edit {
+	font: var(--fares-text-button-sm);
+	color: var(--fares-color-primary-end);
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+/* ================================================ forms (edit-account +) */
+
+.woocommerce-account .woocommerce-MyAccount-content form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--fares-space-2);
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .form-row {
+	display: flex;
+	flex-direction: column;
+	gap: var(--fares-space-2);
+	margin-block-end: var(--fares-space-5);
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .form-row-first,
+.woocommerce-account .woocommerce-MyAccount-content .form-row-last {
+	flex: 1;
+}
+
+/* Pair first/last name onto one row on wider content. */
+@media (width >= 601px) {
+	.woocommerce-account .woocommerce-MyAccount-content .form-row-first,
+	.woocommerce-account .woocommerce-MyAccount-content .form-row-last {
+		display: inline-flex;
+		inline-size: calc(50% - var(--fares-space-4));
+	}
+
+	.woocommerce-account .woocommerce-MyAccount-content .form-row-first {
+		margin-inline-end: var(--fares-space-4);
+	}
+}
+
+.woocommerce-account .woocommerce-MyAccount-content label {
+	font: var(--fares-text-body-sm);
+	color: var(--fares-color-text-primary);
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .required {
+	color: var(--fares-color-danger);
+	text-decoration: none;
+	border: 0;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content input:not([type="checkbox"], [type="radio"]),
+.woocommerce-account .woocommerce-MyAccount-content select,
+.woocommerce-account .woocommerce-MyAccount-content textarea {
+	inline-size: 100%;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content fieldset {
+	border: var(--fares-border-w) solid var(--fares-color-border);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-7);
+	margin-block: var(--fares-space-6) var(--fares-space-2);
+}
+
+.woocommerce-account .woocommerce-MyAccount-content fieldset legend {
+	font: var(--fares-text-card-title);
+	padding-inline: var(--fares-space-3);
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .password-input {
+	display: block;
+	position: relative;
+}
+
+/* Password strength meter. */
+.woocommerce-account .woocommerce-password-strength {
+	font: var(--fares-text-caption);
+	padding: var(--fares-space-2) 0;
+}
+
+.woocommerce-account .woocommerce-password-strength.strong {
+	color: var(--fares-color-success-text);
+}
+
+.woocommerce-account .woocommerce-password-strength.short,
+.woocommerce-account .woocommerce-password-strength.bad {
+	color: var(--fares-color-danger-soft);
+}
+
+.woocommerce-account .woocommerce-password-hint {
+	font: var(--fares-text-caption-sm);
+	color: var(--fares-color-text-muted);
+}
+
+/* ====================================================== payment methods */
+
+.woocommerce-account .woocommerce-MyAccount-paymentMethods .button {
+	font: var(--fares-text-button-sm);
+	padding: var(--fares-space-2) var(--fares-space-6);
+}
+
+.woocommerce-account .payment-method-add {
+	margin-block-start: var(--fares-space-6);
+}
+
+/* ========================================================== pagination */
+
+.woocommerce-account .woocommerce-pagination {
+	margin-block-start: var(--fares-space-8);
+}
+
+.woocommerce-account .woocommerce-pagination ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--fares-space-3);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.woocommerce-account .woocommerce-pagination a,
+.woocommerce-account .woocommerce-pagination span {
+	display: grid;
+	place-content: center;
+	min-inline-size: 40px;
+	min-block-size: 40px;
+	padding-inline: var(--fares-space-3);
+	border-radius: var(--fares-radius-xs);
+	border: var(--fares-border-w) solid var(--fares-color-border);
+	font: var(--fares-text-body-sm);
+	color: var(--fares-color-text-secondary);
+	text-decoration: none;
+}
+
+.woocommerce-account .woocommerce-pagination a:hover,
+.woocommerce-account .woocommerce-pagination .current {
+	color: var(--fares-color-text-primary);
+	background: var(--fares-color-surface-2);
+	border-color: var(--fares-color-border-strong);
+}
+
+/* ==================================== responsive tables → stacked cards */
+
+@media (width <= 600px) {
+	.woocommerce-account .woocommerce-orders-table thead {
+		position: absolute;
+		inline-size: 1px;
+		block-size: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+	}
+
+	.woocommerce-account .woocommerce-orders-table tbody tr {
+		display: block;
+		background: var(--fares-color-background);
+		border: var(--fares-border-w) solid var(--fares-color-border);
+		border-radius: var(--fares-radius-sm);
+		padding: var(--fares-space-4) var(--fares-space-6);
+		margin-block-end: var(--fares-space-5);
+	}
+
+	.woocommerce-account .woocommerce-orders-table tbody td {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--fares-space-5);
+		padding: var(--fares-space-3) 0;
+		border-block-end: 0;
+		text-align: end;
+	}
+
+	.woocommerce-account .woocommerce-orders-table tbody td::before {
+		content: attr(data-title);
+		font: var(--fares-text-caption);
+		color: var(--fares-color-text-secondary);
+		text-align: start;
+	}
+
+	.woocommerce-account td.woocommerce-orders-table__cell-order-actions {
+		justify-content: flex-end;
+	}
+}
+
+/* ==================================================== logged-out: auth */
+
+/* Two-column login/register when registration is enabled. */
+.woocommerce-account:not(.logged-in) .woocommerce > .u-columns {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--fares-cart-gap);
+	align-items: start;
+}
+
+@media (width <= 781px) {
+	.woocommerce-account:not(.logged-in) .woocommerce > .u-columns {
+		grid-template-columns: 1fr;
+	}
+}
+
+.woocommerce-account:not(.logged-in) .woocommerce h2 {
+	font: var(--fares-text-section-title);
+	margin-block-end: var(--fares-space-6);
+}
+
+.woocommerce-account:not(.logged-in) form.woocommerce-form-login,
+.woocommerce-account:not(.logged-in) form.woocommerce-form-register {
+	background: var(--fares-color-surface-1);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-box-pad);
+	filter: drop-shadow(var(--fares-shadow-float));
+	display: flex;
+	flex-direction: column;
+	gap: var(--fares-space-2);
+}
+
+/* When only login shows (no registration), center it as a single card. */
+.woocommerce-account:not(.logged-in) .woocommerce > form.woocommerce-form-login {
+	max-inline-size: 460px;
+	margin-inline: auto;
+}
+
+.woocommerce-account:not(.logged-in) .form-row {
+	display: flex;
+	flex-direction: column;
+	gap: var(--fares-space-2);
+	margin-block-end: var(--fares-space-5);
+}
+
+.woocommerce-account:not(.logged-in) .woocommerce-form-login__rememberme {
+	flex-direction: row;
+	align-items: center;
+	gap: var(--fares-space-3);
+	font: var(--fares-text-body-sm);
+}
+
+.woocommerce-account:not(.logged-in) .woocommerce-form-login__submit,
+.woocommerce-account:not(.logged-in) .woocommerce-form-register__submit {
+	inline-size: 100%;
+	font: var(--fares-text-button);
+	color: var(--fares-color-text-primary);
+	background: var(--fares-gradient-primary);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-button-pad);
+	margin-block-start: var(--fares-space-3);
+	transition: background-color var(--fares-duration-fast) var(--fares-ease);
+}
+
+.woocommerce-account:not(.logged-in) .woocommerce-form-login__submit:hover,
+.woocommerce-account:not(.logged-in) .woocommerce-form-register__submit:hover {
+	background: var(--fares-gradient-primary-hover);
+}
+
+.woocommerce-account:not(.logged-in) .woocommerce-LostPassword {
+	margin-block-start: var(--fares-space-5);
+	font: var(--fares-text-body-sm);
+}
+
+.woocommerce-account:not(.logged-in) .woocommerce-LostPassword a {
+	color: var(--fares-color-primary-end);
+}
+
+/* Lost-password reset form. */
+.woocommerce-account .woocommerce-ResetPassword {
+	max-inline-size: 460px;
+	margin-inline: auto;
+	background: var(--fares-color-surface-1);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-box-pad);
+}
+
+.woocommerce-account .woocommerce-ResetPassword .woocommerce-Button {
+	inline-size: 100%;
+}
+
+/* Primary-button hover (declared last so it trails the plain `.button`
+   variants above — keeps specificity ascending for the linter). */
+.woocommerce-account .woocommerce-MyAccount-content .button:hover,
+.woocommerce-account .woocommerce-MyAccount-content button[type="submit"]:hover {
+	background: var(--fares-gradient-primary-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.woocommerce-MyAccount-navigation-link a,
+	.woocommerce-account .woocommerce-MyAccount-content .button,
+	.woocommerce-account .woocommerce-MyAccount-content button[type="submit"],
+	.woocommerce-account:not(.logged-in) .woocommerce-form-login__submit,
+	.woocommerce-account:not(.logged-in) .woocommerce-form-register__submit {
+		transition: none;
+	}
+}

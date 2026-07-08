@@ -81,6 +81,16 @@
 	align-items: center;
 	gap: var(--fares-space-5);
 	margin-block-end: var(--fares-space-6);
+	color: inherit;
+	text-decoration: none;
+}
+
+a.fares-footer__badge {
+	transition: opacity var(--fares-duration-fast) var(--fares-ease);
+}
+
+a.fares-footer__badge:hover {
+	opacity: 0.85;
 }
 
 .fares-footer__badge-tile {
@@ -124,6 +134,21 @@
 .fares-payment-tile img {
 	max-block-size: 24px;
 	inline-size: auto;
+}
+
+.fares-footer__brand {
+	display: flex;
+	margin-block-end: var(--fares-space-8);
+}
+
+.fares-footer__brand img {
+	max-block-size: 64px;
+	inline-size: auto;
+}
+
+.fares-footer__brand-name {
+	font: var(--fares-text-section-title);
+	color: var(--fares-color-text-primary);
 }
 
 .fares-footer__divider {

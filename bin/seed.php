@@ -360,4 +360,53 @@ update_option( 'woocommerce_currency', 'EGP' );
 update_option( 'woocommerce_price_thousand_sep', ',' );
 update_option( 'woocommerce_price_decimal_sep', '.' );
 
+/* ------------------------------------------------------------------ logo */
+
+// Site logo (animated GIF shipped in the theme assets). Idempotent: reuse a
+// previously imported attachment, keyed by the _fares_site_logo meta flag.
+$logo_src     = get_theme_file_path( 'assets/images/logo.gif' );
+$current_logo = (int) get_theme_mod( 'custom_logo' );
+if ( ( ! $current_logo || ! wp_attachment_is_image( $current_logo ) ) && is_readable( $logo_src ) ) {
+	require_once ABSPATH . 'wp-admin/includes/media.php';
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+
+	$existing = get_posts(
+		array(
+			'post_type'   => 'attachment',
+			'meta_key'    => '_fares_site_logo',
+			'meta_value'  => '1',
+			'numberposts' => 1,
+			'fields'      => 'ids',
+		)
+	);
+
+	if ( $existing ) {
+		$logo_id = (int) $existing[0];
+	} else {
+		$tmp = wp_tempnam( 'fares-logo.gif' );
+		copy( $logo_src, $tmp );
+		$logo_id = media_handle_sideload(
+			array(
+				'name'     => 'logo.gif',
+				'tmp_name' => $tmp,
+			),
+			0,
+			'شعار المتجر'
+		);
+		if ( is_wp_error( $logo_id ) ) {
+			@unlink( $tmp );
+			WP_CLI::warning( 'Logo import: ' . $logo_id->get_error_message() );
+			$logo_id = 0;
+		} else {
+			update_post_meta( $logo_id, '_fares_site_logo', '1' );
+		}
+	}
+
+	if ( $logo_id ) {
+		set_theme_mod( 'custom_logo', $logo_id );
+		WP_CLI::log( "Site logo set (#{$logo_id})." );
+	}
+}
+
 WP_CLI::success( 'Seed complete.' );

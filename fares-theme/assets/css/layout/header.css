@@ -25,12 +25,49 @@
 }
 
 .fares-header__inner {
-	display: flex;
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
 	align-items: center;
-	justify-content: space-between;
 	gap: var(--fares-space-6);
 	min-block-size: 80px;
 	padding-block: var(--fares-space-3);
+}
+
+/* DOM order: lead(toggle + account) → branding → actions. The grid tracks flow
+   RTL, so the lead cluster lands on the inline-start (right) edge, the logo
+   centres, and the actions sit at inline-end (left). */
+.fares-header__lead {
+	justify-self: start;
+	display: flex;
+	align-items: center;
+	gap: var(--fares-space-2);
+}
+
+.fares-header__menu-toggle,
+.fares-header__account {
+	display: inline-grid;
+	place-content: center;
+	inline-size: 44px;
+	block-size: 44px;
+	color: var(--fares-color-text-primary);
+	border-radius: var(--fares-radius-sm);
+	transition: background var(--fares-duration-fast) var(--fares-ease);
+}
+
+/* Desktop surfaces the account via the labelled login pill; icon is mobile-only. */
+.fares-header__account {
+	display: none;
+}
+
+.fares-header__menu-toggle:hover,
+.fares-header__menu-toggle:focus-visible,
+.fares-header__account:hover,
+.fares-header__account:focus-visible {
+	background: var(--fares-color-surface-2);
+}
+
+.fares-branding {
+	justify-self: center;
 }
 
 .fares-branding__name {
@@ -44,6 +81,7 @@
 }
 
 .fares-header-actions {
+	justify-self: end;
 	display: flex;
 	align-items: center;
 	gap: var(--fares-space-6);
@@ -100,15 +138,16 @@
 	padding: var(--fares-space-2) var(--fares-space-6);
 }
 
-/* Mobile header keeps only branding + cart + login icon (Figma 2:4825) */
+/* Mobile header: [menu + account] · centered logo · cart. The account collapses
+   to an icon beside the menu toggle; the labelled login pill + locale drop out. */
 @media (width <= 781px) {
-	.fares-header-actions__locale {
-		display: none;
+	.fares-header__account {
+		display: inline-grid;
 	}
 
+	.fares-header-actions__locale,
 	.fares-header-actions__login {
-		font-size: var(--fares-font-size-sm);
-		white-space: nowrap;
+		display: none;
 	}
 }
 

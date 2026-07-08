@@ -1,0 +1,110 @@
+/**
+ * Slide-in category drawer ("القائمة الرئيسية").
+ * Scrim fades in; the panel slides from the inline-start edge (right in RTL).
+ * `is-open` (JS) drives both; `hidden` keeps it inert between opens.
+ */
+
+.fares-drawer {
+	position: fixed;
+	inset: 0;
+	z-index: var(--fares-z-drawer);
+	background: var(--fares-color-overlay);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity var(--fares-duration-normal) var(--fares-ease);
+}
+
+.fares-drawer[hidden] {
+	display: none;
+}
+
+.fares-drawer.is-open {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.fares-drawer__panel {
+	position: absolute;
+	inset-block: 0;
+	inset-inline-start: 0;
+	display: flex;
+	flex-direction: column;
+	inline-size: min(360px, 85vw);
+	background: var(--fares-color-surface-1);
+	box-shadow: var(--fares-shadow-drawer);
+
+	/* Off-screen toward the inline-start edge; physical axis flips per dir. */
+	transform: translateX(-100%);
+	transition: transform var(--fares-duration-normal) var(--fares-ease);
+}
+
+[dir="rtl"] .fares-drawer__panel {
+	transform: translateX(100%);
+}
+
+.fares-drawer.is-open .fares-drawer__panel {
+	transform: translateX(0);
+}
+
+.fares-drawer__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--fares-space-4);
+	padding: var(--fares-space-6) var(--fares-space-7);
+	border-block-end: var(--fares-border-w) solid var(--fares-color-border);
+}
+
+.fares-drawer__title {
+	font: var(--fares-text-section-title);
+	color: var(--fares-color-text-primary);
+}
+
+.fares-drawer__close {
+	display: grid;
+	place-items: center;
+	inline-size: 36px;
+	block-size: 36px;
+	color: var(--fares-color-text-secondary);
+	border-radius: var(--fares-radius-sm);
+	transition: color var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-drawer__close:hover,
+.fares-drawer__close:focus-visible {
+	color: var(--fares-color-text-primary);
+}
+
+.fares-drawer__nav {
+	flex: 1;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.fares-drawer__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.fares-drawer__link {
+	display: block;
+	padding: var(--fares-space-6) var(--fares-space-7);
+	font: var(--fares-text-card-title);
+	color: var(--fares-color-text-primary);
+	text-align: start;
+	border-block-end: var(--fares-border-w) solid var(--fares-color-border);
+	transition: background var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-drawer__link:hover,
+.fares-drawer__link:focus-visible {
+	background: var(--fares-color-surface-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fares-drawer,
+	.fares-drawer__panel {
+		transition: none;
+	}
+}

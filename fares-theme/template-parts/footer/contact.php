@@ -7,8 +7,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$fares_contact_email    = get_option( 'admin_email' );
+$fares_contact_email    = 'shopstore417@gmail.com';
 $fares_contact_telegram = 'https://t.me/Sho9_store';
+$fares_social_instagram = 'https://www.instagram.com/sho9.store';
+$fares_social_x         = 'https://x.com/sho9_store';
+$fares_social_youtube   = 'https://www.youtube.com/@sho9store';
 ?>
 <div class="fares-footer__contact">
 	<h2 class="fares-footer__heading"><?php esc_html_e( 'تواصل معنا', 'fares-theme' ); ?></h2>
@@ -28,8 +31,8 @@ $fares_contact_telegram = 'https://t.me/Sho9_store';
 	</div>
 
 	<div class="fares-footer__social">
-		<a class="fares-footer__icon-box" href="#" rel="noopener"><?php fares_icon( 'instagram', 'Instagram' ); ?></a>
-		<a class="fares-footer__icon-box" href="#" rel="noopener"><?php fares_icon( 'x', 'X' ); ?></a>
-		<a class="fares-footer__icon-box" href="#" rel="noopener"><?php fares_icon( 'youtube', 'YouTube' ); ?></a>
+		<a class="fares-footer__icon-box" href="<?php echo esc_url( $fares_social_instagram ); ?>" target="_blank" rel="noopener noreferrer"><?php fares_icon( 'instagram', 'Instagram' ); ?></a>
+		<a class="fares-footer__icon-box" href="<?php echo esc_url( $fares_social_x ); ?>" target="_blank" rel="noopener noreferrer"><?php fares_icon( 'x', 'X' ); ?></a>
+		<a class="fares-footer__icon-box" href="<?php echo esc_url( $fares_social_youtube ); ?>" target="_blank" rel="noopener noreferrer"><?php fares_icon( 'youtube', 'YouTube' ); ?></a>
 	</div>
 </div>

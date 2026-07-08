@@ -14,6 +14,5 @@ get_template_part(
 		'title'    => __( 'الأكثر مبيعا', 'fares-theme' ),
 		'products' => fares_get_best_sellers( 8 ),
 		'view_all' => function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : '',
-		'banner'   => 'divider-best-sellers.jpg',
 	)
 );
