@@ -1,0 +1,67 @@
+/**
+ * Testimonials slider ("آراء العملاء") — home + archives (Figma 1:3721).
+ */
+
+.fares-testimonials__title {
+	font: var(--fares-text-section-title);
+	text-align: center;
+	margin-block-end: var(--fares-space-6);
+}
+
+.fares-testimonials__track {
+	padding-block: var(--fares-space-6) var(--fares-space-10);
+}
+
+.fares-testimonial {
+	flex: 0 0 var(--fares-testimonial-w);
+	min-inline-size: 0;
+	background: var(--fares-color-surface-1);
+	border-radius: var(--fares-radius-sm);
+	padding-block: var(--fares-space-6);
+	padding-inline: var(--fares-space-9) var(--fares-space-6);
+}
+
+@media (width <= 781px) {
+	.fares-testimonial {
+		flex-basis: 85%;
+	}
+}
+
+.fares-testimonial__name {
+	font: var(--fares-font-weight-bold) var(--fares-font-size-sm) / var(--fares-line-height-20) var(--fares-font-family);
+}
+
+.fares-testimonial__stars {
+	color: var(--fares-color-rating-star);
+	display: inline-flex;
+	gap: var(--fares-space-1);
+	padding-block: var(--fares-space-2);
+}
+
+.fares-testimonial__stars .fares-icon {
+	inline-size: var(--fares-star-sm);
+	block-size: var(--fares-star-sm);
+}
+
+.fares-testimonial__body {
+	font: var(--fares-font-weight-regular) var(--fares-font-size-base) / 18px var(--fares-font-family);
+	color: var(--fares-color-text-secondary);
+	margin: 0;
+}
+
+.fares-testimonials__controls {
+	display: flex;
+	justify-content: center;
+	gap: var(--fares-space-4);
+}
+
+.fares-testimonials__controls .fares-section-header__arrow {
+	background: var(--fares-color-surface-inverse);
+	color: var(--fares-color-text-inverse);
+	border: 0;
+	filter: drop-shadow(var(--fares-shadow-arrow));
+}
+
+.fares-testimonials {
+	margin-block-start: var(--fares-space-section);
+}

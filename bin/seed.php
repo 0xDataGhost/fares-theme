@@ -141,6 +141,15 @@ if ( ! wc_get_product_id_by_sku( $gta_sku ) ) {
 	WP_CLI::log( "Variable product: GTA 6 (#{$variable->get_id()})" );
 }
 
+// Ribbon badges (idempotent — set every run).
+$ribbon_skus = array( 'plus-iphone-vip', 'plus-android', 'plus-ipad', 'ps5-plus-deluxe', 'ps5-plus-essential', 'ps5-plus-extra' );
+foreach ( $ribbon_skus as $ribbon_sku ) {
+	$rid = wc_get_product_id_by_sku( $ribbon_sku );
+	if ( $rid ) {
+		update_post_meta( $rid, '_fares_ribbon', 'يجب قراءة الوصف كامل' );
+	}
+}
+
 /* ---------------------------------------------------------- testimonials */
 
 $testimonials = array(

@@ -24,6 +24,20 @@ add_action( 'after_setup_theme', 'fares_wc_setup' );
 add_filter( 'loop_shop_columns', static fn(): int => 4 );
 
 /**
+ * Staged Woo-CSS migration: drop the float/width layout stylesheets now
+ * (they fight the theme's grid); woocommerce-general stays until the
+ * Phase-8 visual QA completes.
+ *
+ * @param array $styles Woo style handles.
+ * @return array
+ */
+function fares_wc_styles( array $styles ): array {
+	unset( $styles['woocommerce-layout'], $styles['woocommerce-smallscreen'] );
+	return $styles;
+}
+add_filter( 'woocommerce_enqueue_styles', 'fares_wc_styles' );
+
+/**
  * Replace Woo's default content wrappers with the theme's; the design has
  * no sidebar anywhere.
  */

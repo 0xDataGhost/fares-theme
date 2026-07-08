@@ -1,0 +1,131 @@
+/**
+ * Product card (Figma card nodes 1:1341 / 1:2072 / 2:5005).
+ * Applies to Woo loop items (li.product) — markup rendered by card parts.
+ */
+
+ul.products {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: var(--fares-space-grid-gap);
+}
+
+@media (width <= 781px) {
+	ul.products {
+		grid-template-columns: repeat(2, 1fr);
+		gap: var(--fares-space-4);
+	}
+}
+
+li.product {
+	display: flex;
+	flex-direction: column;
+}
+
+.fares-card__media {
+	position: relative;
+	border-radius: var(--fares-card-image-radius);
+	overflow: hidden;
+	aspect-ratio: 1;
+	background: var(--fares-color-surface-1);
+}
+
+.fares-card__image {
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+}
+
+.fares-card__ribbon {
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline-start: 0;
+	background: var(--fares-color-ribbon-bg);
+	color: var(--fares-color-ribbon-text);
+	font: var(--fares-text-caption);
+	padding: var(--fares-ribbon-pad);
+	border-start-start-radius: 5px;
+	border-start-end-radius: 8px;
+	border-end-start-radius: 0;
+	border-end-end-radius: 8px;
+}
+
+.fares-card__stamp {
+	position: absolute;
+	inset-block-start: 50%;
+	inset-inline-start: 50%;
+	translate: -50% -50%;
+	rotate: var(--fares-stamp-rotate);
+	border: var(--fares-border-w-stamp) solid var(--fares-color-danger);
+	color: var(--fares-color-danger);
+	font-size: var(--fares-stamp-text);
+	font-weight: var(--fares-font-weight-semibold);
+	line-height: 1;
+	padding: var(--fares-space-3) var(--fares-space-6);
+	opacity: 0.9;
+	white-space: nowrap;
+}
+
+[dir="rtl"] .fares-card__stamp {
+	translate: 50% -50%;
+}
+
+.fares-card__title {
+	font: var(--fares-text-card-title);
+	color: var(--fares-color-text-primary);
+	padding: var(--fares-space-3) var(--fares-space-5) 0;
+}
+
+.fares-card__price {
+	font: var(--fares-font-weight-regular) var(--fares-font-size-base) / var(--fares-line-height-26) var(--fares-font-family);
+	padding: 0 var(--fares-space-3) var(--fares-space-4) var(--fares-space-3);
+}
+
+.fares-card__price ins {
+	font: var(--fares-text-price);
+	color: var(--fares-color-sale);
+	text-decoration: none;
+}
+
+.fares-card__price del {
+	font: var(--fares-text-price-compare);
+	color: var(--fares-color-text-primary);
+	margin-inline-start: var(--fares-space-3);
+}
+
+/* Single (non-sale) price inherits card price style, bolder */
+.fares-card__price > .woocommerce-Price-amount {
+	font: var(--fares-text-price);
+	color: var(--fares-color-text-primary);
+}
+
+/* Specificity matches woocommerce-general's `.woocommerce ul.products
+   li.product .button` until that sheet is dequeued in Phase 8. */
+ul.products li.product .fares-card__button,
+.woocommerce ul.products li.product .fares-card__button {
+	margin-block-start: auto;
+	inline-size: 100%;
+	min-block-size: var(--fares-card-button-h);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font: var(--fares-text-button-sm);
+	color: var(--fares-color-text-primary);
+	background: var(--fares-gradient-primary);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-3) var(--fares-space-2);
+}
+
+.woocommerce ul.products li.product .fares-card__button:hover {
+	background: var(--fares-gradient-primary-hover);
+}
+
+ul.products li.product .fares-button--disabled,
+.woocommerce ul.products li.product .fares-button--disabled {
+	background: var(--fares-color-disabled-bg);
+	border: var(--fares-border-w) solid var(--fares-color-border-light);
+	color: var(--fares-color-disabled-text);
+	cursor: not-allowed;
+}

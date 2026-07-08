@@ -1,0 +1,73 @@
+/**
+ * Embla carousel shell + section header row.
+ */
+
+.fares-carousel__viewport {
+	overflow: hidden;
+}
+
+/* ul.products doubles as the track inside carousels — the compound
+   selector must beat cards.css's grid. */
+.fares-carousel__track,
+ul.products.fares-carousel__track {
+	display: flex;
+	gap: var(--fares-space-7);
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+/* Cards inside a carousel keep a fixed slot width (Figma slot 320/300). */
+.fares-carousel__track li.product {
+	flex: 0 0 var(--fares-card-w);
+	min-inline-size: 0;
+}
+
+@media (width <= 781px) {
+	.fares-carousel__track li.product {
+		flex-basis: 180px;
+	}
+}
+
+.fares-section-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--fares-space-6);
+	padding-block: var(--fares-space-6);
+}
+
+.fares-section-header__title {
+	font: var(--fares-text-section-title);
+}
+
+.fares-section-header__controls {
+	display: flex;
+	align-items: center;
+	gap: var(--fares-space-4);
+}
+
+.fares-section-header__view-all {
+	font: var(--fares-text-button);
+	color: var(--fares-color-text-primary);
+}
+
+.fares-section-header__view-all:hover {
+	color: var(--fares-color-text-secondary);
+}
+
+.fares-section-header__arrow {
+	inline-size: var(--fares-section-arrow);
+	block-size: var(--fares-section-arrow);
+	display: inline-grid;
+	place-content: center;
+	border: var(--fares-border-w) solid var(--fares-color-border-input);
+	border-radius: var(--fares-radius-full);
+	color: var(--fares-color-text-primary);
+	transition: opacity var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-section-header__arrow:disabled {
+	opacity: 0.5;
+	cursor: default;
+}

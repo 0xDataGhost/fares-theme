@@ -11,12 +11,16 @@
 		"seed": "wp-env run cli -- wp eval-file bin/seed.php",
 		"build:css": "postcss \"fares-theme/assets/css/entries/*.css\" --dir fares-theme/assets/css/dist",
 		"watch:css": "npm run build:css -- --watch",
-		"lint:css": "stylelint 'fares-theme/assets/css/**/*.css' --ignore-pattern '**/dist/**'"
+		"lint:css": "stylelint 'fares-theme/assets/css/**/*.css' --ignore-pattern '**/dist/**'",
+		"build:js": "esbuild fares-theme/assets/js/src/*.js --bundle --minify --format=iife --outdir=fares-theme/assets/js/dist",
+		"build": "npm run build:css && npm run build:js"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.61.1",
 		"@wordpress/env": "^10.0.0",
 		"cssnano": "^7.0.0",
+		"embla-carousel": "^8.6.0",
+		"esbuild": "^0.28.1",
 		"postcss": "^8.4.0",
 		"postcss-cli": "^11.0.0",
 		"postcss-import": "^16.0.0",

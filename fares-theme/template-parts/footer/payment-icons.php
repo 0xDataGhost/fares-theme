@@ -8,13 +8,13 @@
 defined( 'ABSPATH' ) || exit;
 
 $fares_payment_methods = array(
-	'mada'       => 'mada',
-	'visa-mc'    => 'Visa / Mastercard',
-	'paypal'     => 'PayPal',
-	'stc'        => 'STC Bank',
-	'apple-pay'  => 'Apple Pay',
-	'bank'       => 'Bank transfer',
-	'cash'       => 'Cash payment',
+	'mada'            => 'mada',
+	'credit-card'     => 'Visa / Mastercard',
+	'paypal'          => 'PayPal',
+	'stc-pay'         => 'STC Bank',
+	'apple-pay'       => 'Apple Pay',
+	'customer-wallet' => 'Customer wallet',
+	'cod'             => 'Cash payment',
 );
 ?>
 <ul class="fares-footer__payments">

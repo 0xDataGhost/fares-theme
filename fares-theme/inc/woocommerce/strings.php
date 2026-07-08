@@ -19,6 +19,10 @@ function fares_add_to_cart_text( string $text, WC_Product $product ): string {
 		return __( 'نفدت الكمية', 'fares-theme' );
 	}
 
+	if ( $product->is_type( 'variable' ) ) {
+		return __( 'اختر الخيارات', 'fares-theme' );
+	}
+
 	if ( $product->is_type( 'simple' ) && $product->is_purchasable() ) {
 		return __( 'أضف للسلة', 'fares-theme' );
 	}
@@ -26,7 +30,19 @@ function fares_add_to_cart_text( string $text, WC_Product $product ): string {
 	return $text;
 }
 add_filter( 'woocommerce_product_add_to_cart_text', 'fares_add_to_cart_text', 10, 2 );
-add_filter( 'woocommerce_product_single_add_to_cart_text', 'fares_add_to_cart_text', 10, 2 );
+
+/**
+ * Single product page button — always "أضف للسلة" (the variations form
+ * handles option choice before this button applies).
+ *
+ * @param string     $text    Button text.
+ * @param WC_Product $product Product.
+ * @return string
+ */
+function fares_single_add_to_cart_text( string $text, WC_Product $product ): string {
+	return $product->is_in_stock() ? __( 'أضف للسلة', 'fares-theme' ) : __( 'نفدت الكمية', 'fares-theme' );
+}
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'fares_single_add_to_cart_text', 10, 2 );
 
 /**
  * Archive result count: replace Woo's "Showing all X results" with the

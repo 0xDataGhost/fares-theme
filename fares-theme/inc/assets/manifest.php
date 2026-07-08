@@ -39,11 +39,24 @@ function fares_asset_manifest(): array {
 			'type' => 'style',
 			'when' => null,
 		),
+		'fares-home'       => array(
+			'src'  => 'assets/css/dist/home.css',
+			'deps' => array( 'fares-tokens' ),
+			'type' => 'style',
+			'when' => static fn(): bool => is_front_page(),
+		),
 		'fares-global-js'  => array(
 			'src'   => 'assets/js/global.js',
 			'deps'  => array(),
 			'type'  => 'script',
 			'when'  => null,
+			'defer' => true,
+		),
+		'fares-carousel'   => array(
+			'src'   => 'assets/js/dist/carousel.js',
+			'deps'  => array(),
+			'type'  => 'script',
+			'when'  => static fn(): bool => is_front_page() || is_product() || is_woocommerce(),
 			'defer' => true,
 		),
 	);

@@ -2,7 +2,9 @@
  * Buttons — gradient primary CTA, outline secondary, disabled/OOS state.
  */
 
-.fares-button,
+/* Doubled class beats woocommerce-general's `.woocommerce a.button` until
+   that stylesheet is dequeued in Phase 8. */
+.fares-button.fares-button,
 .fares-button--primary {
 	display: inline-flex;
 	align-items: center;
@@ -35,7 +37,7 @@
 	background: var(--fares-color-surface-2);
 }
 
-.fares-button--disabled,
+.fares-button--disabled.fares-button--disabled,
 .fares-button:disabled {
 	background: var(--fares-color-disabled-bg);
 	border: var(--fares-border-w) solid var(--fares-color-border-light);

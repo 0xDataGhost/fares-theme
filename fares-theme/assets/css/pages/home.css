@@ -1,0 +1,65 @@
+/**
+ * Homepage sections: hero, category grid, product sections, payment promo.
+ */
+
+.fares-home > * + * {
+	margin-block-start: var(--fares-space-section);
+}
+
+.fares-hero__image {
+	inline-size: 100%;
+	block-size: auto;
+}
+
+.fares-home-section__banner {
+	inline-size: 100%;
+	block-size: auto;
+	border-radius: var(--fares-radius-md);
+	margin-block-end: var(--fares-space-6);
+}
+
+.fares-categories__grid {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: var(--fares-space-grid-gap-lg);
+}
+
+@media (width <= 781px) {
+	.fares-categories__grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: var(--fares-space-4);
+	}
+}
+
+.fares-categories__card {
+	display: block;
+	border-radius: var(--fares-radius-xl);
+	overflow: hidden;
+	transition: translate var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-categories__card:hover {
+	translate: 0 -4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fares-categories__card {
+		transition: none;
+	}
+}
+
+.fares-categories__image {
+	inline-size: 100%;
+	block-size: auto;
+}
+
+.fares-promo {
+	display: grid;
+	gap: var(--fares-space-10);
+}
+
+.fares-promo__banner {
+	inline-size: 100%;
+	block-size: auto;
+	border-radius: var(--fares-radius-md);
+}
