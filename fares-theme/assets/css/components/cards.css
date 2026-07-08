@@ -12,6 +12,15 @@ ul.products {
 	gap: var(--fares-space-grid-gap);
 }
 
+/* woocommerce-general's clearfix pseudo-elements would become grid items
+   and eat the first cell — neutralize until that sheet is dequeued. */
+.woocommerce ul.products::before,
+.woocommerce ul.products::after,
+.woocommerce-page ul.products::before,
+.woocommerce-page ul.products::after {
+	content: none;
+}
+
 @media (width <= 781px) {
 	ul.products {
 		grid-template-columns: repeat(2, 1fr);

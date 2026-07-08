@@ -1,0 +1,14 @@
+/**
+ * Product archive (Figma 1:1145): breadcrumb → count heading → 4-col grid,
+ * testimonials above the footer.
+ */
+
+.fares-result-count {
+	font: var(--fares-text-page-title);
+	color: var(--fares-color-text-primary);
+	margin-block: var(--fares-space-4) var(--fares-space-8);
+}
+
+.fares-wc-main {
+	padding-block-end: var(--fares-space-section);
+}

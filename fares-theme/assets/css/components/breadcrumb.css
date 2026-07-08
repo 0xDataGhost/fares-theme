@@ -1,0 +1,30 @@
+/**
+ * Breadcrumb (Figma 1:1317) — muted links, chevron separators, RTL-aware.
+ */
+
+.fares-breadcrumb {
+	font: var(--fares-text-body-sm);
+	color: var(--fares-color-text-secondary);
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: var(--fares-space-2);
+	padding-block: var(--fares-space-6);
+}
+
+.fares-breadcrumb a {
+	color: var(--fares-color-text-secondary);
+	transition: color var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-breadcrumb a:hover {
+	color: var(--fares-color-text-primary);
+}
+
+.fares-breadcrumb__sep::before {
+	/* U+2039 is bidi-mirrored — points the right way in RTL automatically. */
+	content: "‹";
+	font-size: var(--fares-font-size-md);
+	line-height: 1;
+	margin-inline: var(--fares-space-3);
+}

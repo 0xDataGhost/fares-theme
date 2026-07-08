@@ -75,7 +75,19 @@ function fares_loop_add_to_cart_args( array $args, WC_Product $product ): array 
 }
 add_filter( 'woocommerce_loop_add_to_cart_args', 'fares_loop_add_to_cart_args', 10, 2 );
 
-// Design shows no page title and no sorting dropdown on archives
-// (breadcrumb + count only).
+// Design shows no page title, no sorting dropdown, and no term description
+// on archives (breadcrumb + count only).
 add_filter( 'woocommerce_show_page_title', '__return_false' );
 remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
+remove_action( 'woocommerce_archive_description', 'woocommerce_taxonomy_archive_description', 10 );
+
+/**
+ * Archives close with the testimonials slider above the footer (Figma
+ * 1:1145) — hooked after the main wrapper closes.
+ */
+function fares_archive_testimonials(): void {
+	if ( is_shop() || is_product_taxonomy() ) {
+		get_template_part( 'template-parts/global/testimonials' );
+	}
+}
+add_action( 'woocommerce_after_main_content', 'fares_archive_testimonials', 20 );
