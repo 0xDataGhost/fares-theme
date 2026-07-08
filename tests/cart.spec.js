@@ -6,6 +6,8 @@ test.describe( 'cart and checkout', () => {
 		// Add the GTA variable product (first variation) via its page.
 		await page.goto( '/?p=21' );
 		await page.locator( '.variations select' ).first().selectOption( { index: 1 } );
+		// Deterministic wait: Woo's variation JS resolves the hidden id.
+		await expect( page.locator( 'input[name="variation_id"]' ) ).not.toHaveValue( /^0?$/ );
 		await page.locator( '.single_add_to_cart_button' ).click();
 
 		await page.goto( '/cart/' );
