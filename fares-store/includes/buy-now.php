@@ -26,10 +26,11 @@ function fares_store_is_buy_now_request(): bool {
 /**
  * Redirect to checkout after a successful buy-now add-to-cart.
  *
- * @param string $url Redirect URL.
- * @return string
+ * @param string|false $url Redirect URL (WooCommerce passes false when no
+ *                          redirect is planned).
+ * @return string|false
  */
-function fares_store_buy_now_redirect( string $url ): string {
+function fares_store_buy_now_redirect( $url ) {
 	if ( fares_store_is_buy_now_request() && 0 === wc_notice_count( 'error' ) ) {
 		return wc_get_checkout_url();
 	}

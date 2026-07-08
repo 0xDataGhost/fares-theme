@@ -91,3 +91,158 @@ function fares_archive_testimonials(): void {
 	}
 }
 add_action( 'woocommerce_after_main_content', 'fares_archive_testimonials', 20 );
+
+/* -------------------------------------------------------------------------
+ * Single product — summary re-composed via hooks (Figma 9:2).
+ * Order: title → rating+count+stock → long description → purchase count →
+ * purchase box (price/qty/CTAs/payments) → bought-together → urgency.
+ * ---------------------------------------------------------------------- */
+
+// No sale burst on the gallery — sale is expressed by the price.
+remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 );
+
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20 );
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_sharing', 50 );
+
+// Stock badge right after the rating row.
+add_action(
+	'woocommerce_single_product_summary',
+	static function (): void {
+		get_template_part( 'template-parts/product/stock-badge' );
+	},
+	7
+);
+
+// Long rich description inline (the design has no tabs).
+add_action(
+	'woocommerce_single_product_summary',
+	static function (): void {
+		global $product;
+		$description = $product instanceof WC_Product ? $product->get_description() : '';
+		if ( '' !== $description ) {
+			echo '<div class="fares-product-description">' . wp_kses_post( wpautop( $description ) ) . '</div>';
+		}
+	},
+	15
+);
+
+add_action(
+	'woocommerce_single_product_summary',
+	static function (): void {
+		get_template_part( 'template-parts/product/purchase-count' );
+	},
+	25
+);
+add_action(
+	'woocommerce_single_product_summary',
+	static function (): void {
+		get_template_part( 'template-parts/product/purchase-box' );
+	},
+	30
+);
+add_action(
+	'woocommerce_single_product_summary',
+	static function (): void {
+		get_template_part( 'template-parts/product/bought-together' );
+	},
+	35
+);
+add_action(
+	'woocommerce_single_product_summary',
+	static function (): void {
+		get_template_part( 'template-parts/product/urgency-banner' );
+	},
+	40
+);
+
+// No tabs; replace default up-sells/related display (up-sells live in the
+// bought-together box; related uses the theme carousel).
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
+
+/**
+ * Reviews section (design: aggregate % + list + load-more) — the reviews
+ * layout itself is the single-product-reviews.php override.
+ */
+function fares_single_reviews(): void {
+	comments_template();
+}
+add_action( 'woocommerce_after_single_product_summary', 'fares_single_reviews', 15 );
+
+/**
+ * Related products carousel ("منتجات قد تعجبك").
+ */
+function fares_related_products_carousel(): void {
+	global $product;
+	if ( ! $product instanceof WC_Product ) {
+		return;
+	}
+
+	$related = fares_get_related_products( $product, 8 );
+	if ( empty( $related ) ) {
+		return;
+	}
+
+	echo '<section class="fares-related" data-fares-carousel>';
+	get_template_part(
+		'template-parts/global/section-title',
+		null,
+		array( 'title' => __( 'منتجات قد تعجبك', 'fares-theme' ) )
+	);
+	get_template_part( 'template-parts/global/product-carousel', null, array( 'products' => $related ) );
+	echo '</section>';
+}
+add_action( 'woocommerce_after_single_product_summary', 'fares_related_products_carousel', 20 );
+
+/**
+ * Buy-now button beside add-to-cart (behavior lives in fares-store).
+ */
+function fares_buy_now_button(): void {
+	global $product;
+	if ( ! $product instanceof WC_Product || ! $product->is_in_stock() ) {
+		return;
+	}
+	// Only the clicked submit's name is posted, and `add-to-cart` lives on
+	// the main button — formaction carries both params for this button.
+	$buy_now_url = add_query_arg(
+		array(
+			'add-to-cart'   => $product->get_id(),
+			'fares_buy_now' => 1,
+		),
+		$product->get_permalink()
+	);
+	printf(
+		'<button type="submit" formaction="%s" class="fares-button--outline fares-buy-now">%s</button>',
+		esc_url( $buy_now_url ),
+		esc_html__( 'اشتري الان', 'fares-theme' )
+	);
+}
+add_action( 'woocommerce_after_add_to_cart_button', 'fares_buy_now_button' );
+
+/**
+ * Quantity stepper +/− buttons via the quantity-input hooks (no template
+ * override needed). DOM-first button renders at inline-start (right in
+ * RTL) = plus, per the Figma stepper.
+ */
+add_action(
+	'woocommerce_before_quantity_input_field',
+	static function (): void {
+		printf(
+			'<button type="button" class="fares-qty-btn" data-fares-qty="up" aria-label="%s">+</button>',
+			esc_attr__( 'زيادة الكمية', 'fares-theme' )
+		);
+	}
+);
+add_action(
+	'woocommerce_after_quantity_input_field',
+	static function (): void {
+		printf(
+			'<button type="button" class="fares-qty-btn" data-fares-qty="down" aria-label="%s">−</button>',
+			esc_attr__( 'تقليل الكمية', 'fares-theme' )
+		);
+	}
+);

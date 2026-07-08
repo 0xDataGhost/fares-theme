@@ -52,11 +52,24 @@ function fares_asset_manifest(): array {
 			'when'  => null,
 			'defer' => true,
 		),
+		'fares-product'    => array(
+			'src'  => 'assets/css/dist/product.css',
+			'deps' => array( 'fares-tokens' ),
+			'type' => 'style',
+			'when' => static fn(): bool => is_product() || is_cart(),
+		),
 		'fares-carousel'   => array(
 			'src'   => 'assets/js/dist/carousel.js',
 			'deps'  => array(),
 			'type'  => 'script',
 			'when'  => static fn(): bool => is_front_page() || is_product() || is_woocommerce(),
+			'defer' => true,
+		),
+		'fares-product-js' => array(
+			'src'   => 'assets/js/dist/product.js',
+			'deps'  => array(),
+			'type'  => 'script',
+			'when'  => static fn(): bool => is_product() || is_cart(),
 			'defer' => true,
 		),
 	);

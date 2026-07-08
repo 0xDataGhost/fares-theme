@@ -141,6 +141,54 @@ if ( ! wc_get_product_id_by_sku( $gta_sku ) ) {
 	WP_CLI::log( "Variable product: GTA 6 (#{$variable->get_id()})" );
 }
 
+// Rich descriptions + up-sells + reviews for the single-product surface
+// (idempotent — set every run).
+$vip_id = wc_get_product_id_by_sku( 'plus-iphone-vip' );
+if ( $vip_id ) {
+	$vip = wc_get_product( $vip_id );
+	if ( $vip && '' === $vip->get_description() ) {
+		$vip->set_description(
+			"مميزات الاشتراك:\n\n• تحديثات دورية للتطبيقات.\n• تفعيل فوري بعد الدفع مباشرة.\n• دعم فني على مدار الساعة.\n\nشروط الاشتراك في البلس:\n\n• مدة الاشتراك سنة كاملة.\n• الاشتراك مخصص لجهاز واحد فقط ولا يمكن نقله.\n• لا يمكن إلغاء الاشتراك أو استرداد المبلغ بعد التفعيل.\n\nالضمان:\n\n• ضمان الجهاز طوال مدة الاشتراك.\n• إذا تم إغلاق شهادة قبل مرور فترة الضمان يتم تعويض مجاني لمرة واحدة فقط."
+		);
+	}
+	$upsells = array_filter(
+		array(
+			wc_get_product_id_by_sku( 'gta6-standard' ),
+			wc_get_product_id_by_sku( 'plus-android' ),
+		)
+	);
+	if ( $vip ) {
+		$vip->set_upsell_ids( $upsells );
+		$vip->save();
+	}
+
+	// A few product reviews.
+	if ( 0 === (int) get_comments( array( 'post_id' => $vip_id, 'count' => true, 'type' => 'review' ) ) ) {
+		$reviews = array(
+			array( 'olo alsmadi', 'منتج ممتاز والتفعيل فوري فعلاً', 5 ),
+			array( 'احمد جاسم', 'تجربة شراء سلسة وأنصح فيه', 5 ),
+			array( 'hailan salem', 'جيد جداً مع بعض التأخير البسيط في الرد', 4 ),
+		);
+		foreach ( $reviews as [ $r_author, $r_body, $r_rating ] ) {
+			$cid = wp_insert_comment(
+				array(
+					'comment_post_ID'      => $vip_id,
+					'comment_author'       => $r_author,
+					'comment_author_email' => sanitize_title( $r_author ) . '@example.com',
+					'comment_content'      => $r_body,
+					'comment_type'         => 'review',
+					'comment_approved'     => 1,
+				)
+			);
+			if ( $cid ) {
+				update_comment_meta( $cid, 'rating', $r_rating );
+				update_comment_meta( $cid, 'verified', 1 );
+			}
+		}
+		WC_Comments::clear_transients( $vip_id );
+	}
+}
+
 // Ribbon badges (idempotent — set every run).
 $ribbon_skus = array( 'plus-iphone-vip', 'plus-android', 'plus-ipad', 'ps5-plus-deluxe', 'ps5-plus-essential', 'ps5-plus-extra' );
 foreach ( $ribbon_skus as $ribbon_sku ) {

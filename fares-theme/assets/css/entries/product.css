@@ -1,0 +1,5 @@
+/**
+ * Single-product bundle entry — built to dist/product.css.
+ */
+
+@import url("../pages/product.css");

@@ -1,0 +1,431 @@
+/**
+ * Single product page (Figma 9:2): two-column summary/gallery, purchase
+ * box, stock badge, purchase count, bought-together, urgency, reviews.
+ */
+
+.single-product div.product {
+	display: grid;
+	grid-template-columns: 1fr minmax(0, var(--fares-purchase-box-w));
+	gap: var(--fares-space-10);
+	align-items: start;
+	padding-block-start: var(--fares-space-6);
+}
+
+@media (width <= 781px) {
+	.single-product div.product {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* RTL grid: column 1 = inline-start (right) = summary; gallery sits in
+   column 2 (left) per the design. Explicit placement so later full-width
+   children (reviews, related) flow below in DOM order. */
+.single-product div.product .summary {
+	grid-column: 1;
+	grid-row: 1;
+}
+
+.single-product div.product .woocommerce-product-gallery {
+	grid-column: 2;
+	grid-row: 1;
+	border-radius: var(--fares-radius-md);
+	overflow: hidden;
+}
+
+@media (width <= 781px) {
+	.single-product div.product .summary {
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	.single-product div.product .woocommerce-product-gallery {
+		grid-column: 1;
+		grid-row: 1;
+	}
+}
+
+.single-product .product_title {
+	font: var(--fares-text-product-title);
+	margin-block-end: var(--fares-space-3);
+}
+
+.single-product .woocommerce-product-rating {
+	display: flex;
+	align-items: center;
+	gap: var(--fares-space-3);
+	color: var(--fares-color-rating-star);
+	font: var(--fares-text-body-sm);
+}
+
+.single-product .woocommerce-review-link {
+	color: var(--fares-color-text-secondary);
+}
+
+/* Stock badge */
+.fares-stock-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--fares-space-3);
+	color: var(--fares-color-success-text);
+	font: var(--fares-font-weight-semibold) var(--fares-font-size-md) / var(--fares-line-height-24) var(--fares-font-family);
+	margin-block: var(--fares-space-3);
+}
+
+.fares-stock-badge__dot {
+	inline-size: var(--fares-stock-dot);
+	block-size: var(--fares-stock-dot);
+	border-radius: var(--fares-radius-full);
+	background: var(--fares-color-success);
+	box-shadow: var(--fares-shadow-stock-halo);
+	animation: fares-pulse 2s infinite;
+}
+
+@keyframes fares-pulse {
+	0% { box-shadow: 0 0 0 0 var(--fares-color-success-halo); }
+	70% { box-shadow: 0 0 0 6px transparent; }
+	100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fares-stock-badge__dot {
+		animation: none;
+	}
+}
+
+/* Long description */
+.fares-product-description {
+	font: var(--fares-text-body);
+	color: var(--fares-color-text-primary);
+	margin-block: var(--fares-space-6);
+}
+
+.fares-product-description p {
+	margin-block-end: var(--fares-space-4);
+}
+
+/* Purchase count */
+.fares-purchase-count {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: var(--fares-color-surface-1);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-4) var(--fares-space-6);
+	font: var(--fares-text-body-sm);
+	margin-block-end: var(--fares-space-6);
+}
+
+/* Purchase box */
+.fares-purchase-box {
+	background: var(--fares-color-surface-1);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-7);
+}
+
+.fares-purchase-box__label {
+	display: block;
+	font: var(--fares-font-weight-bold) var(--fares-font-size-sm) / var(--fares-line-height-20) var(--fares-font-family);
+	color: var(--fares-color-text-secondary);
+}
+
+.fares-purchase-box__amount ins {
+	font: var(--fares-text-price);
+	color: var(--fares-color-sale);
+	text-decoration: none;
+}
+
+.fares-purchase-box__amount del {
+	font: var(--fares-text-price-compare);
+	color: var(--fares-color-text-secondary);
+	margin-inline-start: var(--fares-space-3);
+}
+
+/* Quantity stepper — [+][input][−] DOM = design's stepper in RTL */
+.single-product .quantity,
+.woocommerce-cart .quantity {
+	display: inline-flex;
+	align-items: center;
+	border: var(--fares-border-w) solid var(--fares-color-border-strong);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-1);
+	background: var(--fares-color-surface-1);
+}
+
+.fares-qty-btn {
+	inline-size: 40px;
+	block-size: 38px;
+	display: inline-grid;
+	place-content: center;
+	border-radius: var(--fares-stepper-btn-radius);
+	color: var(--fares-color-text-primary);
+	font-size: var(--fares-font-size-md);
+	transition: background var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-qty-btn:hover {
+	background: var(--fares-color-surface-2);
+}
+
+.single-product .quantity .qty,
+.woocommerce-cart .quantity .qty {
+	inline-size: 44px;
+	block-size: 38px;
+	text-align: center;
+	background: var(--fares-color-surface-1);
+	border: 0;
+	border-inline: var(--fares-border-w) solid var(--fares-color-border);
+	border-radius: 0;
+	padding: 0;
+	appearance: textfield;
+}
+
+.single-product .quantity .qty::-webkit-inner-spin-button,
+.woocommerce-cart .quantity .qty::-webkit-inner-spin-button {
+	appearance: none;
+}
+
+/* Add-to-cart + buy-now row */
+.single-product form.cart {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--fares-space-6);
+	padding-block: var(--fares-space-7) var(--fares-space-5);
+}
+
+.single-product form.cart .single_add_to_cart_button {
+	flex: 1;
+	min-inline-size: 200px;
+	font: var(--fares-text-button-sm);
+	color: var(--fares-color-text-primary);
+	background: var(--fares-gradient-primary);
+	border-radius: var(--fares-button-radius-lg);
+	padding: var(--fares-button-pad);
+	text-align: center;
+}
+
+.single-product form.cart .single_add_to_cart_button:hover {
+	background: var(--fares-gradient-primary-hover);
+}
+
+.fares-buy-now {
+	flex: 1;
+	min-inline-size: 200px;
+	font: var(--fares-text-button);
+	color: var(--fares-color-text-primary);
+	border: var(--fares-border-w) solid var(--fares-color-text-secondary);
+	border-radius: var(--fares-button-radius-lg);
+	padding: var(--fares-button-pad);
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.fares-buy-now:hover {
+	background: var(--fares-color-surface-2);
+}
+
+/* Variations table → dark, pill-adjacent styling (full pills = v1.5) */
+.single-product table.variations {
+	inline-size: 100%;
+}
+
+.single-product table.variations label {
+	font: var(--fares-font-weight-bold) var(--fares-font-size-sm) / var(--fares-line-height-20) var(--fares-font-family);
+}
+
+.single-product .reset_variations {
+	color: var(--fares-color-text-secondary);
+	font: var(--fares-text-body-sm);
+}
+
+/* Payment tiles inside purchase box */
+.fares-purchase-box__payments .fares-footer__payments {
+	justify-content: flex-start;
+	padding-block: var(--fares-space-6) 0;
+}
+
+/* Bought together */
+.fares-bought-together {
+	background: var(--fares-color-surface-1);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-7);
+	margin-block-start: var(--fares-space-6);
+}
+
+.fares-bought-together__title {
+	font: var(--fares-font-weight-bold) var(--fares-font-size-lg) / var(--fares-line-height-28) var(--fares-font-family);
+}
+
+.fares-bought-together__subtitle {
+	font: var(--fares-text-body-sm);
+	color: var(--fares-color-text-secondary);
+	margin-block-start: var(--fares-space-2);
+}
+
+.fares-bought-together__list {
+	padding-block: var(--fares-space-6) 0;
+}
+
+.fares-bought-together__row {
+	display: flex;
+	align-items: center;
+	gap: var(--fares-space-5);
+	padding-block: var(--fares-space-5);
+}
+
+.fares-bought-together__row + .fares-bought-together__row {
+	border-block-start: var(--fares-border-w) solid var(--fares-color-border);
+}
+
+.fares-bought-together__thumb img {
+	inline-size: 48px;
+	block-size: 48px;
+	border-radius: var(--fares-radius-sm);
+	object-fit: cover;
+}
+
+.fares-bought-together__name {
+	flex: 1;
+	font: var(--fares-text-body-sm);
+}
+
+.fares-bought-together__price {
+	font: var(--fares-font-weight-semibold) var(--fares-font-size-sm) / var(--fares-line-height-20) var(--fares-font-family);
+}
+
+.fares-bought-together__price del {
+	color: var(--fares-color-text-secondary);
+	margin-inline-start: var(--fares-space-2);
+}
+
+.fares-bought-together__add {
+	font: var(--fares-text-caption);
+	padding: var(--fares-space-2) var(--fares-space-5);
+}
+
+/* Urgency banner */
+.fares-urgency {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--fares-space-6);
+	background: var(--fares-color-surface-1);
+	border-radius: var(--fares-radius-xs);
+	padding: var(--fares-space-6);
+	margin-block-start: var(--fares-space-6);
+}
+
+.fares-urgency__title {
+	font: var(--fares-font-weight-semibold) var(--fares-font-size-xl) / var(--fares-line-height-28) var(--fares-font-family);
+}
+
+.fares-urgency__subtitle {
+	font: var(--fares-text-body);
+	color: var(--fares-color-text-primary);
+}
+
+.fares-urgency__cta {
+	background: var(--fares-gray-50);
+	border: var(--fares-border-w) solid var(--fares-gray-50);
+	color: var(--fares-color-text-muted);
+	border-radius: var(--fares-radius-xs);
+	font: var(--fares-text-button);
+	padding: var(--fares-button-pad);
+	white-space: nowrap;
+}
+
+/* Reviews */
+.fares-reviews {
+	grid-column: 1 / -1;
+	margin-block-start: var(--fares-space-section);
+}
+
+.fares-reviews__summary {
+	display: flex;
+	align-items: baseline;
+	gap: var(--fares-space-11);
+	flex-wrap: wrap;
+}
+
+.fares-reviews__stat {
+	font: var(--fares-text-stat);
+}
+
+.fares-reviews__label,
+.fares-reviews__count {
+	font: var(--fares-font-weight-bold) var(--fares-font-size-lg) / var(--fares-line-height-28) var(--fares-font-family);
+}
+
+.fares-reviews__list {
+	list-style: none;
+	padding: 0;
+	margin-block: var(--fares-space-8);
+}
+
+.fares-reviews__list .review {
+	border-block-end: var(--fares-border-w) solid var(--fares-color-border-light);
+	padding-block: var(--fares-space-8);
+}
+
+.fares-reviews__list .avatar {
+	inline-size: var(--fares-avatar);
+	block-size: var(--fares-avatar);
+	border-radius: var(--fares-radius-full);
+	background: var(--fares-gray-100);
+}
+
+.fares-reviews__list .comment-text {
+	display: flex;
+	flex-direction: column;
+	gap: var(--fares-space-3);
+}
+
+.fares-reviews__list .star-rating {
+	color: var(--fares-color-rating-star);
+}
+
+.fares-reviews__list .woocommerce-review__author {
+	font: var(--fares-text-review-name);
+}
+
+.fares-reviews__list .woocommerce-review__published-date {
+	font: var(--fares-font-weight-medium) var(--fares-font-size-sm) / var(--fares-line-height-20) var(--fares-font-family);
+}
+
+.fares-reviews__pagination {
+	display: flex;
+	justify-content: center;
+}
+
+.fares-reviews__form {
+	max-inline-size: 640px;
+	margin-block-start: var(--fares-space-10);
+}
+
+.fares-reviews__form .comment-reply-title {
+	font: var(--fares-text-section-title);
+	display: block;
+	margin-block-end: var(--fares-space-6);
+}
+
+.fares-reviews__form p,
+.fares-reviews__form .comment-form-rating {
+	display: flex;
+	flex-direction: column;
+	gap: var(--fares-space-2);
+	margin-block-end: var(--fares-space-5);
+}
+
+.fares-reviews__form .submit {
+	background: var(--fares-gradient-primary);
+	color: var(--fares-color-text-primary);
+	font: var(--fares-text-button);
+	border-radius: var(--fares-radius-xs);
+	padding: var(--fares-button-pad);
+}
+
+/* Related products */
+.fares-related {
+	grid-column: 1 / -1;
+	margin-block-start: var(--fares-space-section);
+}
