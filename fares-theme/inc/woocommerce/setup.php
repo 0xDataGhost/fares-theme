@@ -24,10 +24,12 @@ add_action( 'after_setup_theme', 'fares_wc_setup' );
 add_filter( 'loop_shop_columns', static fn(): int => 4 );
 
 /**
- * Replace Woo's default content wrappers with the theme's.
+ * Replace Woo's default content wrappers with the theme's; the design has
+ * no sidebar anywhere.
  */
 remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10 );
 remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10 );
+remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
 
 add_action(
 	'woocommerce_before_main_content',

@@ -1,0 +1,67 @@
+/**
+ * Form controls — inputs, selects, textareas, checkboxes on dark surfaces.
+ */
+
+.fares-input,
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+textarea,
+select {
+	font: var(--fares-text-input);
+	color: var(--fares-color-text-primary);
+	background: var(--fares-color-surface-1);
+	border: var(--fares-border-w) solid var(--fares-color-border-input);
+	border-radius: var(--fares-radius-xs);
+	padding: var(--fares-space-3) var(--fares-space-5);
+	transition: border-color var(--fares-duration-fast) var(--fares-ease);
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+	border-color: var(--fares-color-focus-ring);
+	outline: none;
+}
+
+::placeholder {
+	color: var(--fares-color-text-secondary);
+	opacity: 1;
+}
+
+/* Checkbox — 22px, radius 6, dark fill with white check (bought-together) */
+.fares-checkbox {
+	appearance: none;
+	inline-size: 22px;
+	block-size: 22px;
+	border: var(--fares-border-w-strong) solid var(--fares-color-border-strong);
+	border-radius: var(--fares-radius-sm);
+	background: var(--fares-color-background);
+	display: inline-grid;
+	place-content: center;
+	cursor: pointer;
+}
+
+.fares-checkbox::before {
+	content: "";
+	inline-size: 5px;
+	block-size: 9px;
+	border-block-end: var(--fares-border-w-strong) solid var(--fares-color-text-primary);
+	border-inline-end: var(--fares-border-w-strong) solid var(--fares-color-text-primary);
+	transform: rotate(45deg) scale(0);
+	transition: transform var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-checkbox:checked::before {
+	transform: rotate(45deg) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fares-input,
+	.fares-checkbox::before {
+		transition: none;
+	}
+}
