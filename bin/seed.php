@@ -299,18 +299,46 @@ if ( ! $menu ) {
 
 /* --------------------------------------------------------------- serials */
 
-// Seed a few activation codes if the serials plugin is active.
-if ( function_exists( 'wcsn_insert_serial_number' ) && ! empty( $product_ids['plus-iphone-vip'] ) ) {
-	for ( $i = 1; $i <= 3; $i++ ) {
-		wcsn_insert_serial_number(
-			array(
-				'serial_key' => sprintf( 'FARES-DEV-%04d-%04d', $product_ids['plus-iphone-vip'], $i ),
-				'product_id' => $product_ids['plus-iphone-vip'],
-				'status'     => 'available',
-			)
-		);
+// Enable serial delivery on the VIP product and stock a few dev keys.
+$vip_serial_id = wc_get_product_id_by_sku( 'plus-iphone-vip' );
+if ( function_exists( 'wcsn_insert_key' ) && $vip_serial_id ) {
+	update_post_meta( $vip_serial_id, '_is_serial_number', 'yes' );
+
+	$existing_keys = function_exists( 'wcsn_get_keys' )
+		? (int) wcsn_get_keys( array( 'product_id' => $vip_serial_id ), true )
+		: 0;
+
+	if ( 0 === $existing_keys ) {
+		for ( $i = 1; $i <= 5; $i++ ) {
+			$inserted = wcsn_insert_key(
+				array(
+					'serial_key' => sprintf( 'FARES-DEV-%04d-%04d', $vip_serial_id, $i ),
+					'product_id' => $vip_serial_id,
+					'status'     => 'available',
+				)
+			);
+			if ( is_wp_error( $inserted ) ) {
+				WP_CLI::warning( 'Serial insert: ' . $inserted->get_error_message() );
+				break;
+			}
+		}
+		WP_CLI::log( 'Serial keys seeded.' );
 	}
-	WP_CLI::log( 'Serial numbers seeded.' );
+}
+
+// Payment gateway for dev checkout flows (COD — no external processor).
+$cod = get_option( 'woocommerce_cod_settings', array() );
+if ( ! is_array( $cod ) || ( $cod['enabled'] ?? 'no' ) !== 'yes' ) {
+	$cod = array_merge(
+		is_array( $cod ) ? $cod : array(),
+		array(
+			'enabled'      => 'yes',
+			'title'        => 'الدفع عند الاستلام (تجريبي)',
+			'instructions' => 'بوابة تجريبية لبيئة التطوير.',
+		)
+	);
+	update_option( 'woocommerce_cod_settings', $cod );
+	WP_CLI::log( 'COD gateway enabled.' );
 }
 
 // Woo housekeeping so prices/currency render like the design.

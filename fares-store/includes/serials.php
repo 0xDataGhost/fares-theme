@@ -30,3 +30,16 @@ function fares_store_serials_dependency_notice(): void {
 		. '</p></div>';
 }
 add_action( 'admin_notices', 'fares_store_serials_dependency_notice' );
+
+/**
+ * Order-received message for a code-delivery store.
+ *
+ * @param string        $text  Default thank-you text.
+ * @param WC_Order|null $order Order.
+ * @return string
+ */
+function fares_store_order_received_text( string $text, $order ): string {
+	unset( $order );
+	return __( 'تم استلام طلبك بنجاح — سيصلك كود التفعيل على بريدك الإلكتروني خلال لحظات.', 'fares-store' );
+}
+add_filter( 'woocommerce_thankyou_order_received_text', 'fares_store_order_received_text', 10, 2 );

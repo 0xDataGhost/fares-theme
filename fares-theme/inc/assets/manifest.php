@@ -58,6 +58,25 @@ function fares_asset_manifest(): array {
 			'type' => 'style',
 			'when' => static fn(): bool => is_product() || is_cart(),
 		),
+		'fares-cart'       => array(
+			'src'  => 'assets/css/dist/cart.css',
+			'deps' => array( 'fares-tokens' ),
+			'type' => 'style',
+			'when' => static fn(): bool => is_cart(),
+		),
+		'fares-checkout'   => array(
+			'src'  => 'assets/css/dist/checkout.css',
+			'deps' => array( 'fares-tokens' ),
+			'type' => 'style',
+			'when' => static fn(): bool => is_checkout(),
+		),
+		'fares-cart-js'    => array(
+			'src'   => 'assets/js/dist/cart.js',
+			'deps'  => array(),
+			'type'  => 'script',
+			'when'  => static fn(): bool => is_cart(),
+			'defer' => true,
+		),
 		'fares-carousel'   => array(
 			'src'   => 'assets/js/dist/carousel.js',
 			'deps'  => array(),

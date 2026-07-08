@@ -93,6 +93,15 @@ function fares_archive_testimonials(): void {
 add_action( 'woocommerce_after_main_content', 'fares_archive_testimonials', 20 );
 
 /* -------------------------------------------------------------------------
+ * Cart — design shows no cross-sells on the cart page.
+ * ---------------------------------------------------------------------- */
+remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display' );
+
+// Keep variation names clean so attributes render as cart item data
+// (styled into the design's pills) instead of inside the product title.
+add_filter( 'woocommerce_product_variation_title_include_attributes', '__return_false' );
+
+/* -------------------------------------------------------------------------
  * Single product — summary re-composed via hooks (Figma 9:2).
  * Order: title → rating+count+stock → long description → purchase count →
  * purchase box (price/qty/CTAs/payments) → bought-together → urgency.

@@ -1,0 +1,121 @@
+/**
+ * Checkout (virtual-only: name/email/phone + order review) — hooks/CSS
+ * only, no template override.
+ */
+
+.woocommerce-checkout form.checkout {
+	display: grid;
+	grid-template-columns: 1fr var(--fares-cart-summary-w);
+	gap: var(--fares-cart-gap);
+	align-items: start;
+	padding-block: var(--fares-space-6) var(--fares-space-section);
+}
+
+@media (width <= 781px) {
+	.woocommerce-checkout form.checkout {
+		grid-template-columns: 1fr;
+	}
+}
+
+.woocommerce-checkout #customer_details {
+	background: var(--fares-color-surface-1);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-9);
+}
+
+.woocommerce-checkout .woocommerce-billing-fields h3 {
+	font: var(--fares-text-section-title);
+	margin-block-end: var(--fares-space-6);
+}
+
+.woocommerce-checkout .form-row {
+	display: flex;
+	flex-direction: column;
+	gap: var(--fares-space-2);
+	margin-block-end: var(--fares-space-5);
+}
+
+.woocommerce-checkout .form-row label {
+	font: var(--fares-text-body-sm);
+}
+
+.woocommerce-checkout .form-row .required {
+	color: var(--fares-color-danger);
+	text-decoration: none;
+}
+
+/* Order review box */
+.woocommerce-checkout #order_review_heading {
+	display: none;
+}
+
+.woocommerce-checkout #order_review {
+	background: var(--fares-color-surface-1);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-9);
+	filter: drop-shadow(var(--fares-shadow-float));
+}
+
+.woocommerce-checkout .shop_table {
+	inline-size: 100%;
+	border-collapse: collapse;
+}
+
+.woocommerce-checkout .shop_table th,
+.woocommerce-checkout .shop_table td {
+	font: var(--fares-text-body-sm);
+	padding-block: var(--fares-space-4);
+	text-align: start;
+	border: 0;
+}
+
+.woocommerce-checkout .shop_table td {
+	text-align: end;
+}
+
+.woocommerce-checkout .shop_table .order-total th,
+.woocommerce-checkout .shop_table .order-total td {
+	font-size: var(--fares-font-size-lg);
+	font-weight: var(--fares-font-weight-bold);
+}
+
+.woocommerce-checkout #payment {
+	background: none;
+}
+
+.woocommerce-checkout #payment .wc_payment_method label {
+	font: var(--fares-text-body-sm);
+}
+
+.woocommerce-checkout #place_order {
+	inline-size: 100%;
+	font: var(--fares-text-button);
+	color: var(--fares-color-text-primary);
+	background: var(--fares-gradient-primary);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-button-pad);
+	margin-block-start: var(--fares-space-6);
+}
+
+.woocommerce-checkout #place_order:hover {
+	background: var(--fares-gradient-primary-hover);
+}
+
+/* Order received */
+.woocommerce-order .woocommerce-thankyou-order-received {
+	font: var(--fares-text-section-title);
+	background: var(--fares-color-surface-1);
+	border-inline-start: 3px solid var(--fares-color-success);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-8);
+	margin-block: var(--fares-space-8);
+}
+
+.woocommerce-order ul.order_details {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--fares-space-8);
+	list-style: none;
+	padding: var(--fares-space-6) 0;
+	font: var(--fares-text-body-sm);
+}

@@ -45,6 +45,34 @@ function fares_single_add_to_cart_text( string $text, WC_Product $product ): str
 add_filter( 'woocommerce_product_single_add_to_cart_text', 'fares_single_add_to_cart_text', 10, 2 );
 
 /**
+ * Cart totals labels per the design ("ملخص الطلب" / "اتمام الطلب").
+ *
+ * @param string $translation Translated string.
+ * @param string $text        Original string.
+ * @param string $domain      Text domain.
+ * @return string
+ */
+function fares_wc_labels( string $translation, string $text, string $domain ): string {
+	if ( 'woocommerce' !== $domain ) {
+		return $translation;
+	}
+
+	switch ( $text ) {
+		case 'Cart totals':
+			return __( 'ملخص الطلب', 'fares-theme' );
+		case 'Proceed to checkout':
+			return __( 'اتمام الطلب', 'fares-theme' );
+		case 'Subtotal':
+			return __( 'مجموع المنتجات', 'fares-theme' );
+		case 'Total':
+			return __( 'الإجمالى', 'fares-theme' );
+	}
+
+	return $translation;
+}
+add_filter( 'gettext', 'fares_wc_labels', 20, 3 );
+
+/**
  * Archive result count: replace Woo's "Showing all X results" with the
  * design's "منتجات N" heading.
  */
