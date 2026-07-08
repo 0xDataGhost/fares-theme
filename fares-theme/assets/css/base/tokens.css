@@ -1,0 +1,285 @@
+/**
+ * Fares Design Token System — THE single source of truth for all visual values.
+ *
+ * Extracted from Figma file YRvxuf03R3lfOTS8daLog5 via MCP design-context
+ * passes over all 8 frames (see plan: Design Token System). No raw color/
+ * spacing/radius/shadow/type/transition values may exist outside this file.
+ *
+ * Tiers:
+ *   1. Foundational (--fares-neutral-*, --fares-blue-*, scales) — referenced
+ *      ONLY by semantic tokens below, never by component CSS.
+ *   2. Semantic + component tokens — what all other CSS consumes.
+ *
+ * [DERIVED] marks values that do not exist in the static design (hover,
+ * motion, z-index, breakpoints…) and were derived per documented rules.
+ */
+
+:root {
+	/* ============================================= foundational: color */
+
+	/* Neutrals */
+	--fares-neutral-0: #000;      /* page bg — all frames */
+	--fares-neutral-900: #121212;    /* universal surface — cards/boxes/inputs */
+	--fares-neutral-white: #fff;
+	--fares-white-alpha-8: rgb(255, 255, 255, 0.08);
+
+	/* Gray ramp (design uses Tailwind-derived grays) */
+	--fares-gray-50: #f9fafb;        /* urgency button bg (9:916) */
+	--fares-gray-100: #f3f4f6;       /* thumb placeholder, review avatar fallback */
+	--fares-gray-200: #e5e7eb;       /* OOS button border, footer icon boxes, review dividers */
+	--fares-gray-300: #d1d5db;       /* sort dropdown, slider arrow borders */
+	--fares-gray-400: #9ca3af;       /* urgency button text */
+	--fares-gray-500: #6b7280;       /* OOS button label */
+	--fares-gray-muted: #b0b0b0;     /* the design's own muted gray — labels, breadcrumbs */
+
+	/* Brand blues */
+	--fares-blue-600: #2c6a96;       /* gradient start — every CTA */
+	--fares-blue-400: #4a9bd4;       /* gradient end */
+	--fares-blue-500: #3982b9;       /* solid mid — announcement bar (1:1883) */
+
+	/* Reds */
+	--fares-red-500: #ef4444;        /* sale price, required asterisk */
+	--fares-red-600: #e90000;        /* mobile nav count badge (2:8690) */
+	--fares-red-300: #f87171;        /* remove-item button (2:8013) */
+	--fares-red-stamp: #e53935;      /* OOS stamp (1:3554) */
+
+	/* Greens */
+	--fares-green-600: #16a34a;      /* stock dot (9:237) */
+	--fares-green-300: #4ade80;      /* "متوفر" label (9:239) */
+	--fares-green-halo: rgb(34, 197, 94, 0.45);
+
+	/* Oranges / ambers */
+	--fares-orange-400: #e97e57;     /* ribbon badge (1:2204) */
+	--fares-amber-star: #f6973f;     /* rating star SVG fill */
+	--fares-amber-400: #fbbf24;      /* review "purchased" badge (9:961) */
+
+	/* Misc extracted one-offs */
+	--fares-ink-inverse: #231f1e;    /* icon on white floating button (1:4064) */
+
+	/* ========================================== semantic: color */
+	--fares-color-background: var(--fares-neutral-0);
+	--fares-color-surface-1: var(--fares-neutral-900);
+	--fares-color-surface-2: var(--fares-white-alpha-8);
+	--fares-color-surface-inverse: var(--fares-neutral-white);
+	--fares-color-header-bg: var(--fares-color-background);
+	--fares-color-footer-bg: var(--fares-color-background);
+	--fares-color-announcement-bg: var(--fares-blue-500);
+	--fares-color-primary: var(--fares-blue-500);
+	--fares-color-primary-start: var(--fares-blue-600);
+	--fares-color-primary-end: var(--fares-blue-400);
+
+	/* Angle normalized from per-instance jitter (3.9°–16.2°) to dominant 6°. */
+	--fares-gradient-primary: linear-gradient(6deg, var(--fares-color-primary-start) 0%, var(--fares-color-primary-end) 100%);
+
+	/* [DERIVED] hover/active: stops darkened ~8% / ~12% (no states in file). */
+	--fares-gradient-primary-hover: linear-gradient(6deg, #255a80 0%, #3c8ac1 100%);
+	--fares-gradient-primary-active: linear-gradient(6deg, #204f71 0%, #337cb1 100%);
+	--fares-color-text-primary: var(--fares-neutral-white);
+	--fares-color-text-secondary: var(--fares-gray-muted);
+	--fares-color-text-muted: var(--fares-gray-500);
+	--fares-color-text-inverse: var(--fares-ink-inverse);
+	--fares-color-sale: var(--fares-red-500);
+	--fares-color-danger: var(--fares-red-500);
+	--fares-color-danger-strong: var(--fares-red-600);
+	--fares-color-danger-soft: var(--fares-red-300);
+	--fares-color-success: var(--fares-green-600);
+	--fares-color-success-text: var(--fares-green-300);
+	--fares-color-success-halo: var(--fares-green-halo);
+	--fares-color-warning: var(--fares-amber-400);
+	--fares-color-rating-star: var(--fares-amber-star);
+	--fares-color-ribbon-bg: var(--fares-orange-400);
+	--fares-color-ribbon-text: var(--fares-neutral-white);
+	--fares-color-border: var(--fares-white-alpha-8);
+	--fares-color-border-strong: var(--fares-neutral-white);
+	--fares-color-border-light: var(--fares-gray-200);
+	--fares-color-border-input: var(--fares-gray-300);
+	--fares-color-disabled-bg: rgb(255, 255, 255, 0.5);
+	--fares-color-disabled-text: var(--fares-gray-500);
+	--fares-color-payment-tile-bg: var(--fares-neutral-white);
+
+	/* [DERIVED] engineering colors absent from the static design */
+	--fares-color-overlay: rgb(0, 0, 0, 0.6);
+	--fares-color-focus-ring: var(--fares-blue-400);
+	--fares-color-skeleton: var(--fares-white-alpha-8);
+	--fares-color-selection: rgb(57, 130, 185, 0.3);
+	--fares-color-scrollbar: var(--fares-white-alpha-8);
+
+	/* ====================================== foundational: typography */
+	--fares-font-family: "Kufam", system-ui, sans-serif;
+	--fares-font-size-2xs: 0.7rem;    /* 11.2px */
+	--fares-font-size-xs: 0.75rem;    /* 12px */
+	--fares-font-size-sm-: 0.8rem;    /* 12.8px */
+	--fares-font-size-sm: 0.875rem;   /* 14px */
+	--fares-font-size-md-: 0.9rem;    /* 14.4px */
+	--fares-font-size-base: 0.9375rem;/* 15px */
+	--fares-font-size-md: 1rem;       /* 16px */
+	--fares-font-size-lg: 1.125rem;   /* 18px */
+	--fares-font-size-xl: 1.25rem;    /* 20px */
+	--fares-font-size-2xl: 1.5rem;    /* 24px */
+	--fares-font-size-3xl: 2.25rem;   /* 36px */
+	--fares-font-weight-regular: 400;
+	--fares-font-weight-medium: 500;
+	--fares-font-weight-semibold: 600;
+	--fares-font-weight-bold: 700;
+	--fares-line-height-tight: 1;
+	--fares-line-height-16: 16px;
+	--fares-line-height-19: 19px;
+	--fares-line-height-20: 20px;
+	--fares-line-height-22: 22px;
+	--fares-line-height-24: 24px;
+	--fares-line-height-26: 26px;
+	--fares-line-height-28: 28px;
+	--fares-line-height-32: 32px;
+	--fares-line-height-40: 40px;
+
+	/* ========================================== semantic: typography */
+	--fares-text-page-title: var(--fares-font-weight-bold) var(--fares-font-size-xl) / var(--fares-line-height-28) var(--fares-font-family);
+	--fares-text-product-title: var(--fares-font-weight-bold) var(--fares-font-size-2xl) / var(--fares-line-height-32) var(--fares-font-family);
+	--fares-text-section-title: var(--fares-font-weight-bold) var(--fares-font-size-lg) / var(--fares-line-height-22) var(--fares-font-family);
+	--fares-text-card-title: var(--fares-font-weight-semibold) var(--fares-font-size-md-) / var(--fares-line-height-19) var(--fares-font-family);
+	--fares-text-price: var(--fares-font-weight-bold) var(--fares-font-size-lg) / var(--fares-line-height-28) var(--fares-font-family);
+	--fares-text-price-compare: var(--fares-font-weight-semibold) var(--fares-font-size-sm-) / var(--fares-line-height-20) var(--fares-font-family);
+	--fares-text-button: var(--fares-font-weight-bold) var(--fares-font-size-sm) / var(--fares-line-height-20) var(--fares-font-family);
+	--fares-text-button-sm: var(--fares-font-weight-bold) var(--fares-font-size-sm-) / var(--fares-line-height-20) var(--fares-font-family);
+	--fares-text-body: var(--fares-font-weight-regular) var(--fares-font-size-base) / var(--fares-line-height-26) var(--fares-font-family);
+	--fares-text-body-sm: var(--fares-font-weight-regular) var(--fares-font-size-sm) / var(--fares-line-height-20) var(--fares-font-family);
+	--fares-text-caption: var(--fares-font-weight-semibold) var(--fares-font-size-xs) / var(--fares-line-height-16) var(--fares-font-family);
+	--fares-text-caption-sm: var(--fares-font-weight-regular) var(--fares-font-size-2xs) / var(--fares-line-height-16) var(--fares-font-family);
+	--fares-text-nav: var(--fares-font-weight-medium) var(--fares-font-size-sm) / var(--fares-line-height-20) var(--fares-font-family);
+	--fares-text-review-name: var(--fares-font-weight-bold) var(--fares-font-size-md) / var(--fares-line-height-24) var(--fares-font-family);
+	--fares-text-stat: var(--fares-font-weight-semibold) var(--fares-font-size-3xl) / var(--fares-line-height-40) var(--fares-font-family);
+	--fares-text-input: var(--fares-font-weight-regular) var(--fares-font-size-sm) / var(--fares-line-height-20) var(--fares-font-family);
+
+	/* ============================================ spacing */
+	--fares-space-1: 2px;
+	--fares-space-2: 4px;
+	--fares-space-3: 8px;
+	--fares-space-4: 10px;
+	--fares-space-5: 12px;
+	--fares-space-6: 16px;
+	--fares-space-7: 20px;
+	--fares-space-8: 24px;
+	--fares-space-9: 28px;
+	--fares-space-10: 32px;
+	--fares-space-11: 48px;
+	--fares-space-12: 64px;
+	--fares-space-gutter: var(--fares-space-4);        /* system-wide slider/card gutter */
+	--fares-space-card-pad: var(--fares-space-5);
+	--fares-space-box-pad: var(--fares-space-9);       /* cart form, summary box */
+	--fares-space-box-pad-sm: var(--fares-space-7);    /* purchase box, bought-together */
+	--fares-space-section: var(--fares-space-12);      /* vertical section rhythm */
+	--fares-space-grid-gap: var(--fares-space-8);      /* archive grid */
+	--fares-space-grid-gap-lg: var(--fares-space-10);  /* category grid */
+	--fares-space-mobile-pad: 15px;                    /* mobile content side padding */
+
+	/* ============================================ radius */
+	--fares-radius-xs: 4px;    /* payment tiles, stepper ± buttons, small CTAs */
+	--fares-radius-sm: 6px;    /* DOMINANT: cards, boxes, add-to-cart, checkbox */
+	--fares-radius-md: 8px;    /* card images, variant pills, purchase-box CTAs */
+	--fares-radius-lg: 12px;   /* footer card */
+	--fares-radius-xl: 16px;   /* category cards, mobile-nav top corners */
+	--fares-radius-full: 9999px;
+
+	/* ============================================ borders */
+	--fares-border-w: 1px;
+	--fares-border-w-strong: 2px;
+	--fares-border-w-stamp: 3px;
+
+	/* ============================================ shadows */
+	--fares-shadow-float: 5px 10px 15px rgb(43, 45, 52, 0.05);   /* header, summary box */
+	--fares-shadow-arrow: 0 10px 7.5px #000, 0 4px 3px #000;      /* slider arrows */
+	--fares-shadow-stock-halo: 0 0 0 0 rgb(22, 163, 74, 0.35);   /* stock dot pulse origin */
+
+	/* [DERIVED] scaled from shadow-float — no drawer/dropdown/modal in file */
+	--fares-shadow-dropdown: 0 8px 24px rgb(0, 0, 0, 0.4);
+	--fares-shadow-drawer: 0 0 40px rgb(0, 0, 0, 0.55);
+	--fares-shadow-modal: 0 16px 48px rgb(0, 0, 0, 0.6);
+
+	/* ============================================ motion [DERIVED] */
+	--fares-duration-fast: 150ms;
+	--fares-duration-normal: 300ms;
+	--fares-ease: cubic-bezier(0.16, 1, 0.3, 1);
+	--fares-ease-in-out: ease-in-out;
+
+	/* ============================================ layout */
+	--fares-container-max: 1280px;
+	--fares-header-h: 92px;            /* 80 bar + 12 strip */
+	--fares-announcement-h: 38px;
+	--fares-mobile-nav-h: 86px;
+	--fares-purchase-box-w: 598px;
+	--fares-cart-summary-w: 384px;
+	--fares-cart-gap: 32px;
+	--fares-card-w: 294px;             /* archive; home slider slot 320 (300 + gutters) */
+	--fares-drawer-w: 384px;           /* [DERIVED] = summary width */
+
+	/* Breakpoints are documented here but consumed as literal values in
+	   @media queries (custom properties don't work in media conditions):
+	   [DERIVED] sm 480px · md 782px · lg 1024px · xl 1360px */
+
+	/* ============================================ z-index [DERIVED] */
+	--fares-z-dropdown: 100;
+	--fares-z-header: 200;
+	--fares-z-mobile-nav: 300;
+	--fares-z-overlay: 350;
+	--fares-z-drawer: 400;
+	--fares-z-modal: 500;
+	--fares-z-toast: 600;
+	--fares-z-tooltip: 700;
+
+	/* ====================================== component tokens */
+
+	/* Button */
+	--fares-button-pad: 8px 24px 10px;         /* CTA vertical asymmetry per Figma */
+	--fares-button-radius: var(--fares-radius-xs);
+	--fares-button-radius-lg: var(--fares-radius-md); /* purchase-box pair */
+	--fares-card-button-h: 32px;
+
+	/* Product card */
+	--fares-card-title-pad: var(--fares-space-3) var(--fares-space-5);
+	--fares-card-image-radius: var(--fares-radius-md);
+
+	/* Ribbon badge — exact fractional padding + asymmetric radius (1:2204) */
+	--fares-ribbon-pad: 7.2px 9.6px;
+	--fares-ribbon-radius: 5px 8px 0 8px; /* tl tr br bl in LTR order; logical flip via inline-start usage */
+
+	/* Quantity stepper (2:7972 / 9:812) */
+	--fares-stepper-w: 131.6px;
+	--fares-stepper-h: 40px;
+	--fares-stepper-btn: 40px 38px;
+	--fares-stepper-btn-radius: var(--fares-radius-xs);
+
+	/* Variant pill (2:8003) — selected state [DERIVED]: gradient-primary fill */
+	--fares-pill-min-h: 36px;
+	--fares-pill-pad: 9px;
+	--fares-pill-radius: var(--fares-radius-md);
+
+	/* Stock badge (9:234) */
+	--fares-stock-dot: 8px;
+	--fares-stock-halo: 11.4px;
+
+	/* Mobile bottom nav (2:8663) */
+	--fares-mobile-nav-radius: var(--fares-radius-xl) var(--fares-radius-xl) 0 0;
+	--fares-mobile-nav-item-w: 67px;
+	--fares-mobile-nav-icon: 19.2px;
+	--fares-mobile-nav-badge: 20.8px;
+
+	/* Payment tile (48×32, r4, white) */
+	--fares-payment-tile-w: 48px;
+	--fares-payment-tile-h: 32px;
+
+	/* Testimonial card (610×147, pad 28/16/16) */
+	--fares-testimonial-w: 610px;
+	--fares-testimonial-pad: 16px 16px 16px 28px; /* physical order; use logical in component CSS */
+
+	/* Section title row (arrows 40 circle) */
+	--fares-section-arrow: 40px;
+
+	/* Review item */
+	--fares-avatar: 40px;
+	--fares-star-sm: 12px;
+	--fares-star-md: 20px;
+
+	/* OOS stamp (1:3554) */
+	--fares-stamp-rotate: -10deg;
+	--fares-stamp-text: 23.2px;
+}

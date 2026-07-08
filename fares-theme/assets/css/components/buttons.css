@@ -1,0 +1,50 @@
+/**
+ * Buttons — gradient primary CTA, outline secondary, disabled/OOS state.
+ */
+
+.fares-button,
+.fares-button--primary {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--fares-space-2);
+	font: var(--fares-text-button);
+	color: var(--fares-color-text-primary);
+	background: var(--fares-gradient-primary);
+	padding: var(--fares-button-pad);
+	border-radius: var(--fares-button-radius);
+	transition: filter var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-button:hover {
+	background: var(--fares-gradient-primary-hover);
+}
+
+.fares-button:active {
+	background: var(--fares-gradient-primary-active);
+}
+
+.fares-button--outline {
+	background: none;
+	border: var(--fares-border-w) solid var(--fares-color-text-secondary);
+	border-radius: var(--fares-button-radius-lg);
+}
+
+.fares-button--outline:hover,
+.fares-button--outline:active {
+	background: var(--fares-color-surface-2);
+}
+
+.fares-button--disabled,
+.fares-button:disabled {
+	background: var(--fares-color-disabled-bg);
+	border: var(--fares-border-w) solid var(--fares-color-border-light);
+	color: var(--fares-color-disabled-text);
+	cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fares-button {
+		transition: none;
+	}
+}

@@ -1,0 +1,16 @@
+/*
+Theme Name: Fares Theme
+Theme URI: https://github.com/0xDataGhost/fares-theme
+Author: Fares
+Description: Arabic-first, RTL, dark WooCommerce theme for digital code-delivery stores. Presentation only — business logic lives in the fares-store companion plugin.
+Version: 0.1.0
+Requires at least: 6.8
+Tested up to: 6.8
+Requires PHP: 8.3
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: fares-theme
+Tags: rtl-language-support, dark, e-commerce
+*/
+
+/* No styles here. See assets/css/ — tokens.css is the single source of truth for all visual values. */

@@ -1,0 +1,26 @@
+{
+	"extends": "stylelint-config-standard",
+	"rules": {
+		"color-no-hex": [ true, { "message": "Raw hex colors live only in tokens.css — use var(--fares-color-*)" } ],
+		"color-function-notation": null,
+		"alpha-value-notation": null,
+		"custom-property-pattern": "^fares-[a-z0-9-]+$",
+		"selector-class-pattern": null,
+		"property-disallowed-list": [
+			[ "margin-left", "margin-right", "padding-left", "padding-right", "border-left", "border-right", "left", "right" ],
+			{ "message": "Physical direction properties are banned — use logical properties (margin-inline-start, inset-inline-end, …)" }
+		],
+		"declaration-property-value-disallowed-list": [
+			{ "text-align": [ "left", "right" ], "float": [ "left", "right" ] },
+			{ "message": "Use text-align: start/end — never left/right" }
+		]
+	},
+	"overrides": [
+		{
+			"files": [ "**/base/tokens.css" ],
+			"rules": {
+				"color-no-hex": null
+			}
+		}
+	]
+}

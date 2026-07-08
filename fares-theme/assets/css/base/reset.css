@@ -1,0 +1,67 @@
+/**
+ * Minimal modern reset — logical properties only (RTL-safe by construction).
+ */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+* {
+	margin: 0;
+}
+
+html {
+	text-size-adjust: 100%;
+}
+
+body {
+	min-block-size: 100vh;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+svg,
+video {
+	display: block;
+	max-inline-size: 100%;
+	block-size: auto;
+}
+
+input,
+button,
+textarea,
+select {
+	font: inherit;
+	color: inherit;
+}
+
+button {
+	background: none;
+	border: 0;
+	cursor: pointer;
+	padding: 0;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+ul[class],
+ol[class] {
+	list-style: none;
+	padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+}

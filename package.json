@@ -1,0 +1,25 @@
+{
+	"name": "fares-theme-workspace",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Development workspace for the Fares WooCommerce theme and fares-store companion plugin.",
+	"scripts": {
+		"wp-env": "wp-env",
+		"env:start": "wp-env start",
+		"env:stop": "wp-env stop",
+		"cli": "wp-env run cli --",
+		"seed": "wp-env run cli -- wp eval-file bin/seed.php",
+		"build:css": "postcss \"fares-theme/assets/css/entries/*.css\" --dir fares-theme/assets/css/dist",
+		"watch:css": "npm run build:css -- --watch",
+		"lint:css": "stylelint 'fares-theme/assets/css/**/*.css' --ignore-pattern '**/dist/**'"
+	},
+	"devDependencies": {
+		"@wordpress/env": "^10.0.0",
+		"cssnano": "^7.0.0",
+		"postcss": "^8.4.0",
+		"postcss-cli": "^11.0.0",
+		"postcss-import": "^16.0.0",
+		"stylelint": "^17.14.0",
+		"stylelint-config-standard": "^40.0.0"
+	}
+}

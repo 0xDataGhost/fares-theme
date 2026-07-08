@@ -1,0 +1,10 @@
+/**
+ * Global bundle entry — built to dist/global.css by postcss.
+ * Order: fonts → reset → typography → layout → shared components.
+ */
+
+@import url("../base/fonts.css");
+@import url("../base/reset.css");
+@import url("../base/typography.css");
+@import url("../layout/container.css");
+@import url("../components/buttons.css");

@@ -1,0 +1,16 @@
+/**
+ * Content container — 1280 max with the system 10px gutters (1260 content).
+ */
+
+.fares-container {
+	inline-size: 100%;
+	max-inline-size: var(--fares-container-max);
+	margin-inline: auto;
+	padding-inline: var(--fares-space-gutter);
+}
+
+@media (width <= 781px) {
+	.fares-container {
+		padding-inline: var(--fares-space-mobile-pad);
+	}
+}

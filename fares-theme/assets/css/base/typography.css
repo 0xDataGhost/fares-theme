@@ -1,0 +1,48 @@
+/**
+ * Global typography + page canvas — everything from tokens.
+ */
+
+body {
+	font: var(--fares-text-body);
+	background: var(--fares-color-background);
+	color: var(--fares-color-text-primary);
+	text-align: start;
+}
+
+::selection {
+	background: var(--fares-color-selection);
+	color: var(--fares-color-text-primary);
+}
+
+:focus-visible {
+	outline: var(--fares-border-w-strong) solid var(--fares-color-focus-ring);
+	outline-offset: 2px;
+}
+
+/* Scrollbar (WebKit + standard) */
+html {
+	scrollbar-color: var(--fares-color-scrollbar) var(--fares-color-background);
+}
+
+.screen-reader-text {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.skip-link:focus {
+	position: fixed;
+	inset-block-start: var(--fares-space-3);
+	inset-inline-start: var(--fares-space-3);
+	z-index: var(--fares-z-toast);
+	inline-size: auto;
+	block-size: auto;
+	clip-path: none;
+	background: var(--fares-color-surface-1);
+	color: var(--fares-color-text-primary);
+	padding: var(--fares-space-3) var(--fares-space-6);
+	border-radius: var(--fares-radius-sm);
+}
