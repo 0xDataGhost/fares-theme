@@ -1,0 +1,107 @@
+/**
+ * Announcement bar + site header (Figma 1:1883 / 1:1984).
+ */
+
+.fares-announcement {
+	background: var(--fares-color-announcement-bg);
+	min-block-size: var(--fares-announcement-h);
+	display: flex;
+	align-items: center;
+}
+
+.fares-announcement__text {
+	font: var(--fares-font-weight-semibold) var(--fares-font-size-base) / var(--fares-line-height-26) var(--fares-font-family);
+	color: var(--fares-color-text-primary);
+	text-align: center;
+	inline-size: 100%;
+	padding-block: var(--fares-space-2);
+}
+
+.fares-header {
+	background: var(--fares-color-header-bg);
+	filter: drop-shadow(var(--fares-shadow-float));
+	position: relative;
+	z-index: var(--fares-z-header);
+}
+
+.fares-header__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--fares-space-6);
+	min-block-size: 80px;
+	padding-block: var(--fares-space-3);
+}
+
+.fares-branding__name {
+	font: var(--fares-text-section-title);
+	color: var(--fares-color-text-primary);
+}
+
+.fares-branding img {
+	max-block-size: 56px;
+	inline-size: auto;
+}
+
+.fares-header-actions {
+	display: flex;
+	align-items: center;
+	gap: var(--fares-space-6);
+}
+
+.fares-header-actions__login {
+	font: var(--fares-font-weight-regular) var(--fares-font-size-base) / var(--fares-line-height-26) var(--fares-font-family);
+	background: var(--fares-color-surface-1);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-2) var(--fares-space-6);
+	display: inline-flex;
+	align-items: center;
+	gap: var(--fares-space-3);
+	transition: background var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-header-actions__login:hover {
+	background: var(--fares-color-surface-2);
+}
+
+.fares-header-actions__cart {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	inline-size: 40px;
+	block-size: 40px;
+	border-radius: var(--fares-radius-full);
+}
+
+.fares-cart-badge {
+	position: absolute;
+	inset-block-start: -4px;
+	inset-inline-end: -4px;
+	min-inline-size: 18px;
+	block-size: 18px;
+	border-radius: var(--fares-radius-full);
+	background: var(--fares-color-primary);
+	color: var(--fares-color-text-primary);
+	font: var(--fares-font-weight-bold) var(--fares-font-size-2xs) / 18px var(--fares-font-family);
+	text-align: center;
+	padding-inline: var(--fares-space-1);
+}
+
+.fares-cart-badge--empty {
+	visibility: hidden;
+}
+
+.fares-header-actions__locale {
+	font: var(--fares-text-nav);
+	color: var(--fares-color-text-primary);
+	border: var(--fares-border-w) solid var(--fares-color-border);
+	border-radius: var(--fares-radius-full);
+	padding: var(--fares-space-2) var(--fares-space-6);
+}
+
+.fares-icon {
+	inline-size: 1.25em;
+	block-size: 1.25em;
+	fill: currentcolor;
+}

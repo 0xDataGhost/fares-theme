@@ -1,0 +1,139 @@
+/**
+ * Footer — radius-12 card on black, 3 columns, payment row, colophon
+ * (Figma 1:3904).
+ */
+
+.fares-footer {
+	background: var(--fares-color-footer-bg);
+	margin-block-start: var(--fares-space-section);
+	padding-block-end: var(--fares-space-6);
+}
+
+.fares-footer__card {
+	background: var(--fares-color-footer-bg);
+	border-radius: var(--fares-radius-lg);
+	padding-block: var(--fares-space-11) var(--fares-space-6);
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: var(--fares-space-10);
+}
+
+@media (width <= 781px) {
+	.fares-footer__card {
+		grid-template-columns: 1fr;
+		padding-block-start: var(--fares-space-10);
+	}
+}
+
+.fares-footer__heading {
+	font: var(--fares-font-weight-bold) var(--fares-font-size-lg) / var(--fares-line-height-28) var(--fares-font-family);
+	margin-block-end: var(--fares-space-8);
+}
+
+.fares-footer__menu {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--fares-space-6) var(--fares-space-10);
+}
+
+.fares-footer__menu a {
+	font: var(--fares-font-weight-regular) var(--fares-font-size-sm) / 1 var(--fares-font-family);
+	color: var(--fares-color-text-primary);
+	transition: color var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-footer__menu a:hover {
+	color: var(--fares-color-text-secondary);
+}
+
+.fares-footer__contact-row {
+	display: flex;
+	align-items: center;
+	gap: var(--fares-space-6);
+	margin-block-end: var(--fares-space-6);
+	font: var(--fares-text-body-sm);
+}
+
+.fares-footer__icon-box {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	inline-size: 32px;
+	block-size: 32px;
+	border: var(--fares-border-w) solid var(--fares-color-border-light);
+	border-radius: var(--fares-radius-sm);
+	color: var(--fares-color-text-primary);
+	transition: background var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-footer__icon-box:hover {
+	background: var(--fares-color-surface-2);
+}
+
+.fares-footer__social {
+	display: flex;
+	gap: var(--fares-space-4);
+	padding-block-start: var(--fares-space-8);
+}
+
+.fares-footer__badge {
+	display: flex;
+	align-items: center;
+	gap: var(--fares-space-5);
+	margin-block-end: var(--fares-space-6);
+}
+
+.fares-footer__badge-tile {
+	background: var(--fares-color-surface-inverse);
+	border-radius: var(--fares-radius-xs);
+	padding: var(--fares-space-2);
+	inline-size: 48px;
+	block-size: 48px;
+	display: grid;
+	place-content: center;
+}
+
+.fares-footer__meta {
+	font: var(--fares-text-body-sm);
+	display: flex;
+	gap: var(--fares-space-3);
+}
+
+.fares-footer__meta b {
+	font-weight: var(--fares-font-weight-bold);
+}
+
+.fares-footer__payments {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--fares-space-3);
+	justify-content: flex-end;
+	padding-block: var(--fares-space-6);
+}
+
+.fares-payment-tile {
+	inline-size: var(--fares-payment-tile-w);
+	block-size: var(--fares-payment-tile-h);
+	background: var(--fares-color-payment-tile-bg);
+	border-radius: var(--fares-radius-xs);
+	padding: var(--fares-space-2);
+	display: grid;
+	place-content: center;
+}
+
+.fares-payment-tile img {
+	max-block-size: 24px;
+	inline-size: auto;
+}
+
+.fares-footer__divider {
+	border: 0;
+	border-block-start: var(--fares-border-w-strong) dashed var(--fares-color-border-light);
+	opacity: 0.3;
+	margin-block: var(--fares-space-6);
+}
+
+.fares-footer__colophon p {
+	font: var(--fares-text-body-sm);
+	opacity: 0.75;
+}

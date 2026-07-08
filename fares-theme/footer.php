@@ -1,6 +1,7 @@
 <?php
 /**
- * Site footer — composed from template-parts/footer/* (built out in Phase 2).
+ * Site footer — radius-12 card: contact / links / trust columns, payment
+ * tiles, dashed divider, colophon.
  *
  * @package fares-theme
  */
@@ -10,10 +11,13 @@ defined( 'ABSPATH' ) || exit;
 
 <footer class="fares-footer" role="contentinfo">
 	<div class="fares-container">
-		<?php get_template_part( 'template-parts/footer/contact' ); ?>
-		<?php get_template_part( 'template-parts/footer/links' ); ?>
-		<?php get_template_part( 'template-parts/footer/trust-badges' ); ?>
+		<div class="fares-footer__card">
+			<?php get_template_part( 'template-parts/footer/trust-badges' ); ?>
+			<?php get_template_part( 'template-parts/footer/contact' ); ?>
+			<?php get_template_part( 'template-parts/footer/links' ); ?>
+		</div>
 		<?php get_template_part( 'template-parts/footer/payment-icons' ); ?>
+		<hr class="fares-footer__divider" />
 		<?php get_template_part( 'template-parts/footer/colophon' ); ?>
 	</div>
 </footer>
