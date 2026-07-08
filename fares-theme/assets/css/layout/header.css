@@ -100,6 +100,18 @@
 	padding: var(--fares-space-2) var(--fares-space-6);
 }
 
+/* Mobile header keeps only branding + cart + login icon (Figma 2:4825) */
+@media (width <= 781px) {
+	.fares-header-actions__locale {
+		display: none;
+	}
+
+	.fares-header-actions__login {
+		font-size: var(--fares-font-size-sm);
+		white-space: nowrap;
+	}
+}
+
 .fares-icon {
 	inline-size: 1.25em;
 	block-size: 1.25em;

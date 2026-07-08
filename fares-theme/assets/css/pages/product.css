@@ -5,7 +5,7 @@
 
 .single-product div.product {
 	display: grid;
-	grid-template-columns: 1fr minmax(0, var(--fares-purchase-box-w));
+	grid-template-columns: minmax(0, 1fr) minmax(0, var(--fares-purchase-box-w));
 	gap: var(--fares-space-10);
 	align-items: start;
 	padding-block-start: var(--fares-space-6);
@@ -13,7 +13,7 @@
 
 @media (width <= 781px) {
 	.single-product div.product {
-		grid-template-columns: 1fr;
+		grid-template-columns: minmax(0, 1fr);
 	}
 }
 

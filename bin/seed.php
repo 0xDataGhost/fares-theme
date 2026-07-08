@@ -304,25 +304,39 @@ $vip_serial_id = wc_get_product_id_by_sku( 'plus-iphone-vip' );
 if ( function_exists( 'wcsn_insert_key' ) && $vip_serial_id ) {
 	update_post_meta( $vip_serial_id, '_is_serial_number', 'yes' );
 
-	$existing_keys = function_exists( 'wcsn_get_keys' )
-		? (int) wcsn_get_keys( array( 'product_id' => $vip_serial_id ), true )
+	// Replenish: keep ≥ 20 available keys (test orders consume them; the
+	// plugin flips the product out of stock when the pool empties).
+	$available = function_exists( 'wcsn_get_keys' )
+		? (int) wcsn_get_keys(
+			array(
+				'product_id' => $vip_serial_id,
+				'status'     => 'available',
+			),
+			true
+		)
 		: 0;
 
-	if ( 0 === $existing_keys ) {
-		for ( $i = 1; $i <= 5; $i++ ) {
-			$inserted = wcsn_insert_key(
-				array(
-					'serial_key' => sprintf( 'FARES-DEV-%04d-%04d', $vip_serial_id, $i ),
-					'product_id' => $vip_serial_id,
-					'status'     => 'available',
-				)
-			);
-			if ( is_wp_error( $inserted ) ) {
-				WP_CLI::warning( 'Serial insert: ' . $inserted->get_error_message() );
-				break;
-			}
+	for ( $i = $available; $i < 20; $i++ ) {
+		$inserted = wcsn_insert_key(
+			array(
+				'serial_key' => sprintf( 'FARES-DEV-%04d-%s', $vip_serial_id, strtoupper( wp_generate_password( 8, false ) ) ),
+				'product_id' => $vip_serial_id,
+				'status'     => 'available',
+			)
+		);
+		if ( is_wp_error( $inserted ) ) {
+			WP_CLI::warning( 'Serial insert: ' . $inserted->get_error_message() );
+			break;
 		}
-		WP_CLI::log( 'Serial keys seeded.' );
+	}
+	if ( $available < 20 ) {
+		WP_CLI::log( 'Serial keys replenished to 20 available.' );
+	}
+	wp_update_post( array( 'ID' => $vip_serial_id ) ); // nudge caches.
+	$vip_refresh = wc_get_product( $vip_serial_id );
+	if ( $vip_refresh && ! $vip_refresh->is_in_stock() ) {
+		$vip_refresh->set_stock_status( 'instock' );
+		$vip_refresh->save();
 	}
 }
 

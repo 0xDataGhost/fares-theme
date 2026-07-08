@@ -1,0 +1,101 @@
+/**
+ * Sticky mobile bottom nav (Figma 2:8663) + search overlay.
+ */
+
+.fares-mobile-nav {
+	display: none;
+}
+
+@media (width <= 781px) {
+	body {
+		padding-block-end: var(--fares-mobile-nav-h);
+	}
+
+	.fares-mobile-nav {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		position: fixed;
+		inset-block-end: 0;
+		inset-inline: 0;
+		block-size: var(--fares-mobile-nav-h);
+		background: var(--fares-gradient-primary);
+		border-start-start-radius: var(--fares-radius-xl);
+		border-start-end-radius: var(--fares-radius-xl);
+		z-index: var(--fares-z-mobile-nav);
+		padding-inline: var(--fares-space-2);
+	}
+}
+
+.fares-mobile-nav__item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--fares-space-3);
+	inline-size: var(--fares-mobile-nav-item-w);
+	color: var(--fares-color-text-primary);
+	font: var(--fares-text-caption-sm);
+	text-align: center;
+}
+
+.fares-mobile-nav__item .fares-icon {
+	inline-size: var(--fares-mobile-nav-icon);
+	block-size: var(--fares-mobile-nav-icon);
+}
+
+.fares-mobile-nav__item.is-active {
+	font-weight: var(--fares-font-weight-bold);
+}
+
+.fares-mobile-nav__icon-wrap {
+	position: relative;
+	display: inline-flex;
+}
+
+.fares-mobile-nav__icon-wrap .fares-cart-badge {
+	position: absolute;
+	inset-block-start: -6px;
+	inset-inline-end: -10px;
+	min-inline-size: var(--fares-mobile-nav-badge);
+	block-size: var(--fares-mobile-nav-badge);
+	line-height: var(--fares-mobile-nav-badge);
+	background: var(--fares-color-danger-strong);
+}
+
+/* Search overlay */
+.fares-search-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: var(--fares-z-modal);
+	background: var(--fares-color-overlay);
+	display: grid;
+	place-content: start center;
+	padding-block-start: 20vh;
+	padding-inline: var(--fares-space-mobile-pad);
+}
+
+.fares-search-overlay[hidden] {
+	display: none;
+}
+
+.fares-search-overlay__form {
+	display: flex;
+	gap: var(--fares-space-3);
+	align-items: center;
+	background: var(--fares-color-surface-1);
+	border-radius: var(--fares-radius-md);
+	padding: var(--fares-space-6);
+	inline-size: min(90vw, 560px);
+}
+
+.fares-search-overlay__form input[type="search"] {
+	flex: 1;
+}
+
+.fares-search-overlay__close {
+	color: var(--fares-color-text-primary);
+	display: inline-grid;
+	place-content: center;
+	inline-size: 40px;
+	block-size: 40px;
+}

@@ -110,6 +110,19 @@ li.product {
 	color: var(--fares-color-text-primary);
 }
 
+/* Mobile stacks sale price above the struck regular price (Figma 2:5019) */
+@media (width <= 781px) {
+	.fares-card__price {
+		display: flex;
+		flex-direction: column-reverse;
+		align-items: flex-start;
+	}
+
+	.fares-card__price del {
+		margin-inline-start: 0;
+	}
+}
+
 /* Specificity matches woocommerce-general's `.woocommerce ul.products
    li.product .button` until that sheet is dequeued in Phase 8. */
 ul.products li.product .fares-card__button,
