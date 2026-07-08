@@ -16,6 +16,6 @@ get_template_part(
 		'title'    => __( 'قسم السوني', 'fares-theme' ),
 		'products' => fares_get_category_products( 'sony-5', 8 ),
 		'view_all' => $fares_term instanceof WP_Term ? get_term_link( $fares_term ) : '',
-		'banner'   => 'divider-sony.png',
+		'banner'   => 'divider-sony.jpg',
 	)
 );

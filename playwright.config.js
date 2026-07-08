@@ -4,6 +4,10 @@ const { defineConfig } = require( '@playwright/test' );
 module.exports = defineConfig( {
 	testDir: './tests',
 	timeout: 30_000,
+	// One shared WordPress backend — parallel workers contend on session/cart
+	// state and Woo variation JS timing; serial is fast enough (<1 min).
+	workers: 1,
+	retries: 1,
 	use: {
 		baseURL: 'http://localhost:8888',
 	},

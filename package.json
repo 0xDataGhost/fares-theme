@@ -16,6 +16,7 @@
 		"build": "npm run build:css && npm run build:js"
 	},
 	"devDependencies": {
+		"@axe-core/playwright": "^4.12.1",
 		"@playwright/test": "^1.61.1",
 		"@wordpress/env": "^10.0.0",
 		"cssnano": "^7.0.0",

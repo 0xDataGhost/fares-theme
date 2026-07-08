@@ -16,6 +16,6 @@ get_template_part(
 		'title'    => __( 'تطبيقات البلس', 'fares-theme' ),
 		'products' => fares_get_category_products( 'plus-apps', 8 ),
 		'view_all' => $fares_term instanceof WP_Term ? get_term_link( $fares_term ) : '',
-		'banner'   => 'divider-plus-apps.png',
+		'banner'   => 'divider-plus-apps.jpg',
 	)
 );

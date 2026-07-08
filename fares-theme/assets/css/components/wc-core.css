@@ -1,0 +1,183 @@
+/**
+ * Replacements for the dequeued woocommerce-general stylesheet: star
+ * ratings (no Woo icon font), notices, gallery basics, screen-reader
+ * utility Woo markup expects.
+ */
+
+/* Star rating — unicode stars, no WooCommerce.woff dependency.
+   Markup: .star-rating > span[style=width:N%] */
+.star-rating {
+	position: relative;
+	display: inline-block;
+	line-height: 1;
+	font-size: var(--fares-font-size-md);
+	inline-size: 5.4em;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.star-rating::before {
+	content: "★★★★★";
+	letter-spacing: 0.1em;
+	color: var(--fares-color-border-input);
+}
+
+.star-rating > span {
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline-start: 0;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.star-rating > span::before {
+	content: "★★★★★";
+	letter-spacing: 0.1em;
+	color: var(--fares-color-rating-star);
+}
+
+.star-rating > span .rating,
+.star-rating > span > * {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+}
+
+/* Review form star select (p.stars links rendered by Woo JS) */
+p.stars {
+	display: inline-flex;
+	gap: var(--fares-space-2);
+}
+
+p.stars a {
+	color: var(--fares-color-border-input);
+	text-indent: -9999px;
+	position: relative;
+	inline-size: 1.2em;
+	display: inline-block;
+	font-size: var(--fares-font-size-xl);
+	text-decoration: none;
+}
+
+p.stars a::before {
+	content: "★";
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline-start: 0;
+	text-indent: 0;
+}
+
+p.stars.selected a.active::before,
+p.stars.selected a.active ~ a::before {
+	color: var(--fares-color-border-input);
+}
+
+p.stars a:hover::before,
+p.stars a:hover ~ a::before {
+	color: var(--fares-color-rating-star);
+}
+
+p.stars.selected a::before,
+p.stars a.active::before {
+	color: var(--fares-color-rating-star);
+}
+
+p.stars.selected a.active ~ a::before {
+	color: var(--fares-color-border-input);
+}
+
+/* Notices */
+.woocommerce-message,
+.woocommerce-info,
+.woocommerce-error,
+.woocommerce-noreviews {
+	background: var(--fares-color-surface-1);
+	border-inline-start: 3px solid var(--fares-color-primary);
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-space-6) var(--fares-space-7);
+	margin-block: var(--fares-space-6);
+	font: var(--fares-text-body-sm);
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--fares-space-4);
+}
+
+.woocommerce-message {
+	border-inline-start-color: var(--fares-color-success);
+}
+
+.woocommerce-error {
+	border-inline-start-color: var(--fares-color-danger);
+}
+
+.woocommerce-message .button,
+.woocommerce-info .button,
+.woocommerce-error .button {
+	background: var(--fares-gradient-primary);
+	color: var(--fares-color-text-primary);
+	font: var(--fares-text-button-sm);
+	border-radius: var(--fares-radius-xs);
+	padding: var(--fares-space-2) var(--fares-space-6);
+}
+
+/* Product gallery basics (flexslider markup, single image case) */
+.woocommerce-product-gallery {
+	position: relative;
+}
+
+.woocommerce-product-gallery__image img {
+	inline-size: 100%;
+	block-size: auto;
+}
+
+.woocommerce-product-gallery__trigger {
+	position: absolute;
+	inset-block-start: var(--fares-space-4);
+	inset-inline-end: var(--fares-space-4);
+	z-index: 2;
+	inline-size: 36px;
+	block-size: 36px;
+	display: grid;
+	place-content: center;
+	background: var(--fares-color-surface-inverse);
+	color: var(--fares-color-text-inverse);
+	border-radius: var(--fares-radius-full);
+}
+
+.woocommerce-product-gallery ol.flex-control-thumbs {
+	display: flex;
+	gap: var(--fares-space-3);
+	list-style: none;
+	padding: var(--fares-space-3) 0 0;
+	margin: 0;
+}
+
+.woocommerce-product-gallery ol.flex-control-thumbs img {
+	border-radius: var(--fares-radius-sm);
+	cursor: pointer;
+	opacity: 0.6;
+}
+
+.woocommerce-product-gallery ol.flex-control-thumbs img.flex-active,
+.woocommerce-product-gallery ol.flex-control-thumbs img:hover {
+	opacity: 1;
+}
+
+/* Utility Woo markup expects */
+.woocommerce .screen-reader-text {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.clear {
+	clear: both;
+}

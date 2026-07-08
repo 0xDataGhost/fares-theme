@@ -49,6 +49,9 @@
 	--fares-green-halo: rgb(34, 197, 94, 0.45);
 
 	/* Oranges / ambers */
+	/* A11Y FLAG (design-owned): white text on this orange = 2.76:1 and on
+	   --fares-blue-500 announcement = 4.14:1 — below WCAG AA. Raised with
+	   the designer; kept as extracted for pixel fidelity. */
 	--fares-orange-400: #e97e57;     /* ribbon badge (1:2204) */
 	--fares-amber-star: #f6973f;     /* rating star SVG fill */
 	--fares-amber-400: #fbbf24;      /* review "purchased" badge (9:961) */
