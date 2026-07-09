@@ -163,72 +163,86 @@
 	font: var(--fares-text-section-title);
 }
 
-/* Field container — the floating-label input shell. */
-.wc-block-components-text-input,
-.wc-block-components-textarea,
-.wc-block-components-country-input,
-.wc-block-components-state-input,
-.wc-block-components-select {
-	background: var(--fares-color-background);
-	border-radius: var(--fares-radius-xs);
+/* Field styling — WooCommerce Blocks CSS is enqueued late with higher
+   specificity, so we chain `body.woocommerce-checkout` and use
+   `!important` to reliably repaint the field shell dark. */
+body.woocommerce-checkout .wc-block-components-text-input,
+body.woocommerce-checkout .wc-block-components-textarea,
+body.woocommerce-checkout .wc-block-components-country-input,
+body.woocommerce-checkout .wc-block-components-state-input,
+body.woocommerce-checkout .wc-block-components-select {
+	background: var(--fares-color-background) !important;
+	border: var(--fares-border-w) solid var(--fares-color-border-input) !important;
+	border-radius: var(--fares-radius-xs) !important;
+	box-shadow: none !important;
 }
 
-.wc-block-components-text-input input,
-.wc-block-components-text-input select,
-.wc-block-components-textarea textarea,
-.wc-block-components-country-input input,
-.wc-block-components-country-input select,
-.wc-block-components-state-input input,
-.wc-block-components-state-input select,
-.wc-block-components-select select {
+body.woocommerce-checkout .wc-block-components-text-input input,
+body.woocommerce-checkout .wc-block-components-text-input select,
+body.woocommerce-checkout .wc-block-components-textarea textarea,
+body.woocommerce-checkout .wc-block-components-country-input input,
+body.woocommerce-checkout .wc-block-components-country-input select,
+body.woocommerce-checkout .wc-block-components-state-input input,
+body.woocommerce-checkout .wc-block-components-state-input select,
+body.woocommerce-checkout .wc-block-components-select select {
 	inline-size: 100%;
 	font: var(--fares-text-input);
-	color: var(--fares-color-text-primary);
-	background: var(--fares-color-background);
-	border: var(--fares-border-w) solid var(--fares-color-border-input);
-	border-radius: var(--fares-radius-xs);
+	color: var(--fares-color-text-primary) !important;
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
 	padding: var(--fares-space-6) var(--fares-space-5) var(--fares-space-3);
-	box-shadow: none;
+	box-shadow: none !important;
 }
 
-.wc-block-components-text-input input:focus,
-.wc-block-components-text-input select:focus,
-.wc-block-components-textarea textarea:focus,
-.wc-block-components-country-input input:focus,
-.wc-block-components-state-input input:focus,
-.wc-block-components-select select:focus {
-	border-color: var(--fares-color-focus-ring);
+body.woocommerce-checkout .wc-block-components-text-input:focus-within,
+body.woocommerce-checkout .wc-block-components-textarea:focus-within,
+body.woocommerce-checkout .wc-block-components-country-input:focus-within,
+body.woocommerce-checkout .wc-block-components-state-input:focus-within,
+body.woocommerce-checkout .wc-block-components-select:focus-within {
+	border-color: var(--fares-color-focus-ring) !important;
+}
+
+body.woocommerce-checkout .wc-block-components-text-input input:focus,
+body.woocommerce-checkout .wc-block-components-text-input select:focus,
+body.woocommerce-checkout .wc-block-components-textarea textarea:focus,
+body.woocommerce-checkout .wc-block-components-country-input input:focus,
+body.woocommerce-checkout .wc-block-components-state-input input:focus,
+body.woocommerce-checkout .wc-block-components-select select:focus {
 	outline: none;
 }
 
-/* Floating label — visible against the dark field. */
-.wc-block-components-text-input label,
-.wc-block-components-textarea label,
-.wc-block-components-country-input label,
-.wc-block-components-state-input label,
-.wc-block-components-select label {
-	color: var(--fares-color-text-secondary);
+/* Floating label — must sit above the dark field, not blend into it. */
+body.woocommerce-checkout .wc-block-components-text-input label,
+body.woocommerce-checkout .wc-block-components-textarea label,
+body.woocommerce-checkout .wc-block-components-country-input label,
+body.woocommerce-checkout .wc-block-components-state-input label,
+body.woocommerce-checkout .wc-block-components-select label {
+	color: var(--fares-color-text-secondary) !important;
 	font: var(--fares-text-body-sm);
+	background: transparent !important;
 }
 
-.wc-block-components-text-input.is-active label,
-.wc-block-components-textarea.is-active label,
-.wc-block-components-country-input.is-active label,
-.wc-block-components-state-input.is-active label,
-.wc-block-components-select.is-active label {
-	color: var(--fares-color-text-primary);
+body.woocommerce-checkout .wc-block-components-text-input.is-active label,
+body.woocommerce-checkout .wc-block-components-textarea.is-active label,
+body.woocommerce-checkout .wc-block-components-country-input.is-active label,
+body.woocommerce-checkout .wc-block-components-state-input.is-active label,
+body.woocommerce-checkout .wc-block-components-select.is-active label {
+	color: var(--fares-color-text-primary) !important;
+	background: var(--fares-color-background) !important;
+	padding-inline: var(--fares-space-2);
 }
 
-.wc-block-components-text-input input::placeholder,
-.wc-block-components-textarea textarea::placeholder {
-	color: var(--fares-color-text-secondary);
+body.woocommerce-checkout .wc-block-components-text-input input::placeholder,
+body.woocommerce-checkout .wc-block-components-textarea textarea::placeholder {
+	color: var(--fares-color-text-secondary) !important;
 	opacity: 1;
 }
 
 /* Native <option> lists in the country/state selects. */
-.wc-block-components-country-input select option,
-.wc-block-components-state-input select option,
-.wc-block-components-select select option {
+body.woocommerce-checkout .wc-block-components-country-input select option,
+body.woocommerce-checkout .wc-block-components-state-input select option,
+body.woocommerce-checkout .wc-block-components-select select option {
 	background: var(--fares-color-background);
 	color: var(--fares-color-text-primary);
 }
