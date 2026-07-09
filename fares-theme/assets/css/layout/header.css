@@ -17,6 +17,17 @@
 	padding-block: var(--fares-space-2);
 }
 
+.fares-announcement__link {
+	color: inherit;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	transition: opacity var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-announcement__link:hover {
+	opacity: 0.8;
+}
+
 .fares-header {
 	background: var(--fares-color-header-bg);
 	filter: drop-shadow(var(--fares-shadow-float));
@@ -136,6 +147,102 @@
 	border: var(--fares-border-w) solid var(--fares-color-border);
 	border-radius: var(--fares-radius-full);
 	padding: var(--fares-space-2) var(--fares-space-6);
+	display: inline-flex;
+	align-items: center;
+	gap: var(--fares-space-2);
+}
+
+/* Language switcher: TranslatePress shortcode rendered inside the locale pill —
+   normalise its control to inherit the header type. */
+.fares-header-actions__lang {
+	display: none;
+	align-items: center;
+}
+
+.fares-header-actions__lang select,
+.fares-header-actions__lang .trp-language-switcher {
+	font: inherit;
+	color: inherit;
+	background: none;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
+}
+
+/* TranslatePress renders dark-blue names by default (unreadable on the dark
+   header); recolour to the header's light text and give the hover flyout a dark
+   surface so both the current language and the dropdown stay legible. */
+.fares-header-actions__lang .trp-language-item-name,
+.fares-header-actions__lang .trp-language-switcher a {
+	color: var(--fares-color-text-primary);
+	text-decoration: none;
+}
+
+.fares-header-actions__lang .trp-ls-shortcode-language:not(.trp-ls-shortcode-current-language) {
+	background: var(--fares-color-surface-1);
+}
+
+/* Currency switcher: a disclosure inside the locale pill. Rendered by the
+   Fares Store plugin; the theme owns only its presentation. */
+.fares-currency-switcher {
+	position: relative;
+}
+
+.fares-currency-switcher__toggle {
+	cursor: pointer;
+	list-style: none;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--fares-space-1);
+}
+
+.fares-currency-switcher__toggle::-webkit-details-marker {
+	display: none;
+}
+
+.fares-currency-switcher__toggle::after {
+	content: "▾";
+	font-size: var(--fares-font-size-2xs);
+	opacity: 0.6;
+}
+
+.fares-currency-switcher__list {
+	position: absolute;
+	inset-block-start: calc(100% + var(--fares-space-3));
+	inset-inline-end: 0;
+	min-inline-size: 120px;
+	margin: 0;
+	padding: var(--fares-space-2);
+	list-style: none;
+	background: var(--fares-color-surface-1);
+	border: var(--fares-border-w) solid var(--fares-color-border);
+	border-radius: var(--fares-radius-sm);
+	box-shadow: var(--fares-shadow-md, 0 8px 24px rgb(0 0 0 / 12%));
+	z-index: 30;
+}
+
+.fares-currency-switcher__option {
+	display: flex;
+	align-items: center;
+	gap: var(--fares-space-2);
+	padding: var(--fares-space-2) var(--fares-space-3);
+	border-radius: var(--fares-radius-sm);
+	white-space: nowrap;
+	transition: background var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-currency-switcher__option:hover,
+.fares-currency-switcher__option:focus-visible {
+	background: var(--fares-color-surface-2);
+}
+
+.fares-currency-switcher__option.is-active {
+	font-weight: var(--fares-font-weight-bold);
+}
+
+.fares-currency-switcher__code {
+	font-size: var(--fares-font-size-2xs);
+	opacity: 0.7;
 }
 
 /* Mobile header: [menu + account] · centered logo · cart. The account collapses

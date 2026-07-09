@@ -3,7 +3,8 @@
  * Homepage — fixed composition, intentionally NOT block-editor editable.
  *
  * A flat, readable sequence of section parts. Content comes from products,
- * categories, testimonials, and term meta — never from the editor.
+ * categories, testimonials, term meta, and dashboard-managed home sections
+ * (the "أقسام الرئيسية" CPT) — never from the block editor.
  *
  * @package fares-theme
  */
@@ -20,6 +21,7 @@ get_header();
 	<?php get_template_part( 'template-parts/home/section-world-cup' ); ?>
 	<?php get_template_part( 'template-parts/home/section-sony' ); ?>
 	<?php get_template_part( 'template-parts/home/section-plus-apps' ); ?>
+	<?php get_template_part( 'template-parts/home/dynamic-sections' ); ?>
 	<?php get_template_part( 'template-parts/global/testimonials' ); ?>
 	<?php get_template_part( 'template-parts/home/promo-banner-payments' ); ?>
 </main>

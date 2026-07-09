@@ -9,6 +9,7 @@
  * Requires Plugins: woocommerce
  * License: GPL-2.0-or-later
  * Text Domain: fares-store
+ * Domain Path: /languages
  *
  * @package fares-store
  */
@@ -17,6 +18,17 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'FARES_STORE_VERSION', '0.1.0' );
 define( 'FARES_STORE_DIR', __DIR__ );
+
+/**
+ * Load the plugin text domain so its strings are translatable (e.g. under a
+ * multilingual plugin that switches the front-end locale).
+ */
+add_action(
+	'init',
+	static function (): void {
+		load_plugin_textdomain( 'fares-store', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+	}
+);
 
 add_action(
 	'plugins_loaded',
@@ -30,5 +42,6 @@ add_action(
 		require FARES_STORE_DIR . '/includes/checkout-fields.php';
 		require FARES_STORE_DIR . '/includes/contacts.php';
 		require FARES_STORE_DIR . '/includes/serials.php';
+		require FARES_STORE_DIR . '/includes/currency/bootstrap.php';
 	}
 );

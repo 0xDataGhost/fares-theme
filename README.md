@@ -12,8 +12,29 @@ npm run build            # PostCSS + esbuild (assets/css/dist, assets/js/dist)
 npm run seed             # demo content: categories, sample products, pages, menu, serials, COD gateway
 npm run import           # real catalogue: 357 products from bin/data/products.json (fast, offline-safe)
 npm run import:images    # same, plus sideloading each product's Salla CDN image (network-dependent)
+npm run languages        # TranslatePress base config: Arabic (default) + English at /en/
 npx playwright test      # e2e at 375 / 768 / 1440 + axe
 ```
+
+## Languages (Arabic + English)
+
+The store is bilingual via **TranslatePress**: Arabic is the default language and
+English is served under `/en/`. TranslatePress switches the WordPress locale per
+request, so the theme's existing `is_rtl()` / `number_format_i18n()` logic flips
+to LTR / Western digits automatically; the header shows a language switcher
+(`template-parts/header/header-actions.php`) and the SEO module emits a
+language-aware canonical (`inc/seo/meta-tags.php`, via TP's URL converter)
+alongside TP's automatic `hreflang`.
+
+`npm run languages` (idempotent) applies the base config — languages, the `/en/`
+URL structure, and TP's translation tables — the DB-side setup TP normally does
+through Settings → TranslatePress. **Actual content translation** (the ~171 UI
+strings plus product/category/page copy) is entered in TP's editor; that data
+lives in the database, not this repo.
+
+> Not covered by TranslatePress Free: translated URL slugs, meta
+> title/description translation, and multilingual XML sitemaps — those need TP's
+> paid SEO Pack add-on.
 
 ## Product catalogue
 

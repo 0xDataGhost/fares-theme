@@ -9,6 +9,10 @@
  *
  * Idempotency: every product is keyed by SKU (`salla-{id}`). Re-running updates
  * price / sale / stock / status / categories in place and never duplicates.
+ *
+ * Currency: price/sale values in products.json are SAR — the merchant base
+ * currency. Visitor-facing conversion is handled at render time by the
+ * fares-store currency module; stored meta is always SAR.
  * Featured images are only fetched when missing, so image runs are resumable.
  *
  * This is additive to bin/seed.php — it does not touch the demo products,

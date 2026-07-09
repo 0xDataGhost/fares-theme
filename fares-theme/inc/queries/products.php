@@ -175,3 +175,33 @@ function fares_get_testimonials( int $limit = 10 ): array {
 	return array_filter( array_map( 'get_post', (array) $ids ) );
 }
 add_action( 'save_post_fares_testimonial', 'fares_bump_cache_version' );
+
+/**
+ * Published homepage sections, ordered by the "Order" attribute.
+ *
+ * @param int $limit Maximum number of sections.
+ * @return WP_Post[]
+ */
+function fares_get_home_sections( int $limit = 50 ): array {
+	$cache_key = 'fares_q_' . md5( "home_sections:{$limit}|" . fares_cache_version() );
+	$ids       = get_transient( $cache_key );
+
+	if ( false === $ids ) {
+		$ids = get_posts(
+			array(
+				'post_type'      => 'fares_home_section',
+				'post_status'    => 'publish',
+				'posts_per_page' => $limit,
+				'orderby'        => array(
+					'menu_order' => 'ASC',
+					'date'       => 'DESC',
+				),
+				'fields'         => 'ids',
+			)
+		);
+		set_transient( $cache_key, $ids, 12 * HOUR_IN_SECONDS );
+	}
+
+	return array_filter( array_map( 'get_post', (array) $ids ) );
+}
+add_action( 'save_post_fares_home_section', 'fares_bump_cache_version' );

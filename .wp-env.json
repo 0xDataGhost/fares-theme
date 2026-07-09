@@ -4,7 +4,9 @@
 	"plugins": [
 		"https://downloads.wordpress.org/plugin/woocommerce.zip",
 		"https://downloads.wordpress.org/plugin/wc-serial-numbers.zip",
-		"./fares-store"
+		"https://downloads.wordpress.org/plugin/translatepress-multilingual.zip",
+		"./fares-store",
+		"./faresElQhtani/plugins/wordpress-connector"
 	],
 	"themes": [ "./fares-theme" ],
 	"mappings": {

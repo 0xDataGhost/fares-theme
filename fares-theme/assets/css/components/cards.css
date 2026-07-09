@@ -147,7 +147,7 @@ ul.products li.product .fares-card__button,
 ul.products li.product .fares-button--disabled,
 .woocommerce ul.products li.product .fares-button--disabled {
 	background: var(--fares-color-disabled-bg);
-	border: var(--fares-border-w) solid var(--fares-color-border-light);
+	border: var(--fares-border-w) solid var(--fares-color-border);
 	color: var(--fares-color-disabled-text);
 	cursor: not-allowed;
 }

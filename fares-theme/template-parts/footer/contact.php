@@ -7,11 +7,12 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$fares_contact_email    = 'shopstore417@gmail.com';
-$fares_contact_telegram = 'https://t.me/Sho9_store';
-$fares_social_instagram = 'https://www.instagram.com/sho9.store';
-$fares_social_x         = 'https://x.com/sho9_store';
-$fares_social_youtube   = 'https://www.youtube.com/@sho9store';
+$fares_channels         = fares_contact_channels();
+$fares_contact_email    = $fares_channels['email'];
+$fares_contact_telegram = $fares_channels['telegram'];
+$fares_social_instagram = $fares_channels['instagram'];
+$fares_social_x         = $fares_channels['x'];
+$fares_social_youtube   = $fares_channels['youtube'];
 ?>
 <div class="fares-footer__contact">
 	<h2 class="fares-footer__heading"><?php esc_html_e( 'تواصل معنا', 'fares-theme' ); ?></h2>

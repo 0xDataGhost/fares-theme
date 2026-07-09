@@ -6,11 +6,28 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+
+if ( ! get_theme_mod( FARES_ANNOUNCEMENT_ENABLED_MOD, true ) ) {
+	return;
+}
+
+$fares_announcement_text = trim( (string) get_theme_mod( FARES_ANNOUNCEMENT_TEXT_MOD, fares_announcement_default_text() ) );
+if ( '' === $fares_announcement_text ) {
+	return;
+}
+
+$fares_announcement_link = get_theme_mod( FARES_ANNOUNCEMENT_LINK_MOD, '' );
 ?>
 <div class="fares-announcement">
 	<div class="fares-container fares-announcement__inner">
 		<p class="fares-announcement__text">
-			<?php esc_html_e( 'يوجد لدينا جميع طرق الدفع لاي دولة بالعالم للتواصل اضغط هنا', 'fares-theme' ); ?>
+			<?php if ( $fares_announcement_link ) : ?>
+				<a class="fares-announcement__link" href="<?php echo esc_url( $fares_announcement_link ); ?>">
+					<?php echo esc_html( $fares_announcement_text ); ?>
+				</a>
+			<?php else : ?>
+				<?php echo esc_html( $fares_announcement_text ); ?>
+			<?php endif; ?>
 		</p>
 	</div>
 </div>

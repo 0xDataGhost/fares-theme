@@ -29,7 +29,7 @@
 	--fares-gray-200: #e5e7eb;       /* OOS button border, footer icon boxes, review dividers */
 	--fares-gray-300: #d1d5db;       /* sort dropdown, slider arrow borders */
 	--fares-gray-400: #9ca3af;       /* urgency button text */
-	--fares-gray-500: #6b7280;       /* OOS button label */
+	--fares-gray-500: #6b7280;       /* muted body text (text-muted) */
 	--fares-gray-muted: #b0b0b0;     /* the design's own muted gray — labels, breadcrumbs */
 
 	/* Brand blues */
@@ -49,6 +49,7 @@
 	--fares-green-halo: rgb(34, 197, 94, 0.45);
 
 	/* Oranges / ambers */
+
 	/* A11Y FLAG (design-owned): white text on this orange = 2.76:1 and on
 	   --fares-blue-500 announcement = 4.14:1 — below WCAG AA. Raised with
 	   the designer; kept as extracted for pixel fidelity. */
@@ -96,10 +97,11 @@
 	--fares-color-border-strong: var(--fares-neutral-white);
 	--fares-color-border-light: var(--fares-gray-200);
 	--fares-color-border-input: var(--fares-gray-300);
-	/* Disabled reads as a muted dark tile on the theme's dark surface —
-	   the semi-white default made text unreadable on the OOS card button. */
+	/* Dark-theme disabled/OOS: subtle raised surface + muted-light label so it
+	   reads as inert on the #121212 card while clearing WCAG AA. The former
+	   50%-white fill composited to 1.22:1 with dark text — a serious a11y fail. */
 	--fares-color-disabled-bg: var(--fares-white-alpha-8);
-	--fares-color-disabled-text: var(--fares-neutral-white);
+	--fares-color-disabled-text: var(--fares-gray-muted);
 	--fares-color-payment-tile-bg: var(--fares-neutral-white);
 
 	/* [DERIVED] engineering colors absent from the static design */

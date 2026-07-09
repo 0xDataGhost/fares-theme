@@ -9,6 +9,8 @@
 		"env:stop": "wp-env stop",
 		"cli": "wp-env run cli --",
 		"seed": "wp-env run cli -- wp eval-file bin/seed.php",
+		"provision": "wp-env run cli -- wp eval-file bin/provision-content.php",
+		"languages": "wp-env run cli -- wp eval-file bin/setup-languages.php",
 		"import": "wp-env run cli -- wp eval-file bin/import-products.php",
 		"import:images": "wp-env run cli -- env FARES_IMPORT_IMAGES=1 wp eval-file bin/import-products.php",
 		"build:css": "postcss \"fares-theme/assets/css/entries/*.css\" --dir fares-theme/assets/css/dist",

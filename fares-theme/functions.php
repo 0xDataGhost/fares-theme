@@ -16,12 +16,15 @@ define( 'FARES_THEME_DIR', get_template_directory() );
 define( 'FARES_THEME_URI', get_template_directory_uri() );
 
 require FARES_THEME_DIR . '/inc/setup.php';
+require FARES_THEME_DIR . '/inc/customizer.php';
 require FARES_THEME_DIR . '/inc/template-tags.php';
 require FARES_THEME_DIR . '/inc/assets/manifest.php';
 require FARES_THEME_DIR . '/inc/assets/assets.php';
 require FARES_THEME_DIR . '/inc/queries/products.php';
 require FARES_THEME_DIR . '/inc/content/cpt-testimonials.php';
+require FARES_THEME_DIR . '/inc/content/cpt-home-sections.php';
 require FARES_THEME_DIR . '/inc/content/term-meta.php';
+require FARES_THEME_DIR . '/inc/seo/seo.php';
 
 if ( class_exists( 'WooCommerce' ) ) {
 	require FARES_THEME_DIR . '/inc/woocommerce/setup.php';

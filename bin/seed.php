@@ -356,9 +356,29 @@ if ( ! is_array( $cod ) || ( $cod['enabled'] ?? 'no' ) !== 'yes' ) {
 }
 
 // Woo housekeeping so prices/currency render like the design.
-update_option( 'woocommerce_currency', 'EGP' );
+// SAR is the merchant base currency: all product prices are authored in
+// SAR and converted per-visitor by the fares-store currency module.
+// The module filters pre_option_woocommerce_currency, which would make
+// update_option() see the value as unchanged and skip the DB write —
+// drop the filter for this one write so the raw option really is SAR.
+remove_all_filters( 'pre_option_woocommerce_currency' );
+update_option( 'woocommerce_currency', 'SAR' );
 update_option( 'woocommerce_price_thousand_sep', ',' );
 update_option( 'woocommerce_price_decimal_sep', '.' );
+
+// Starter FX rates (target per 1 SAR) so dev environments render local
+// prices before the first provider refresh lands.
+if ( empty( get_option( 'fares_currency_fx_rates', array() ) ) ) {
+	update_option(
+		'fares_currency_fx_rates',
+		array(
+			'EGP' => 12.80000000,
+			'AED' => 0.97900000,
+		),
+		false
+	);
+	WP_CLI::log( 'Seeded starter FX rates (SAR base).' );
+}
 
 /* ------------------------------------------------------------------ logo */
 

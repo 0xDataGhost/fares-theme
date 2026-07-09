@@ -49,3 +49,31 @@ add_action(
 		echo '</main>';
 	}
 );
+
+/**
+ * Dark-theme image placeholder. Image-less products otherwise render
+ * WooCommerce's white placeholder, which reads as a broken white box on the
+ * dark cards; this swaps in a muted, surface-matched SVG.
+ *
+ * Covers both code paths: the `_img_src` filter handles direct-src callers,
+ * while `_img` rewrites the final <img> — needed because a configured
+ * placeholder *attachment* makes get_image() bypass the src filter entirely.
+ */
+add_filter(
+	'woocommerce_placeholder_img_src',
+	static fn(): string => FARES_THEME_URI . '/assets/images/placeholder.svg'
+);
+
+/**
+ * Repoint the rendered placeholder <img> at the theme SVG, keeping any classes
+ * (e.g. fares-card__image) and dropping the raster srcset/sizes.
+ *
+ * @param string $image The placeholder <img> HTML.
+ * @return string
+ */
+function fares_placeholder_img_html( string $image ): string {
+	$src   = esc_url( FARES_THEME_URI . '/assets/images/placeholder.svg' );
+	$image = preg_replace( '/\ssrc="[^"]*"/', ' src="' . $src . '"', $image, 1 );
+	return preg_replace( '/\s(?:srcset|sizes)="[^"]*"/', '', (string) $image );
+}
+add_filter( 'woocommerce_placeholder_img', 'fares_placeholder_img_html', 10 );

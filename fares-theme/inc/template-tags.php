@@ -10,6 +10,28 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Public contact / social channels for the store.
+ *
+ * Single source of truth consumed by the footer contact column and the SEO
+ * Organization schema (sameAs / contactPoint). Filterable so the values can
+ * be overridden without editing templates.
+ *
+ * @return array<string,string> Channel key => URL (email is a bare address).
+ */
+function fares_contact_channels(): array {
+	return apply_filters(
+		'fares_contact_channels',
+		array(
+			'email'     => 'shopstore417@gmail.com',
+			'telegram'  => 'https://t.me/Sho9_store',
+			'instagram' => 'https://www.instagram.com/sho9.store',
+			'x'         => 'https://x.com/sho9_store',
+			'youtube'   => 'https://www.youtube.com/@sho9store',
+		)
+	);
+}
+
+/**
  * Inline an icon from the theme SVG sprite.
  *
  * @param string $name  Symbol id inside assets/images/icons.svg (without prefix).

@@ -43,3 +43,22 @@ function fares_setup(): void {
 	add_image_size( 'fares-category-card', 452, 602, true );
 }
 add_action( 'after_setup_theme', 'fares_setup' );
+
+/**
+ * Guarantee an explicit `dir` on the <html> tag.
+ *
+ * A multilingual plugin that rewrites `language_attributes` for a secondary
+ * language (TranslatePress does this for /en/) can drop the `dir` attribute.
+ * Re-add it from `is_rtl()` — which the plugin flips correctly per language —
+ * so `[dir="rtl"]` CSS and JS stay deterministic in both directions.
+ *
+ * @param string $output The language attributes string.
+ * @return string
+ */
+function fares_ensure_html_dir( string $output ): string {
+	if ( false === stripos( $output, 'dir=' ) ) {
+		$output = trim( $output . ' dir="' . ( is_rtl() ? 'rtl' : 'ltr' ) . '"' );
+	}
+	return $output;
+}
+add_filter( 'language_attributes', 'fares_ensure_html_dir', 99999 );

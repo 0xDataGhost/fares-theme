@@ -8,7 +8,18 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 <div class="fares-header-actions">
-	<span class="fares-header-actions__locale"><?php esc_html_e( 'العربية', 'fares-theme' ); ?> | <?php esc_html_e( 'ج.م', 'fares-theme' ); ?></span>
+	<span class="fares-header-actions__locale">
+		<?php if ( class_exists( 'TRP_Translate_Press' ) ) : ?>
+			<span class="fares-header-actions__lang">
+				<?php echo do_shortcode( '[language-switcher]' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- TranslatePress-generated switcher markup. ?>
+			</span>
+		<?php else : ?>
+			<?php esc_html_e( 'العربية', 'fares-theme' ); ?>
+		<?php endif; ?>
+		<?php if ( function_exists( 'fares_currency_switcher' ) ) : ?>
+			<?php fares_currency_switcher(); ?>
+		<?php endif; ?>
+	</span>
 
 	<?php if ( function_exists( 'wc_get_cart_url' ) ) : ?>
 		<a class="fares-header-actions__login" href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>">

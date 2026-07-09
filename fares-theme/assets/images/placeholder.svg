@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="">
+	<!-- Dark-theme product placeholder: seamless with the card surface (#121212),
+	     with a muted image glyph so an image-less product reads as intentional
+	     rather than a jarring white box. -->
+	<rect width="400" height="400" fill="#15171c"/>
+	<g fill="none" stroke="#3a3e48" stroke-width="8" stroke-linejoin="round" stroke-linecap="round">
+		<rect x="118" y="130" width="164" height="140" rx="10"/>
+		<circle cx="162" cy="172" r="15"/>
+		<path d="M132 252l44-44 30 30 34-40 28 34v20a10 10 0 0 1-10 10H132z"/>
+	</g>
+</svg>
