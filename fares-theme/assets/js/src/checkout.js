@@ -10,34 +10,78 @@ import intlTelInput from "intl-tel-input/intlTelInputWithUtils";
 
 const ENHANCED = new WeakSet();
 
+// React (Blocks checkout) tracks controlled inputs through the value
+// property descriptor — a plain `.value =` assignment doesn't reach
+// its onChange. Route writes through the native setter + input event
+// so Blocks state stays in sync with what the user sees.
+const nativeValueSetter = Object.getOwnPropertyDescriptor(
+	window.HTMLInputElement.prototype,
+	"value"
+).set;
+
+function reactSetValue(input, value) {
+	nativeValueSetter.call(input, value);
+	input.dispatchEvent(new Event("input", { bubbles: true }));
+}
+
 function enhance(input) {
 	if (ENHANCED.has(input)) {
 		return;
 	}
 	ENHANCED.add(input);
 
-	intlTelInput(input, {
+	const iti = intlTelInput(input, {
 		initialCountry: "sa",
 		countryOrder: ["sa", "ae", "eg", "kw", "qa", "bh", "om"],
-		// Store and display the full +E.164 form directly. That way
-		// there is only one value in play — no cross-parsing between
-		// a visible national number and a hidden international shadow,
-		// which was fighting React's controlled state in Blocks
-		// checkout and clearing the field on blur.
+		// One value in play: the input holds the full +E.164 form. No
+		// separate chip / hidden shadow input — those fought React's
+		// controlled state and cleared the field on re-render.
 		separateDialCode: false,
 		nationalMode: false,
-		// v25 `strictMode` blocks invalid characters and keeps the
-		// dial-code prefix locked, so backspacing "+966" is disallowed.
-		// The library's ensureHasDialCode behaviour auto-inserts the
-		// code when a country is picked — the user types digits only.
 		strictMode: true,
 		formatOnDisplay: false,
-		// As-you-type formatting injects spaces ("+20 10 0123 4567")
-		// which then land verbatim in Blocks state and fail the
-		// server's strict +E.164 check. Keep the value digits-only.
+		// As-you-type spaces landed verbatim in Blocks state and
+		// failed the server's strict +E.164 check.
 		formatAsYouType: false,
 		countrySearch: true,
 		autoPlaceholder: "polite",
+	});
+	input._iti = iti;
+
+	// The dial code comes from the flag selector — the user never
+	// types it. Seed it when the field is empty, prepend it when the
+	// user typed a bare national number, and re-announce the widget's
+	// own dial-code swap to React when the country changes.
+	const applyDialCode = () => {
+		const dial = iti.getSelectedCountryData().dialCode;
+		if (!dial) {
+			return;
+		}
+		const value = input.value.trim();
+		if (!value) {
+			reactSetValue(input, "+" + dial);
+		} else if (!value.startsWith("+")) {
+			// National entry like "0115928..." → strip the trunk zero
+			// and mount it on the selected country's code.
+			reactSetValue(input, "+" + dial + value.replace(/^0+/, ""));
+		} else {
+			// The widget swapped the old dial code inside the DOM value
+			// itself — React didn't see that write, so replay it.
+			reactSetValue(input, input.value);
+		}
+	};
+
+	applyDialCode();
+	input.addEventListener("countrychange", applyDialCode);
+
+	// Whatever shape the user left in the field (national digits,
+	// spaced, half-formatted), normalise to +E.164 on blur — utils
+	// (bundled) parses against the selected country.
+	input.addEventListener("blur", () => {
+		const full = iti.getNumber();
+		if (full && full !== input.value) {
+			reactSetValue(input, full);
+		}
 	});
 }
 
