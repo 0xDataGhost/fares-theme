@@ -37,11 +37,49 @@
 
 .woocommerce-checkout .form-row label {
 	font: var(--fares-text-body-sm);
+	color: var(--fares-color-text-primary);
 }
 
 .woocommerce-checkout .form-row .required {
 	color: var(--fares-color-danger);
 	text-decoration: none;
+}
+
+/* Field controls on the dark surface — override any UA/plugin white bg. */
+.woocommerce-checkout .form-row .input-text,
+.woocommerce-checkout .form-row input[type="text"],
+.woocommerce-checkout .form-row input[type="email"],
+.woocommerce-checkout .form-row input[type="tel"],
+.woocommerce-checkout .form-row input[type="number"],
+.woocommerce-checkout .form-row input[type="password"],
+.woocommerce-checkout .form-row textarea,
+.woocommerce-checkout .form-row select {
+	inline-size: 100%;
+	font: var(--fares-text-input);
+	color: var(--fares-color-text-primary);
+	background: var(--fares-color-background);
+	border: var(--fares-border-w) solid var(--fares-color-border-input);
+	border-radius: var(--fares-radius-xs);
+	padding: var(--fares-space-3) var(--fares-space-5);
+}
+
+.woocommerce-checkout .form-row .input-text:focus,
+.woocommerce-checkout .form-row textarea:focus,
+.woocommerce-checkout .form-row select:focus {
+	border-color: var(--fares-color-focus-ring);
+	outline: none;
+}
+
+.woocommerce-checkout .form-row .input-text::placeholder,
+.woocommerce-checkout .form-row textarea::placeholder {
+	color: var(--fares-color-text-secondary);
+	opacity: 1;
+}
+
+/* Woo autofills the country select with a native <select>; keep it dark. */
+.woocommerce-checkout .form-row select option {
+	background: var(--fares-color-background);
+	color: var(--fares-color-text-primary);
 }
 
 /* Order review box */
@@ -87,18 +125,22 @@
 	font: var(--fares-text-body-sm);
 }
 
-.woocommerce-checkout #place_order {
+.woocommerce-checkout #place_order,
+.woocommerce-checkout button#place_order {
 	inline-size: 100%;
 	font: var(--fares-text-button);
 	color: var(--fares-color-text-primary);
-	background: var(--fares-gradient-primary);
+	background: var(--fares-color-primary);
+	border: 0;
 	border-radius: var(--fares-radius-sm);
 	padding: var(--fares-button-pad);
 	margin-block-start: var(--fares-space-6);
+	transition: background var(--fares-duration-fast) var(--fares-ease);
 }
 
-.woocommerce-checkout #place_order:hover {
-	background: var(--fares-gradient-primary-hover);
+.woocommerce-checkout #place_order:hover,
+.woocommerce-checkout button#place_order:hover {
+	background: var(--fares-color-primary-start);
 }
 
 /* Order received */
