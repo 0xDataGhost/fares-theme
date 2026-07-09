@@ -340,20 +340,20 @@ body.woocommerce-checkout .iti__selected-country[aria-expanded="true"] {
 	background: var(--fares-color-surface-2);
 }
 
-/* RTL: the widget positions the flag on the left of the input via a
-   left padding on `.iti__tel-input`. In RTL the dropdown lives on the
-   right, so mirror the padding. */
-[dir="rtl"] body.woocommerce-checkout .iti--allow-dropdown input.iti__tel-input,
-body.woocommerce-checkout .iti--allow-dropdown input.iti__tel-input {
-	padding-inline-start: 52px !important;
-	padding-inline-end: var(--fares-space-5) !important;
-	direction: ltr; /* phone digits render LTR even inside RTL page */
+/* The library sizes the input's left padding at runtime from the
+   selected-country container's offsetWidth. Force the input into LTR
+   so digits and the +dial-code chip both flow left→right; padding is
+   left to the library so it stays in sync with the flag chip width. */
+body.woocommerce-checkout .iti__tel-input {
+	direction: ltr;
 	text-align: start;
 }
 
-[dir="rtl"] body.woocommerce-checkout .iti__selected-country {
-	inset-inline-start: 0;
-	inset-inline-end: auto;
+/* The `.iti` wrapper inherits RTL text-align from the page. Reset it
+   to left so the flag/code chip sits on the leading edge of the input,
+   matching what the library's JS positions it against. */
+body.woocommerce-checkout .iti {
+	text-align: left;
 }
 
 /* Order received */
