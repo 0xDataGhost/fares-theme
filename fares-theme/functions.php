@@ -28,5 +28,6 @@ if ( class_exists( 'WooCommerce' ) ) {
 	require FARES_THEME_DIR . '/inc/woocommerce/hooks.php';
 	require FARES_THEME_DIR . '/inc/woocommerce/fragments.php';
 	require FARES_THEME_DIR . '/inc/woocommerce/strings.php';
+	require FARES_THEME_DIR . '/inc/woocommerce/checkout.php';
 	require FARES_THEME_DIR . '/inc/woocommerce/add-to-cart-modal.php';
 }
