@@ -10,6 +10,20 @@ import intlTelInput from "intl-tel-input/intlTelInputWithUtils";
 
 const ENHANCED = new WeakSet();
 
+// React (Blocks checkout) tracks controlled inputs via a private
+// value setter — assigning to `.value` alone won't fire onChange. Use
+// the prototype's descriptor so React sees the change and updates its
+// state, keeping the phone value alive across re-renders.
+const nativeValueSetter = Object.getOwnPropertyDescriptor(
+	window.HTMLInputElement.prototype,
+	"value"
+).set;
+
+function reactSetValue(input, value) {
+	nativeValueSetter.call(input, value);
+	input.dispatchEvent(new Event("input", { bubbles: true }));
+}
+
 function enhance(input) {
 	if (ENHANCED.has(input)) {
 		return;
@@ -19,42 +33,35 @@ function enhance(input) {
 	const iti = intlTelInput(input, {
 		initialCountry: "sa",
 		preferredCountries: ["sa", "ae", "eg", "kw", "qa", "bh", "om"],
-		// Show the flag + dial-code as a sticky prefix chip so the user
-		// only types the national number and can't accidentally erase
-		// the country code by backspacing.
+		// Sticky flag+code chip. Users type only the national digits;
+		// we bridge to +E.164 for React storage in the blur handler
+		// below.
 		separateDialCode: true,
 		nationalMode: false,
-		formatOnDisplay: true,
+		// Don't reformat on blur — the widget rewrites input.value to
+		// its own spacing, which fights React's controlled state.
+		formatOnDisplay: false,
 		countrySearch: true,
-		// Server-side always sees the international form.
-		hiddenInput: () => ({
-			phone: input.dataset.faresIntlHidden || "",
-		}),
 	});
 
-	// Store the widget on the input so future submit handlers can reach
-	// it (e.g. Blocks checkout re-serializing on every re-render).
+	// Store the widget on the input so future observers can reach it.
 	input._iti = iti;
 
-	// Normalise the visible value to full international format at submit.
-	const form = input.closest("form");
-	if (form) {
-		form.addEventListener(
-			"submit",
-			() => {
-				if (iti.isValidNumber()) {
-					input.value = iti.getNumber();
-				}
-			},
-			true
-		);
-	}
+	// On blur / country change, hand React the +E.164 form so the
+	// value that ends up in Blocks state (and in the additional-field
+	// storage → billing_phone) is exactly what the server validates.
+	const syncToReact = () => {
+		if (!iti.isValidNumber()) {
+			return;
+		}
+		const intl = iti.getNumber();
+		if (intl && intl !== input.value) {
+			reactSetValue(input, intl);
+		}
+	};
 
-	// Keep react-controlled inputs (Blocks) in sync — dispatch a native
-	// input event whenever the country changes so React sees the update.
-	input.addEventListener("countrychange", () => {
-		input.dispatchEvent(new Event("input", { bubbles: true }));
-	});
+	input.addEventListener("blur", syncToReact);
+	input.addEventListener("countrychange", syncToReact);
 }
 
 function scan(root) {
