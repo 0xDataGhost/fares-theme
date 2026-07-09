@@ -42,9 +42,14 @@ if ( $plain_text ) {
 }
 
 /**
- * Fetch activation records for one product in the order — defensive
- * across the two shapes WP Serial Numbers has shipped (CPT-based free
- * plugin, custom table on some builds/pro).
+ * Fetch activation records for one product in the order.
+ *
+ * Primary path: WC Serial Numbers' public helper `wcsn_get_keys()`
+ * (returns `Key` model objects; handles decryption for us). Fallback
+ * for older builds: direct query against `{prefix}serial_numbers` +
+ * `wcsn_decrypt_key()`. Fields the free plugin doesn't store (notably
+ * `activation_email` — dropped from the schema in v1.2) come back as
+ * empty strings and are hidden in the render below.
  *
  * @param int $order_id   Order ID.
  * @param int $product_id Product ID.
@@ -53,60 +58,66 @@ if ( $plain_text ) {
 $fares_get_serials = static function ( int $order_id, int $product_id ): array {
 	$out = array();
 
-	// Free plugin (v1.x) — CPT `wpsn_serial_number`.
-	if ( post_type_exists( 'wpsn_serial_number' ) ) {
-		$ids = get_posts(
+	if ( function_exists( 'wcsn_get_keys' ) ) {
+		$keys = wcsn_get_keys(
 			array(
-				'post_type'      => 'wpsn_serial_number',
-				'post_status'    => 'any',
-				'posts_per_page' => -1,
-				'fields'         => 'ids',
-				'no_found_rows'  => true,
-				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-					'relation' => 'AND',
-					array( 'key' => '_order_id',   'value' => $order_id ),
-					array( 'key' => '_product_id', 'value' => $product_id ),
-				),
+				'order_id'   => $order_id,
+				'product_id' => $product_id,
+				'per_page'   => -1,
 			)
 		);
-		foreach ( $ids as $id ) {
-			$out[] = array(
-				'key'             => (string) get_post_meta( $id, '_serial_key', true ),
-				'activation_email' => (string) get_post_meta( $id, '_activation_email', true ),
-				'activation_limit' => get_post_meta( $id, '_activation_limit', true ),
-				'activation_count' => get_post_meta( $id, '_activation_count', true ),
-				'expire_date'     => (string) get_post_meta( $id, '_expire_date', true ),
-				'validity'        => (string) get_post_meta( $id, '_validity', true ),
-				'status'          => (string) get_post_status( $id ),
+		foreach ( (array) $keys as $key ) {
+			$serial_key = is_object( $key ) && method_exists( $key, 'get_key' )
+				? (string) $key->get_key()               // Model handles decryption.
+				: (string) ( is_array( $key ) ? ( $key['serial_key'] ?? '' ) : '' );
+			$out[]      = array(
+				'key'              => $serial_key,
+				'activation_limit' => is_object( $key ) && method_exists( $key, 'get_activation_limit' )
+					? $key->get_activation_limit()
+					: ( is_array( $key ) ? ( $key['activation_limit'] ?? null ) : null ),
+				'activation_count' => is_object( $key ) && method_exists( $key, 'get_activation_count' )
+					? $key->get_activation_count()
+					: ( is_array( $key ) ? ( $key['activation_count'] ?? null ) : null ),
+				'expire_date'      => is_object( $key ) && method_exists( $key, 'get_expire_date' )
+					? (string) $key->get_expire_date()
+					: (string) ( is_array( $key ) ? ( $key['expire_date'] ?? '' ) : '' ),
+				'validity'         => is_object( $key ) && method_exists( $key, 'get_validity' )
+					? (string) $key->get_validity()
+					: (string) ( is_array( $key ) ? ( $key['validity'] ?? '' ) : '' ),
+				'status'           => is_object( $key ) && method_exists( $key, 'get_status' )
+					? (string) $key->get_status()
+					: (string) ( is_array( $key ) ? ( $key['status'] ?? '' ) : '' ),
 			);
 		}
 	}
 
-	// Pro / newer builds — custom table `{prefix}wps_serial_numbers`.
+	// Fallback: raw table read (older WC Serial Numbers builds that
+	// didn't expose `wcsn_get_keys` yet).
 	if ( empty( $out ) ) {
 		global $wpdb;
-		$table = $wpdb->prefix . 'wps_serial_numbers';
+		$table = $wpdb->prefix . 'serial_numbers';
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) );
 		if ( $exists === $table ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$rows = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT * FROM {$table} WHERE order_id = %d AND product_id = %d",
+					"SELECT serial_key, activation_limit, activation_count, expire_date, validity, status
+					FROM {$table} WHERE order_id = %d AND product_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					$order_id,
 					$product_id
 				),
 				ARRAY_A
 			);
 			foreach ( (array) $rows as $row ) {
-				$out[] = array(
-					'key'             => (string) ( $row['serial_key'] ?? '' ),
-					'activation_email' => (string) ( $row['activation_email'] ?? '' ),
+				$raw_key = (string) ( $row['serial_key'] ?? '' );
+				$out[]   = array(
+					'key'              => function_exists( 'wcsn_decrypt_key' ) ? (string) wcsn_decrypt_key( $raw_key ) : $raw_key,
 					'activation_limit' => $row['activation_limit'] ?? null,
 					'activation_count' => $row['activation_count'] ?? null,
-					'expire_date'     => (string) ( $row['expire_date'] ?? '' ),
-					'validity'        => (string) ( $row['validity'] ?? '' ),
-					'status'          => (string) ( $row['status'] ?? '' ),
+					'expire_date'      => (string) ( $row['expire_date'] ?? '' ),
+					'validity'         => (string) ( $row['validity'] ?? '' ),
+					'status'           => (string) ( $row['status'] ?? '' ),
 				);
 			}
 		}
@@ -116,8 +127,8 @@ $fares_get_serials = static function ( int $order_id, int $product_id ): array {
 	 * Filter the serials list per product/order — lets a site owner or
 	 * a companion plugin plug into any custom serial store.
 	 *
-	 * @param array $out       Activation records.
-	 * @param int   $order_id  Order ID.
+	 * @param array $out        Activation records.
+	 * @param int   $order_id   Order ID.
 	 * @param int   $product_id Product ID.
 	 */
 	return (array) apply_filters( 'fares_email_order_serials', $out, $order_id, $product_id );
@@ -141,14 +152,15 @@ $fares_row = static function ( string $label, $value ): string {
 /**
  * Translate raw status codes to a friendly Arabic label.
  */
+// Status codes taken from WC Serial Numbers' schema: available / sold /
+// cancelled / expired.
 $fares_status_label = static function ( string $status ): string {
 	$map = array(
-		'publish'  => __( 'نشط', 'fares-theme' ),
-		'active'   => __( 'نشط', 'fares-theme' ),
-		'sold'     => __( 'مُسلَّم', 'fares-theme' ),
-		'expired'  => __( 'منتهي الصلاحية', 'fares-theme' ),
-		'inactive' => __( 'غير مفعّل', 'fares-theme' ),
-		'draft'    => __( 'غير متاح', 'fares-theme' ),
+		'available' => __( 'نشط', 'fares-theme' ),
+		'sold'      => __( 'نشط', 'fares-theme' ),
+		'active'    => __( 'نشط', 'fares-theme' ),
+		'expired'   => __( 'منتهي الصلاحية', 'fares-theme' ),
+		'cancelled' => __( 'ملغي', 'fares-theme' ),
 	);
 	return $map[ $status ] ?? __( 'نشط', 'fares-theme' );
 };
@@ -291,7 +303,11 @@ do_action( 'woocommerce_email_header', esc_html__( 'تم تنفيذ طلبك ب�
 
 						<table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top:12px;border-collapse:collapse;">
 							<?php
-							echo $fares_row( __( 'بريد التفعيل:', 'fares-theme' ), $serial['activation_email'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							// Activation email as a per-key field isn't in the free
+							// WC Serial Numbers schema — surface the order's own
+							// billing email instead so the customer sees what
+							// address the key is tied to.
+							echo $fares_row( __( 'بريد التفعيل:', 'fares-theme' ), $order->get_billing_email() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							echo $fares_row( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 								__( 'الحد الأقصى للتفعيل:', 'fares-theme' ),
 								$fares_limit( $serial['activation_limit'] )
