@@ -201,6 +201,30 @@
 	background: var(--fares-color-primary-start);
 }
 
+/* WooCommerce Blocks cart — `<!-- wp:woocommerce/cart -->` — same solid
+   accent for the proceed-to-checkout submit button. */
+.wp-block-woocommerce-proceed-to-checkout-block .wc-block-cart__submit-button,
+.wc-block-cart .wc-block-cart__submit-button,
+a.wc-block-cart__submit-button,
+button.wc-block-cart__submit-button {
+	display: block;
+	inline-size: 100%;
+	text-align: center;
+	font: var(--fares-text-button);
+	color: var(--fares-color-text-primary);
+	background: var(--fares-color-primary);
+	border: 0;
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-button-pad);
+	transition: background var(--fares-duration-fast) var(--fares-ease);
+}
+
+.wp-block-woocommerce-proceed-to-checkout-block .wc-block-cart__submit-button:hover,
+a.wc-block-cart__submit-button:hover,
+button.wc-block-cart__submit-button:hover {
+	background: var(--fares-color-primary-start);
+}
+
 /* Empty cart */
 .cart-empty.woocommerce-info {
 	font: var(--fares-text-body);

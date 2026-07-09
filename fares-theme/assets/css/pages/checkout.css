@@ -143,6 +143,117 @@
 	background: var(--fares-color-primary-start);
 }
 
+/* =========================================================================
+ * WooCommerce Blocks checkout (`<!-- wp:woocommerce/checkout -->`) — the
+ * classic-form selectors above don't apply. Style the block equivalents
+ * so the dark theme carries over.
+ * ====================================================================== */
+
+/* Virtual-cart carts drop the whole billing-address block (still submitted
+   with empty values because required=false at the field-definition level). */
+.fares-virtual-checkout .wp-block-woocommerce-checkout-billing-address-block,
+.fares-virtual-checkout .wc-block-checkout__billing-fields {
+	display: none;
+}
+
+/* Block section titles ("معلومات جهة الاتصال" / "خيارات الدفع"). */
+.wc-block-components-checkout-step__title,
+.wp-block-woocommerce-checkout h2 {
+	color: var(--fares-color-text-primary);
+	font: var(--fares-text-section-title);
+}
+
+/* Field container — the floating-label input shell. */
+.wc-block-components-text-input,
+.wc-block-components-textarea,
+.wc-block-components-country-input,
+.wc-block-components-state-input,
+.wc-block-components-select {
+	background: var(--fares-color-background);
+	border-radius: var(--fares-radius-xs);
+}
+
+.wc-block-components-text-input input,
+.wc-block-components-text-input select,
+.wc-block-components-textarea textarea,
+.wc-block-components-country-input input,
+.wc-block-components-country-input select,
+.wc-block-components-state-input input,
+.wc-block-components-state-input select,
+.wc-block-components-select select {
+	inline-size: 100%;
+	font: var(--fares-text-input);
+	color: var(--fares-color-text-primary);
+	background: var(--fares-color-background);
+	border: var(--fares-border-w) solid var(--fares-color-border-input);
+	border-radius: var(--fares-radius-xs);
+	padding: var(--fares-space-6) var(--fares-space-5) var(--fares-space-3);
+	box-shadow: none;
+}
+
+.wc-block-components-text-input input:focus,
+.wc-block-components-text-input select:focus,
+.wc-block-components-textarea textarea:focus,
+.wc-block-components-country-input input:focus,
+.wc-block-components-state-input input:focus,
+.wc-block-components-select select:focus {
+	border-color: var(--fares-color-focus-ring);
+	outline: none;
+}
+
+/* Floating label — visible against the dark field. */
+.wc-block-components-text-input label,
+.wc-block-components-textarea label,
+.wc-block-components-country-input label,
+.wc-block-components-state-input label,
+.wc-block-components-select label {
+	color: var(--fares-color-text-secondary);
+	font: var(--fares-text-body-sm);
+}
+
+.wc-block-components-text-input.is-active label,
+.wc-block-components-textarea.is-active label,
+.wc-block-components-country-input.is-active label,
+.wc-block-components-state-input.is-active label,
+.wc-block-components-select.is-active label {
+	color: var(--fares-color-text-primary);
+}
+
+.wc-block-components-text-input input::placeholder,
+.wc-block-components-textarea textarea::placeholder {
+	color: var(--fares-color-text-secondary);
+	opacity: 1;
+}
+
+/* Native <option> lists in the country/state selects. */
+.wc-block-components-country-input select option,
+.wc-block-components-state-input select option,
+.wc-block-components-select select option {
+	background: var(--fares-color-background);
+	color: var(--fares-color-text-primary);
+}
+
+/* Place-order button in the Blocks checkout (`.wc-block-cart__submit-button`
+   also covers the cart page's proceed-to-checkout). */
+.wc-block-components-checkout-place-order-button,
+.wc-block-components-button.wc-block-components-checkout-place-order-button,
+button.wc-block-components-checkout-place-order-button {
+	inline-size: 100%;
+	font: var(--fares-text-button);
+	color: var(--fares-color-text-primary);
+	background: var(--fares-color-primary);
+	border: 0;
+	border-radius: var(--fares-radius-sm);
+	padding: var(--fares-button-pad);
+	margin-block-start: var(--fares-space-6);
+	transition: background var(--fares-duration-fast) var(--fares-ease);
+}
+
+.wc-block-components-checkout-place-order-button:hover,
+button.wc-block-components-checkout-place-order-button:hover {
+	background: var(--fares-color-primary-start);
+}
+
 /* Order received */
 .woocommerce-order .woocommerce-thankyou-order-received {
 	font: var(--fares-text-section-title);
