@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 /**
- * Site footer — radius-12 card: contact / links / trust columns, payment
+ * Site footer â€” radius-12 card: contact / links / trust columns, payment
  * tiles, dashed divider, colophon.
  *
  * @package fares-theme
@@ -24,6 +24,8 @@ defined( 'ABSPATH' ) || exit;
 
 <?php get_template_part( 'template-parts/header/mobile-bottom-nav' ); ?>
 
+<p style="text-align:center;padding:10px">تجربة النشر التلقائي ✅</p>
 <?php wp_footer(); ?>
 </body>
 </html>
+
