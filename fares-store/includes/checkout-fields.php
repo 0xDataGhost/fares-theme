@@ -88,15 +88,28 @@ function fares_store_phone_field_meta( array $fields ): array {
 add_filter( 'woocommerce_checkout_fields', 'fares_store_phone_field_meta', 20 );
 
 /**
+ * Normalise a phone value to bare +E.164 — strips the formatting
+ * characters (spaces, dashes, dots, parentheses) that as-you-type
+ * formatters legitimately insert.
+ *
+ * @param string $value Raw submitted value.
+ * @return string
+ */
+function fares_store_normalize_phone( string $value ): string {
+	return (string) preg_replace( '/[\s\-\.\(\)]+/', '', trim( $value ) );
+}
+
+/**
  * International-format phone check — one implementation shared between the
  * classic-checkout server-side validator and the Blocks additional-field
- * validate_callback. Accepts `+` followed by 8–15 digits per E.164.
+ * validate_callback. Accepts `+` followed by 8–15 digits per E.164;
+ * formatting characters are stripped before the check.
  *
  * @param string $value Raw submitted value.
  * @return true|WP_Error
  */
 function fares_store_validate_intl_phone( string $value ) {
-	$value = trim( $value );
+	$value = fares_store_normalize_phone( $value );
 	if ( '' === $value ) {
 		return new WP_Error(
 			'fares_phone_required',
@@ -106,7 +119,7 @@ function fares_store_validate_intl_phone( string $value ) {
 	if ( ! preg_match( '/^\+[1-9]\d{7,14}$/', $value ) ) {
 		return new WP_Error(
 			'fares_phone_invalid',
-			__( 'صيغة رقم الجوال غير صحيحة. اختر الدولة وأدخل الرقم بدون أي فراغات.', 'fares-store' )
+			__( 'صيغة رقم الجوال غير صحيحة. اختر الدولة من القائمة ثم أكمل رقمك.', 'fares-store' )
 		);
 	}
 	return true;
@@ -124,6 +137,21 @@ function fares_store_validate_classic_phone(): void {
 	}
 }
 add_action( 'woocommerce_checkout_process', 'fares_store_validate_classic_phone' );
+
+/**
+ * Classic checkout — persist billing_phone stripped of formatting so the
+ * stored value matches what was validated.
+ *
+ * @param array $data Posted checkout data.
+ * @return array
+ */
+function fares_store_normalize_posted_phone( array $data ): array {
+	if ( ! empty( $data['billing_phone'] ) ) {
+		$data['billing_phone'] = fares_store_normalize_phone( (string) $data['billing_phone'] );
+	}
+	return $data;
+}
+add_filter( 'woocommerce_checkout_posted_data', 'fares_store_normalize_posted_phone' );
 
 /**
  * Blocks checkout — register the phone field in the Contact section.
@@ -148,6 +176,7 @@ function fares_store_register_blocks_phone_field(): void {
 				'inputmode'              => 'tel',
 				'autocomplete'           => 'tel',
 			),
+			'sanitize_callback' => static fn( $value ): string => fares_store_normalize_phone( (string) $value ),
 			'validate_callback' => static function ( $value ) {
 				$result = fares_store_validate_intl_phone( (string) $value );
 				return is_wp_error( $result ) ? $result : true;

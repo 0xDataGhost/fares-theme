@@ -28,8 +28,14 @@ function enhance(input) {
 		nationalMode: false,
 		// v25 `strictMode` blocks invalid characters and keeps the
 		// dial-code prefix locked, so backspacing "+966" is disallowed.
+		// The library's ensureHasDialCode behaviour auto-inserts the
+		// code when a country is picked — the user types digits only.
 		strictMode: true,
 		formatOnDisplay: false,
+		// As-you-type formatting injects spaces ("+20 10 0123 4567")
+		// which then land verbatim in Blocks state and fail the
+		// server's strict +E.164 check. Keep the value digits-only.
+		formatAsYouType: false,
 		countrySearch: true,
 		autoPlaceholder: "polite",
 	});
