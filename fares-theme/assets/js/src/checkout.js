@@ -19,7 +19,10 @@ function enhance(input) {
 	const iti = intlTelInput(input, {
 		initialCountry: "sa",
 		preferredCountries: ["sa", "ae", "eg", "kw", "qa", "bh", "om"],
-		separateDialCode: false,
+		// Show the flag + dial-code as a sticky prefix chip so the user
+		// only types the national number and can't accidentally erase
+		// the country code by backspacing.
+		separateDialCode: true,
 		nationalMode: false,
 		formatOnDisplay: true,
 		countrySearch: true,

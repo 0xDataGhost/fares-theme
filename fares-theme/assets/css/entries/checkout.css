@@ -4,3 +4,14 @@
 
 @import "intl-tel-input/build/css/intlTelInput.css";
 @import url("../pages/checkout.css");
+
+/* intl-tel-input hardcodes its flag sprite path to `../img/flags.webp`
+   relative to its own CSS. postcss-import inlines the rules but the URL
+   is now resolved against the dist location, so we point the custom
+   properties at the vendor copy made by `npm run build:vendor`. */
+:root {
+	--iti-path-flags-1x: url("../../vendor/intl-tel-input/img/flags.webp");
+	--iti-path-flags-2x: url("../../vendor/intl-tel-input/img/flags@2x.webp");
+	--iti-path-globe-1x: url("../../vendor/intl-tel-input/img/globe.webp");
+	--iti-path-globe-2x: url("../../vendor/intl-tel-input/img/globe@2x.webp");
+}

@@ -15,7 +15,8 @@
 		"watch:css": "npm run build:css -- --watch",
 		"lint:css": "stylelint 'fares-theme/assets/css/**/*.css' --ignore-pattern '**/dist/**'",
 		"build:js": "esbuild fares-theme/assets/js/src/*.js --bundle --minify --format=iife --outdir=fares-theme/assets/js/dist",
-		"build": "npm run build:css && npm run build:js"
+		"build:vendor": "node -e \"const fs=require('fs'),p=require('path');const s='node_modules/intl-tel-input/build/img',d='fares-theme/assets/vendor/intl-tel-input/img';fs.mkdirSync(d,{recursive:true});for(const f of fs.readdirSync(s))fs.copyFileSync(p.join(s,f),p.join(d,f));\"",
+		"build": "npm run build:vendor && npm run build:css && npm run build:js"
 	},
 	"dependencies": {
 		"intl-tel-input": "^25.15.1"

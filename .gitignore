@@ -1,6 +1,7 @@
 node_modules/
 build/
 dist/
+fares-theme/assets/vendor/
 *.log
 .DS_Store
 .wp-env.override.json
