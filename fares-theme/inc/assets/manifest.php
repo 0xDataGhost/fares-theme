@@ -70,6 +70,13 @@ function fares_asset_manifest(): array {
 			'type' => 'style',
 			'when' => static fn(): bool => is_checkout(),
 		),
+		'fares-checkout-js' => array(
+			'src'   => 'assets/js/dist/checkout.js',
+			'deps'  => array(),
+			'type'  => 'script',
+			'when'  => static fn(): bool => is_checkout(),
+			'defer' => true,
+		),
 		'fares-account'    => array(
 			'src'  => 'assets/css/dist/account.css',
 			'deps' => array( 'fares-tokens' ),

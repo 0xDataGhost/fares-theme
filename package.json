@@ -17,6 +17,9 @@
 		"build:js": "esbuild fares-theme/assets/js/src/*.js --bundle --minify --format=iife --outdir=fares-theme/assets/js/dist",
 		"build": "npm run build:css && npm run build:js"
 	},
+	"dependencies": {
+		"intl-tel-input": "^25.15.1"
+	},
 	"devDependencies": {
 		"@axe-core/playwright": "^4.12.1",
 		"@playwright/test": "^1.61.1",

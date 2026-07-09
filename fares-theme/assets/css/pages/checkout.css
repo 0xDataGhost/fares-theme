@@ -279,6 +279,83 @@ button.wc-block-components-checkout-place-order-button:hover {
 	background: var(--fares-color-primary-start);
 }
 
+/* =========================================================================
+ * intl-tel-input dark-theme + RTL polish (library ships light + LTR).
+ * The widget wraps the raw <input> in `.iti` and injects a country
+ * dropdown as a sibling — we recolor the surface, dropdown, search box,
+ * and each country row, and mirror the input padding for RTL.
+ * ====================================================================== */
+
+body.woocommerce-checkout .iti {
+	inline-size: 100%;
+}
+
+body.woocommerce-checkout .iti__country-list {
+	background: var(--fares-color-surface-1);
+	border: var(--fares-border-w) solid var(--fares-color-border-input);
+	border-radius: var(--fares-radius-xs);
+	box-shadow: var(--fares-shadow-dropdown);
+	color: var(--fares-color-text-primary);
+	max-block-size: 260px;
+}
+
+body.woocommerce-checkout .iti__country {
+	color: var(--fares-color-text-primary);
+	padding-block: var(--fares-space-3);
+}
+
+body.woocommerce-checkout .iti__country.iti__highlight,
+body.woocommerce-checkout .iti__country:hover {
+	background: var(--fares-color-surface-2);
+}
+
+body.woocommerce-checkout .iti__dial-code {
+	color: var(--fares-color-text-secondary);
+}
+
+body.woocommerce-checkout .iti__divider {
+	border-block-end-color: var(--fares-color-border);
+}
+
+body.woocommerce-checkout .iti__search-input {
+	background: var(--fares-color-background) !important;
+	color: var(--fares-color-text-primary) !important;
+	border: 0 !important;
+	border-block-end: var(--fares-border-w) solid var(--fares-color-border) !important;
+	padding: var(--fares-space-4) var(--fares-space-5) !important;
+}
+
+body.woocommerce-checkout .iti__search-input::placeholder {
+	color: var(--fares-color-text-secondary);
+}
+
+/* Selected-country button (the flag + code that opens the dropdown). */
+body.woocommerce-checkout .iti__selected-country {
+	background: transparent;
+	color: var(--fares-color-text-primary);
+}
+
+body.woocommerce-checkout .iti__selected-country:hover,
+body.woocommerce-checkout .iti__selected-country[aria-expanded="true"] {
+	background: var(--fares-color-surface-2);
+}
+
+/* RTL: the widget positions the flag on the left of the input via a
+   left padding on `.iti__tel-input`. In RTL the dropdown lives on the
+   right, so mirror the padding. */
+[dir="rtl"] body.woocommerce-checkout .iti--allow-dropdown input.iti__tel-input,
+body.woocommerce-checkout .iti--allow-dropdown input.iti__tel-input {
+	padding-inline-start: 52px !important;
+	padding-inline-end: var(--fares-space-5) !important;
+	direction: ltr; /* phone digits render LTR even inside RTL page */
+	text-align: start;
+}
+
+[dir="rtl"] body.woocommerce-checkout .iti__selected-country {
+	inset-inline-start: 0;
+	inset-inline-end: auto;
+}
+
 /* Order received */
 .woocommerce-order .woocommerce-thankyou-order-received {
 	font: var(--fares-text-section-title);

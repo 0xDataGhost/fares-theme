@@ -2,4 +2,5 @@
  * Checkout bundle entry.
  */
 
+@import "intl-tel-input/build/css/intlTelInput.css";
 @import url("../pages/checkout.css");
