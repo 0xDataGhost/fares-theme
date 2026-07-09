@@ -113,7 +113,7 @@
 
 .woocommerce-MyAccount-navigation-link.is-active a {
 	color: var(--fares-color-text-primary);
-	background: var(--fares-gradient-primary);
+	background: var(--fares-color-primary);
 }
 
 .woocommerce-MyAccount-navigation-link--customer-logout a:hover,
@@ -190,10 +190,11 @@
 	gap: var(--fares-space-2);
 	font: var(--fares-text-button);
 	color: var(--fares-color-text-primary);
-	background: var(--fares-gradient-primary);
+	background: var(--fares-color-primary);
+	border: 0;
 	border-radius: var(--fares-radius-xs);
 	padding: var(--fares-button-pad);
-	transition: background-color var(--fares-duration-fast) var(--fares-ease);
+	transition: background var(--fares-duration-fast) var(--fares-ease);
 }
 
 /* Secondary / cancel buttons read as outline. */
@@ -228,6 +229,13 @@
 	text-align: start;
 	border-block-end: var(--fares-border-w) solid var(--fares-color-border);
 	vertical-align: middle;
+	color: var(--fares-color-text-primary);
+}
+
+/* Subtle zebra rows for legibility on long lists. */
+.woocommerce-account .woocommerce-orders-table tbody tr:nth-child(even) td,
+.woocommerce-account .shop_table tbody tr:nth-child(even) td {
+	background: var(--fares-color-surface-2);
 }
 
 .woocommerce-account .woocommerce-orders-table__cell-order-number a {
@@ -262,7 +270,7 @@
 	gap: var(--fares-space-2);
 	font: var(--fares-text-button-sm);
 	color: var(--fares-color-text-primary);
-	background: var(--fares-gradient-primary);
+	background: var(--fares-color-primary);
 	border-radius: var(--fares-radius-xs);
 	padding: var(--fares-space-2) var(--fares-space-6);
 	text-decoration: none;
@@ -414,6 +422,18 @@
 .woocommerce-account .woocommerce-MyAccount-content select,
 .woocommerce-account .woocommerce-MyAccount-content textarea {
 	inline-size: 100%;
+	/* Card is surface-1, so drop fields to the page bg for contrast. */
+	background: var(--fares-color-background);
+	color: var(--fares-color-text-primary);
+	border: var(--fares-border-w) solid var(--fares-color-border-input);
+	border-radius: var(--fares-radius-xs);
+	padding: var(--fares-space-3) var(--fares-space-5);
+}
+
+.woocommerce-account .woocommerce-MyAccount-content input:not([type="checkbox"], [type="radio"])::placeholder,
+.woocommerce-account .woocommerce-MyAccount-content textarea::placeholder {
+	color: var(--fares-color-text-secondary);
+	opacity: 1;
 }
 
 .woocommerce-account .woocommerce-MyAccount-content fieldset {
@@ -599,16 +619,17 @@
 	inline-size: 100%;
 	font: var(--fares-text-button);
 	color: var(--fares-color-text-primary);
-	background: var(--fares-gradient-primary);
+	background: var(--fares-color-primary);
+	border: 0;
 	border-radius: var(--fares-radius-sm);
 	padding: var(--fares-button-pad);
 	margin-block-start: var(--fares-space-3);
-	transition: background-color var(--fares-duration-fast) var(--fares-ease);
+	transition: background var(--fares-duration-fast) var(--fares-ease);
 }
 
 .woocommerce-account:not(.logged-in) .woocommerce-form-login__submit:hover,
 .woocommerce-account:not(.logged-in) .woocommerce-form-register__submit:hover {
-	background: var(--fares-gradient-primary-hover);
+	background: var(--fares-color-primary-start);
 }
 
 .woocommerce-account:not(.logged-in) .woocommerce-LostPassword {
@@ -637,7 +658,7 @@
    variants above — keeps specificity ascending for the linter). */
 .woocommerce-account .woocommerce-MyAccount-content .button:hover,
 .woocommerce-account .woocommerce-MyAccount-content button[type="submit"]:hover {
-	background: var(--fares-gradient-primary-hover);
+	background: var(--fares-color-primary-start);
 }
 
 @media (prefers-reduced-motion: reduce) {

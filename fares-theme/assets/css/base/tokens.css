@@ -96,8 +96,10 @@
 	--fares-color-border-strong: var(--fares-neutral-white);
 	--fares-color-border-light: var(--fares-gray-200);
 	--fares-color-border-input: var(--fares-gray-300);
-	--fares-color-disabled-bg: rgb(255, 255, 255, 0.5);
-	--fares-color-disabled-text: var(--fares-gray-500);
+	/* Disabled reads as a muted dark tile on the theme's dark surface —
+	   the semi-white default made text unreadable on the OOS card button. */
+	--fares-color-disabled-bg: var(--fares-white-alpha-8);
+	--fares-color-disabled-text: var(--fares-neutral-white);
 	--fares-color-payment-tile-bg: var(--fares-neutral-white);
 
 	/* [DERIVED] engineering colors absent from the static design */
@@ -212,6 +214,7 @@
 	--fares-purchase-box-w: 598px;
 	--fares-cart-summary-w: 384px;
 	--fares-cart-gap: 32px;
+	--fares-account-nav-w: 264px;      /* my-account sidebar rail */
 	--fares-card-w: 294px;             /* archive; home slider slot 320 (300 + gutters) */
 	--fares-drawer-w: 384px;           /* [DERIVED] = summary width */
 
