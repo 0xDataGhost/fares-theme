@@ -45,3 +45,8 @@ add_action(
 		require FARES_STORE_DIR . '/includes/currency/bootstrap.php';
 	}
 );
+
+// Self-provisioning (legal pages, footer menu, homepage, WC pages). Loaded
+// outside the WooCommerce gate so legal pages provision even before Woo boots;
+// the WC-page step guards on class_exists( 'WooCommerce' ) internally.
+require FARES_STORE_DIR . '/includes/provisioning.php';
