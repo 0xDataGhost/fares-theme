@@ -189,13 +189,16 @@
 	text-align: center;
 	font: var(--fares-text-button);
 	color: var(--fares-color-text-primary);
-	background: var(--fares-gradient-primary);
+	background: var(--fares-color-primary);
+	border: 0;
 	border-radius: var(--fares-radius-sm);
 	padding: var(--fares-button-pad);
+	transition: background var(--fares-duration-fast) var(--fares-ease);
 }
 
-.fares-cart__summary .checkout-button:hover {
-	background: var(--fares-gradient-primary-hover);
+.fares-cart__summary .checkout-button:hover,
+.woocommerce .fares-cart__summary a.button.alt.checkout-button:hover {
+	background: var(--fares-color-primary-start);
 }
 
 /* Empty cart */
