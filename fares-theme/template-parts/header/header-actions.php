@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 	<?php if ( function_exists( 'wc_get_cart_url' ) ) : ?>
 		<a class="fares-header-actions__login" href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>">
 			<?php fares_icon( 'user' ); ?>
-			<?php esc_html_e( 'تسجيل الدخول', 'fares-theme' ); ?>
+			<?php echo esc_html( is_user_logged_in() ? __( 'حسابي', 'fares-theme' ) : __( 'تسجيل الدخول', 'fares-theme' ) ); ?>
 		</a>
 
 		<a class="fares-header-actions__cart" href="<?php echo esc_url( wc_get_cart_url() ); ?>">
