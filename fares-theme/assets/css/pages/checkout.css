@@ -247,6 +247,17 @@ body.woocommerce-checkout .wc-block-components-select select option {
 	color: var(--fares-color-text-primary);
 }
 
+/* Order-summary quantity chip on each line item — Blocks defaults to a
+   white pill with white text, so the number is invisible on a light theme
+   too. Paint it in the accent color with white digits. */
+body.woocommerce-checkout .wc-block-components-order-summary-item__quantity,
+body.woocommerce-checkout .wc-block-components-product-badge {
+	background: var(--fares-color-primary) !important;
+	color: var(--fares-color-text-primary) !important;
+	border: var(--fares-border-w-strong) solid var(--fares-color-background) !important;
+	font-weight: var(--fares-font-weight-bold);
+}
+
 /* Place-order button in the Blocks checkout (`.wc-block-cart__submit-button`
    also covers the cart page's proceed-to-checkout). */
 .wc-block-components-checkout-place-order-button,
