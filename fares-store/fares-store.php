@@ -28,6 +28,7 @@ add_action(
 		require FARES_STORE_DIR . '/includes/orders.php';
 		require FARES_STORE_DIR . '/includes/buy-now.php';
 		require FARES_STORE_DIR . '/includes/checkout-fields.php';
+		require FARES_STORE_DIR . '/includes/contacts.php';
 		require FARES_STORE_DIR . '/includes/serials.php';
 	}
 );
