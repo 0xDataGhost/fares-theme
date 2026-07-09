@@ -61,19 +61,26 @@ li.product {
 	border-end-end-radius: 8px;
 }
 
+/* Busy artwork sank the red stamp — dim the image behind it and give
+   the stamp a solid dark plate so it reads at a glance. */
+.fares-card__media--oos .fares-card__image {
+	filter: grayscale(0.5) brightness(0.45);
+}
+
 .fares-card__stamp {
 	position: absolute;
 	inset-block-start: 50%;
 	inset-inline-start: 50%;
 	translate: -50% -50%;
 	rotate: var(--fares-stamp-rotate);
+	background: var(--fares-color-overlay);
 	border: var(--fares-border-w-stamp) solid var(--fares-color-danger);
-	color: var(--fares-color-danger);
+	border-radius: var(--fares-radius-xs);
+	color: var(--fares-color-text-primary);
 	font-size: var(--fares-stamp-text);
-	font-weight: var(--fares-font-weight-semibold);
+	font-weight: var(--fares-font-weight-bold);
 	line-height: 1;
 	padding: var(--fares-space-3) var(--fares-space-6);
-	opacity: 0.9;
 	white-space: nowrap;
 }
 

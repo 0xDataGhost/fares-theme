@@ -14,7 +14,7 @@ if ( ! $product instanceof WC_Product ) {
 	return;
 }
 ?>
-<div class="fares-card__media">
+<div class="fares-card__media<?php echo $product->is_in_stock() ? '' : ' fares-card__media--oos'; ?>">
 	<?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'fares-card__image', 'loading' => 'lazy' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- core-generated img tag. ?>
 	<?php get_template_part( 'template-parts/product/card/badge' ); ?>
 	<?php if ( ! $product->is_in_stock() ) : ?>
