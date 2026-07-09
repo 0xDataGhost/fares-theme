@@ -1,0 +1,485 @@
+/**
+ * Content pages (legal, about, contact) — editorial dark layout.
+ *
+ * Applies to standard WordPress pages routed through page.php (excludes
+ * cart/checkout/account/front, which own their templates). Design language:
+ * atmospheric hero → sticky TOC rail + a reading-measure content card, all on
+ * the store's #000/#121212 dark surfaces with the brand blue as the only accent.
+ * RTL-first: every offset uses logical properties.
+ */
+
+.fares-page {
+	--fares-reading-measure: 68ch;
+	--fares-page-accent: var(--fares-color-primary-end);
+	position: relative;
+}
+
+/* ============================================================ progress bar */
+
+.fares-page__progress {
+	position: fixed;
+	inset-block-start: 0;
+	inset-inline: 0;
+	block-size: 3px;
+	z-index: var(--fares-z-header);
+	background: transparent;
+	pointer-events: none;
+}
+
+.fares-page__progress-fill {
+	block-size: 100%;
+	inline-size: 0;
+	background: var(--fares-gradient-primary);
+	transform-origin: inline-start;
+	transition: inline-size 60ms linear;
+}
+
+/* ================================================================== hero */
+
+.fares-page__hero {
+	position: relative;
+	overflow: hidden;
+	padding-block: clamp(var(--fares-space-10), 6vw, calc(var(--fares-space-12) + var(--fares-space-8)));
+	border-block-end: var(--fares-border-w) solid var(--fares-color-border);
+}
+
+/* Atmospheric glow — brand blue bleeding from the inline-start top corner. */
+.fares-page__hero::before {
+	content: "";
+	position: absolute;
+	inset-block-start: -40%;
+	inset-inline-start: -10%;
+	inline-size: 60%;
+	block-size: 160%;
+	background: radial-gradient(
+		closest-side,
+		color-mix(in srgb, var(--fares-color-primary) 22%, transparent),
+		transparent 70%
+	);
+	pointer-events: none;
+	filter: blur(8px);
+}
+
+/* Faint hairline grid for texture — sits under content, above the glow. */
+.fares-page__hero::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image:
+		linear-gradient(var(--fares-color-border) var(--fares-border-w), transparent var(--fares-border-w)),
+		linear-gradient(90deg, var(--fares-color-border) var(--fares-border-w), transparent var(--fares-border-w));
+	background-size: 44px 44px;
+	mask-image: radial-gradient(closest-side at 70% 0%, #000, transparent 78%);
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+.fares-page__hero-inner {
+	position: relative;
+	z-index: 1;
+}
+
+.fares-page__eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--fares-space-3);
+	margin-block-end: var(--fares-space-6);
+	padding: var(--fares-space-2) var(--fares-space-5);
+	border: var(--fares-border-w) solid var(--fares-color-border);
+	border-radius: var(--fares-radius-full);
+	background: var(--fares-color-surface-2);
+	font: var(--fares-text-caption);
+	letter-spacing: 0.02em;
+	color: var(--fares-color-text-secondary);
+	backdrop-filter: blur(4px);
+}
+
+.fares-page__eyebrow svg {
+	inline-size: 14px;
+	block-size: 14px;
+	color: var(--fares-page-accent);
+}
+
+.fares-page__title {
+	max-inline-size: 18ch;
+	margin: 0;
+	font-family: var(--fares-font-family);
+	font-weight: var(--fares-font-weight-bold);
+	font-size: clamp(var(--fares-font-size-2xl), 1.4rem + 3.4vw, 3.25rem);
+	line-height: 1.12;
+	letter-spacing: -0.01em;
+	color: var(--fares-color-text-primary);
+	text-wrap: balance;
+}
+
+.fares-page__title::after {
+	content: "";
+	display: block;
+	inline-size: 64px;
+	block-size: 4px;
+	margin-block-start: var(--fares-space-7);
+	border-radius: var(--fares-radius-full);
+	background: var(--fares-gradient-primary);
+}
+
+.fares-page__lede {
+	max-inline-size: 52ch;
+	margin-block-start: var(--fares-space-7);
+	font: var(--fares-text-body);
+	color: var(--fares-color-text-secondary);
+}
+
+.fares-page__meta {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--fares-space-3);
+	margin-block-start: var(--fares-space-7);
+	font: var(--fares-text-body-sm);
+	color: var(--fares-color-text-secondary);
+}
+
+.fares-page__meta-dot {
+	inline-size: 6px;
+	block-size: 6px;
+	border-radius: var(--fares-radius-full);
+	background: var(--fares-color-success);
+	box-shadow: 0 0 0 4px var(--fares-color-success-halo);
+}
+
+.fares-page__breadcrumb {
+	margin-block-end: var(--fares-space-6);
+	padding-block: 0;
+}
+
+/* ================================================================== body */
+
+.fares-page__body {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--fares-space-10);
+	padding-block: clamp(var(--fares-space-10), 5vw, var(--fares-space-12));
+	align-items: start;
+}
+
+@media (min-width: 1024px) {
+	.fares-page__body--with-toc {
+		grid-template-columns: 240px minmax(0, 1fr);
+	}
+}
+
+/* ------------------------------------------------------------------ TOC */
+
+.fares-page__toc {
+	display: none;
+}
+
+@media (min-width: 1024px) {
+	/* `:not([hidden])` so an un-built TOC (e.g. the contact page) stays hidden —
+	   the class must not override the [hidden] attribute's display:none. */
+	.fares-page__toc:not([hidden]) {
+		display: block;
+		position: sticky;
+		inset-block-start: calc(var(--fares-header-h) + var(--fares-space-7));
+		align-self: start;
+	}
+}
+
+.fares-page__toc-title {
+	margin: 0 0 var(--fares-space-5);
+	font: var(--fares-text-caption);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--fares-color-text-secondary);
+}
+
+.fares-page__toc-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border-inline-start: var(--fares-border-w) solid var(--fares-color-border);
+}
+
+.fares-page__toc-link {
+	display: block;
+	padding: var(--fares-space-3) var(--fares-space-6);
+	margin-inline-start: -1px;
+	border-inline-start: var(--fares-border-w-strong) solid transparent;
+	font: var(--fares-text-body-sm);
+	color: var(--fares-color-text-secondary);
+	transition:
+		color var(--fares-duration-fast) var(--fares-ease),
+		border-color var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-page__toc-link:hover {
+	color: var(--fares-color-text-primary);
+}
+
+.fares-page__toc-link.is-active {
+	color: var(--fares-color-text-primary);
+	border-inline-start-color: var(--fares-page-accent);
+}
+
+/* -------------------------------------------------------------- content */
+
+.fares-page__content {
+	max-inline-size: var(--fares-reading-measure);
+	padding: clamp(var(--fares-space-8), 4vw, var(--fares-space-12));
+	background: var(--fares-color-surface-1);
+	border: var(--fares-border-w) solid var(--fares-color-border);
+	border-radius: var(--fares-radius-lg);
+	box-shadow: var(--fares-shadow-dropdown);
+}
+
+.fares-page__content > :first-child {
+	margin-block-start: 0;
+}
+
+.fares-page__content > :last-child {
+	margin-block-end: 0;
+}
+
+.fares-page__content h2 {
+	scroll-margin-block-start: calc(var(--fares-header-h) + var(--fares-space-7));
+	position: relative;
+	margin-block: var(--fares-space-10) var(--fares-space-6);
+	padding-inline-start: var(--fares-space-6);
+	font-family: var(--fares-font-family);
+	font-weight: var(--fares-font-weight-bold);
+	font-size: var(--fares-font-size-xl);
+	line-height: var(--fares-line-height-28);
+	color: var(--fares-color-text-primary);
+}
+
+/* Accent tick on the inline-start of every section heading. */
+.fares-page__content h2::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	inset-block: 0.15em 0.15em;
+	inline-size: 4px;
+	border-radius: var(--fares-radius-full);
+	background: var(--fares-gradient-primary);
+}
+
+.fares-page__content h3 {
+	margin-block: var(--fares-space-8) var(--fares-space-5);
+	font: var(--fares-text-section-title);
+	color: var(--fares-color-text-primary);
+}
+
+.fares-page__content p {
+	margin-block: var(--fares-space-5);
+	font: var(--fares-text-body);
+	color: var(--fares-color-text-secondary);
+}
+
+.fares-page__content a {
+	color: var(--fares-page-accent);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	text-decoration-thickness: 1px;
+	text-decoration-color: color-mix(in srgb, var(--fares-page-accent) 45%, transparent);
+	transition: text-decoration-color var(--fares-duration-fast) var(--fares-ease);
+}
+
+.fares-page__content a:hover {
+	text-decoration-color: var(--fares-page-accent);
+}
+
+.fares-page__content strong {
+	color: var(--fares-color-text-primary);
+	font-weight: var(--fares-font-weight-semibold);
+}
+
+.fares-page__content ul,
+.fares-page__content ol {
+	margin-block: var(--fares-space-5);
+	padding-inline-start: var(--fares-space-6);
+	display: grid;
+	gap: var(--fares-space-4);
+}
+
+.fares-page__content ul {
+	list-style: none;
+	padding-inline-start: 0;
+}
+
+.fares-page__content ul li {
+	position: relative;
+	padding-inline-start: var(--fares-space-8);
+	font: var(--fares-text-body);
+	color: var(--fares-color-text-secondary);
+}
+
+/* Custom marker — a small gradient chevron tuned for RTL reading. */
+.fares-page__content ul li::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	inset-block-start: 0.6em;
+	inline-size: 7px;
+	block-size: 7px;
+	border-radius: 2px;
+	background: var(--fares-gradient-primary);
+	transform: rotate(45deg);
+}
+
+.fares-page__content ol {
+	color: var(--fares-color-text-secondary);
+}
+
+.fares-page__content ol li {
+	font: var(--fares-text-body);
+	padding-inline-start: var(--fares-space-3);
+}
+
+.fares-page__content ol li::marker {
+	color: var(--fares-page-accent);
+	font-weight: var(--fares-font-weight-bold);
+}
+
+/* The trailing "آخر تحديث …" line rendered as <em> becomes a quiet footnote. */
+.fares-page__content > p:last-child em,
+.fares-page__content em {
+	display: inline-block;
+	font-style: normal;
+	color: var(--fares-color-text-secondary);
+	font-size: var(--fares-font-size-sm);
+}
+
+/* ====================================================== contact channels */
+
+.fares-contact {
+	max-inline-size: none;
+}
+
+.fares-contact__intro {
+	max-inline-size: 56ch;
+	margin-block-end: var(--fares-space-9);
+	font: var(--fares-text-body);
+	color: var(--fares-color-text-secondary);
+}
+
+.fares-contact__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: var(--fares-space-6);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.fares-contact__card {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: var(--fares-space-6);
+	padding: var(--fares-space-7);
+	background: var(--fares-color-surface-1);
+	border: var(--fares-border-w) solid var(--fares-color-border);
+	border-radius: var(--fares-radius-md);
+	color: var(--fares-color-text-primary);
+	overflow: hidden;
+	transition:
+		border-color var(--fares-duration-normal) var(--fares-ease),
+		transform var(--fares-duration-normal) var(--fares-ease);
+}
+
+.fares-contact__card::after {
+	content: "";
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline: 0;
+	block-size: 2px;
+	background: var(--fares-gradient-primary);
+	transform: scaleX(0);
+	transform-origin: inline-start;
+	transition: transform var(--fares-duration-normal) var(--fares-ease);
+}
+
+.fares-contact__card:hover {
+	transform: translateY(-3px);
+	border-color: color-mix(in srgb, var(--fares-page-accent) 40%, var(--fares-color-border));
+}
+
+.fares-contact__card:hover::after {
+	transform: scaleX(1);
+}
+
+.fares-contact__card:focus-visible {
+	outline: var(--fares-border-w-strong) solid var(--fares-color-focus-ring);
+	outline-offset: 2px;
+}
+
+.fares-contact__icon {
+	display: grid;
+	place-items: center;
+	flex-shrink: 0;
+	inline-size: 44px;
+	block-size: 44px;
+	border-radius: var(--fares-radius-sm);
+	background: var(--fares-color-surface-2);
+	color: var(--fares-page-accent);
+}
+
+.fares-contact__icon svg {
+	inline-size: 22px;
+	block-size: 22px;
+}
+
+.fares-contact__label {
+	display: block;
+	font: var(--fares-text-card-title);
+	color: var(--fares-color-text-primary);
+}
+
+.fares-contact__value {
+	display: block;
+	margin-block-start: var(--fares-space-1);
+	font: var(--fares-text-body-sm);
+	color: var(--fares-color-text-secondary);
+	word-break: break-word;
+}
+
+/* Store credentials (tax number, freelance doc) as a quiet info panel. */
+.fares-contact__info {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--fares-space-6);
+	margin-block-start: var(--fares-space-9);
+	padding: var(--fares-space-7);
+	background: var(--fares-color-surface-2);
+	border-radius: var(--fares-radius-md);
+}
+
+.fares-contact__info-item {
+	display: grid;
+	gap: var(--fares-space-2);
+}
+
+.fares-contact__info-key {
+	font: var(--fares-text-caption);
+	letter-spacing: 0.04em;
+	color: var(--fares-color-text-secondary);
+}
+
+.fares-contact__info-val {
+	font: var(--fares-text-review-name);
+	color: var(--fares-color-text-primary);
+	letter-spacing: 0.02em;
+}
+
+/* ============================================================ reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+	.fares-page__progress-fill,
+	.fares-contact__card,
+	.fares-contact__card::after {
+		transition: none;
+	}
+
+	.fares-contact__card:hover {
+		transform: none;
+	}
+}

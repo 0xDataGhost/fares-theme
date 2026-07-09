@@ -32,6 +32,29 @@ function fares_contact_channels(): array {
 }
 
 /**
+ * Whether the current request is a designed "content page" — a standard page
+ * (legal, about, contact) routed through page.php with the editorial layout.
+ *
+ * Excludes the front page and the WooCommerce cart/checkout/account pages,
+ * which own their own templates and styles.
+ */
+function fares_is_content_page(): bool {
+	if ( ! is_page() || is_front_page() ) {
+		return false;
+	}
+
+	if ( function_exists( 'is_cart' ) && ( is_cart() || is_checkout() ) ) {
+		return false;
+	}
+
+	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
  * Inline an icon from the theme SVG sprite.
  *
  * @param string $name  Symbol id inside assets/images/icons.svg (without prefix).

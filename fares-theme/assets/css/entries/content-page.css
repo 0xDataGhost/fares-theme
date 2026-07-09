@@ -1,0 +1,6 @@
+/**
+ * Content-page bundle entry — built to dist/content-page.css by postcss.
+ * Legal, about, and contact pages routed through page.php.
+ */
+
+@import url("../pages/content-page.css");

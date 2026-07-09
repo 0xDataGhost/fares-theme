@@ -9,21 +9,31 @@
 defined( 'ABSPATH' ) || exit;
 
 get_header();
-?>
 
-<main id="primary" class="fares-container">
-	<?php
-	while ( have_posts() ) :
-		the_post();
+while ( have_posts() ) :
+	the_post();
+
+	if ( fares_is_content_page() ) :
+		// Designed editorial layout (legal, about, contact). Owns its container.
 		?>
-		<article <?php post_class(); ?>>
-			<?php if ( ! is_cart() && ! is_checkout() ) : ?>
-				<h1 class="entry-title"><?php the_title(); ?></h1>
-			<?php endif; ?>
-			<div class="entry-content"><?php the_content(); ?></div>
-		</article>
-	<?php endwhile; ?>
-</main>
+		<main id="primary" class="fares-page-main">
+			<?php get_template_part( 'template-parts/page/content-page' ); ?>
+		</main>
+		<?php
+	else :
+		// Cart/checkout shortcode pages and anything else: plain content flow.
+		?>
+		<main id="primary" class="fares-container">
+			<article <?php post_class(); ?>>
+				<?php if ( ! is_cart() && ! is_checkout() ) : ?>
+					<h1 class="entry-title"><?php the_title(); ?></h1>
+				<?php endif; ?>
+				<div class="entry-content"><?php the_content(); ?></div>
+			</article>
+		</main>
+		<?php
+	endif;
 
-<?php
+endwhile;
+
 get_footer();

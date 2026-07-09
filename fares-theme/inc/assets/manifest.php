@@ -83,6 +83,19 @@ function fares_asset_manifest(): array {
 			'type' => 'style',
 			'when' => static fn(): bool => function_exists( 'is_account_page' ) && is_account_page(),
 		),
+		'fares-content-page' => array(
+			'src'  => 'assets/css/dist/content-page.css',
+			'deps' => array( 'fares-tokens' ),
+			'type' => 'style',
+			'when' => static fn(): bool => fares_is_content_page(),
+		),
+		'fares-content-page-js' => array(
+			'src'   => 'assets/js/dist/content-page.js',
+			'deps'  => array(),
+			'type'  => 'script',
+			'when'  => static fn(): bool => fares_is_content_page(),
+			'defer' => true,
+		),
 		'fares-cart-js'    => array(
 			'src'   => 'assets/js/dist/cart.js',
 			'deps'  => array(),
